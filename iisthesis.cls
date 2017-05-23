@@ -293,7 +293,35 @@
 \fi
 
    
+   \clearpage
+	 \pagestyle{plain}
+   \begin{center}
+   \begin{tabular}{@{}l@{}c@{}}
+      \begin{minipage}{\textwidth}
+         \begin{abstract}
+            \noindent
+            \@abstractPL
+         \end{abstract}
+      
+         \vspace{1.5cm}
+		\selectlanguage{english}
+         \begin{abstract}
+            \noindent
+            \@abstractEN
+         \end{abstract}
+		\selectlanguage{polish}
+      \end{minipage}
+   &
+      \begin{tabular}{@{}l@{}}\rule{0pt}{0.9\textheight}\end{tabular}
+   \end{tabular}
+   \end{center}   
    
+   \if@twoside
+   	\cleardoublepage
+   \else
+   	\clearpage
+   \fi
+   \pagestyle{headings}
    
    \tableofcontents
    
