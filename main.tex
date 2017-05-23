@@ -1,0 +1,226 @@
+%\documentclass[twoside]{pwrthesis}
+\documentclass[twoside]{iisthesis}
+% ---
+\usepackage{polski}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{tocloft}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{subcaption}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{url}
+\usepackage{pgfplots, pgfplotstable}
+\selectlanguage{polish}
+% Dodane przeze mnie d
+\usepackage{fancyvrb} % dla srodowiska Verbatim
+\usepackage{color}
+\usepackage{lscape}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={black!50!black},
+    citecolor={black!50!black},
+    urlcolor={black!80!black}
+}
+
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+
+\lstset{
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape
+}
+
+\lstdefinelanguage{XML}
+{
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{black},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns,version,type}% list your attributes here
+}
+
+\lstset{
+  language=XML,
+   literate={ć}{{\'c}}1
+}
+\renewcommand*{\lstlistingname}{Kod źródłowy}
+% definicje kolorow
+\definecolor{ciemnoSzary}{rgb}{0.15,0.15,0.15}
+\definecolor{szary}{rgb}{0.5,0.5,0.5}
+\definecolor{jasnoSzary}{rgb}{0.2,0.2,0.2}
+
+% Konfiguracja verbatima
+\fvset{
+	frame=single,
+	numbers=left,
+	fontsize=\footnotesize,
+	numbersep=12pt,
+%	framerule=.5mm,
+	rulecolor=\color{ciemnoSzary},
+%	fillcolor=\color{jasnoSzary},
+	framesep=4pt,
+	stepnumber=1,
+	numberblanklines=false,
+	tabsize=2,
+%	formatcom=\color{szary}
+}
+\newcommand{\listequationsname}{Spis wzorów}
+\newcommand{\equationcaption}[1]{\begin{flushright}\emph{#1}\end{flushright}}
+\newcommand{\rightcaption}[1]{\begin{flushright}\emph{#1}\end{flushright}}
+\newlistof{myequations}{equ}{\listequationsname}
+\newcommand{\myequations}[1]{%
+\addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}\par}
+
+\newcommand{\listofmyalgorithmsname}{Spis algorytmów}
+\newlistof{myalgorithm}{algo}{\listofmyalgorithmsname}
+\newcommand{\myalgorithm}[1]{%
+\addcontentsline{algo}{myalgorithm}{\protect\numberline{\thealgorithm}#1}\par}
+
+
+\newcommand{\listofmyfiguresname}{Spis rysunków}
+\newlistof{myfigure}{figu}{\listofmyfiguresname}
+\newcommand{\myfigure}[1]{%
+\addcontentsline{figu}{myfigure}{\protect\numberline{\thefigure}#1}\par}
+
+\floatname{algorithm}{Algorytm}
+
+\newtheorem{mydef}{Definicja}
+
+
+
+\begin{document}
+
+
+\newcommand{\resultChart}[7][140]{
+\def\dataS{{#2}}
+	\begin{figure}[H]
+	
+\centering
+
+\begin{center}
+\begin{tikzpicture}
+ 
+\begin{axis}[
+ybar,
+bar width=20,
+legend style={at={(0.5,-0.25)},
+anchor=north,legend columns=-1},
+ylabel={Wartość miary},
+symbolic x coords={\dataS},
+xtick=data,
+height=  {#1},
+width=0.8\textwidth,
+ymin=0, ytick={0,0.5,1},
+ymax=1.5,
+nodes near coords,
+nodes near coords align={vertical},
+]
+\addplot coordinates { (\dataS,{#3}) };
+\addplot coordinates {(\dataS,{#4}) };
+\addplot coordinates { (\dataS,{#5}) };
+\legend{Recall,Precission,F1-Score}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\caption{{#6}}
+\myfigure{{#6}}
+\label{{#7}}
+\end{figure}
+}
+
+
+\pgfkeys{/pgf/number format/use comma}
+\pgfkeys{/pgf/number format/.cd, set thousands separator={}}%
+\nocite{*}
+\title{ Wielokryterialny problem rozmieszczenia zraszaczy wodnych na zadanej powierzchni }
+\titleEN{ Multicriteria water sprinklers deployment problem on a given area}
+\shortTitle{SHORT TITLE}
+\author{inż. Grzegorz Dziedzic}
+\advisor{dr Mariusz Fraś}
+\instituteLogo{logos/pwr}
+\slowaKluczowe{optymalizacja wielokryterialna,\\ algorytmy genetyczne,\\zraszacze wodne}
+
+\date{\number\the\year}
+
+% Wstawienie abstractu pracy
+	%\input {abstract}
+
+\abstractSH{SHORT ABSTRACT}
+
+\maketitle
+\textpages
+
+
+\graphicspath{ {img/} }
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\chapter{Streszczenie}
+\chapter{Wstęp}
+\section{Wprowadzenie}
+\section{Cel pracy}
+\section{Przegląd literatury}
+
+\chapter{Problem nawodnienia obszaru}
+
+\chapter{Optymalizacja}
+\section{Optymalizacja jednokryterialna}
+\section{Optymalizacja wielokryterialna}
+
+\chapter{Algorytmy genetyczne}
+\section{Opis ogólny}
+\section{Algorytmy wielokryterialne}
+\subsection{NSGA-II}
+\subsection{SPEA}
+
+\chapter{Systemy wspomagania decyzji}
+
+\chapter{Rozwiązanie problemu}
+\section{System wspomagania decyzji}
+\subsection{Architektura}
+\subsection{Interakcja z użytkownikiem}
+\section{Optymalizacja}
+\subsection{Model matematyczny}
+\subsection{Rezultaty}
+\subsection{Porównanie algorytmów genetycznych}
+\subsubsection{Plan badań}
+\subsubsection{Rezultaty badań}
+\subsubsection{Podsumowanie badań}
+
+\chapter{Podsumowanie}
+
+
+\begin{mydef}
+\textbf{Definicja} - pierwsza
+\end{mydef}
+
+
+
+
+ \clearpage
+\appendix
+\chapter{Appendix 1}
+
+
+\clearpage
+\pagestyle{plain}
+\listofmyfigure
+\listofmyequations
+\listofmyalgorithm
+\clearpage
+
+%\bibliographystyle{apalike}%Used BibTeX style is unsrt
+
+\bibliographystyle{iisthesis}
+\bibliography{bibliography}
+
+\end{document}
+

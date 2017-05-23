@@ -1,0 +1,21 @@
+\def\alghoritm1{Alghoritm 1}
+\begin{algorithm}
+\caption{\alghoritm1}
+\myalgorithm{\alghoritm1}
+\label{aq:algStat}
+\begin{algorithmic}
+\STATE $T \leftarrow \text{text under analysis}$
+\FOR{each word $w \in T$}
+    \STATE $S_{w}\leftarrow FIND\_SENTIMENT(w) $
+    \IF {$S_{w}=POSITIVE$}
+        \STATE $Sentiment[POSITIVE]++$
+    \ELSIF{$S_{w}=NEGATIVE$}
+        \STATE $Sentiment[NEGATIVE]++$
+    \ELSE 
+        \STATE $Sentiment[NEUTRAL]++$
+    \ENDIF
+\ENDFOR
+%\STATE $x\in\{POSITIVE,NEGATIVE,NEUTRAL\}$
+\RETURN $\arg\max_x Sentiment[x]$
+\end{algorithmic}
+\end{algorithm}
