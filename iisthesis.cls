@@ -279,7 +279,9 @@
 %      \vspace{4cm} \large Wroc\l aw \@date
 %   \end{center}
 
-   \pagenumbering{Roman}
+
+\pagenumbering{gobble}
+%\pagenumbering{Roman}
 \if@twoside
    \clearpage
 	 
