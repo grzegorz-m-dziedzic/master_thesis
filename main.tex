@@ -173,14 +173,16 @@ nodes near coords align={vertical},
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \chapter{Wstęp}
 \section{Wprowadzenie}
-Odpowiednie nawodnienie ogrodu jest jedną z podstawowych czynności pielęgnacyjnych. Gdy właściciel dysponuje odpowiednim budżetem najlepszym rozwiązaniem będzie dla niego inwestycja w automatyczny system nawadniania. System taki składa się z zraszaczy wodnych, rur pomiędzy nimi oraz systemu sterowania. Takie rozwiązanie pozwala zaoszczędzić czas tracony na ręcznym podlewaniu ogrodu oraz zapewnia równomierne nawodnienie na całej ustalonej powierzchni. Jednym z głównych problemów koniecznych do rozwiązania podczas instalacji takiego systemu jest odpowiednie rozmieszczenie poszczególnych zraszaczy. Te najczęściej znajdują się pod ziemią oraz posiadają wynurzalną głowicę. Z tego powodu raz zainstalowany zraszacz najczęściej zostaje na swoim miejscu, aż do momentu wymiany całej instalacji wodnej. Biorąc to pod uwagę rozmieszczenie zraszaczy powinno być dobrze przemyślane już podczas etapu projektowania systemu nawadniania. Projektując taki system należy przyjąć jako cel nawodnienie całości wskazanego obszaru jak najmniejszym kosztem przy przestrzeganiu wskazanych przez właściciela ograniczeń.\\
+Odpowiednie nawodnienie ogrodu jest jedną z podstawowych czynności pielęgnacyjnych. Gdy właściciel dysponuje odpowiednim budżetem najlepszym rozwiązaniem będzie dla niego inwestycja w automatyczny system nawadniania. System taki składa się z zraszaczy wodnych, rur pomiędzy nimi oraz systemu sterowania. Takie rozwiązanie pozwala zaoszczędzić czas tracony na ręcznym podlewaniu ogrodu oraz zapewnia równomierne nawodnienie na całej ustalonej powierzchni. Jednym z głównych problemów koniecznych do rozwiązania podczas instalacji takiego systemu jest odpowiednie rozmieszczenie poszczególnych zraszaczy. Te najczęściej znajdują się pod ziemią oraz posiadają wynurzalną głowicę. Z tego powodu raz zainstalowany zraszacz najczęściej zostaje na swoim miejscu, aż do momentu wymiany całej instalacji wodnej. Biorąc to pod uwagę rozmieszczenie zraszaczy powinno być dobrze przemyślane już podczas etapu projektowania systemu nawadniania. Projektując taki system należy przyjąć jako cel nawodnienie całości wskazanego obszaru jak najmniejszym kosztem przy przestrzeganiu wskazanych przez właściciela ograniczeń.
+
 Proces projektowania sieci zraszaczy może być żmudny oraz długotrwały, biorąc pod uwagę różnorodność sprzętu dostępnego na rynku czy chociażby nieregularność powierzchni, która ma zostać nawodniona. Z pomocą może przyjść tutaj nowoczesna technologia. Opisany powyżej problem idealnie nadaje się do rozwiązania przy pomocy dostępnych algorytmów optymalizacyjnych. Praca ta będzie skupiać się na rozwiązaniu omówionego problemu poprzez opracowanie systemu wspomagania decyzji i implementację oraz porównanie wielokryterialnych algorytmów genetycznych.
 
 \section{Cel pracy}
 Opracowanie systemu wspomagania decyzji pozwalającego na rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych na zadanej powierzchni oraz porównanie wybranych wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu.
 
 \section{Przegląd literatury}
-Problem przedstawiony w temacie pracy nie był do tej pory poruszany w literaturze. Nie mniej jednak biorąc pod uwagę, opisane później, założenia przyjęte podczas realizacji pracy można znaleźć publikacje o tematyce zbliżonej, czyli takie w których autorzy starają się rozwiązać problem pokrycia danego obszaru (Area Coverage Problem).\\
+Problem przedstawiony w temacie pracy nie był do tej pory poruszany w literaturze. Nie mniej jednak biorąc pod uwagę, opisane później, założenia przyjęte podczas realizacji pracy można znaleźć publikacje o tematyce zbliżonej, czyli takie w których autorzy starają się rozwiązać problem pokrycia danego obszaru (Area Coverage Problem).
+
 W większości znalezionych publikacji do rozwiązania stawianego problemu używane są algorytmy ewolucyjne, w tym głównie algorytmy genetyczne.
 Przykładem jest "REF", gdzie autorzy rozwiązują optymalizacyjny problem rozmieszczenia sensorów w sieci bezprzewodowej przy użyciu algorytmu genetycznego NSGA-II. Autorzy skupiają się na pokryciu określonego terenu sygnałem z jak najmniejszej ilości sensorów. Przedstawione wyniki są obiecujące - w 500 pokoleń ilość potrzebnych sensorów z BEGIN spadła do END.
 TODO
@@ -224,6 +226,65 @@ Odpowiednie rozmieszczenie zraszaczy jest ważne, ponieważ zapewnia równomiern
 \subsection{Rezultaty}
 \subsection{Porównanie algorytmów genetycznych}
 \subsubsection{Plan badań}
+Jak zostało wspomniane wcześniej ocena algorytmów do optymalizacji wielokryterialnej jest znacznie bardziej złożona niż ta dla algorytmów z pojedynczym kryterium. Oceniając takie algorytmy należy wziąc pod uwagę następujące warunki:
+\begin{itemize}
+	\item Dystans pomiędzy prawdziwym frontem Pareto, a zbiorem znalezionych niezdominiowanych rozwiązań powinien być zminimalizowany
+	\item Porządany jest równomierny rozkład znalezionych rozwiązań
+	\item Przestrzeń wyznaczona przez znalezione rozwiązania powinna być jak największa. Inaczej mówiąc jak najwięcej wartości powinno być pokrytych przez rozwiązania niezdominowane
+\end{itemize}
+Jak zostało wspomniane w "REF" prawdpopodobnie niemożliwe jest zdefiniowanie pojedynczej metryki, która bierze pod uwagę wymienione powyżej kryteria i ocenia je w wiarygodny i znaczący sposób. Nie mniej jednak autorzy w "REF" zaproponowali metrykę pozwalającą sprawdzić czy rezultaty znalezione przez jeden algorytm dominują wyniki drugiego algorytmu i w ten sposób porównać, który z algorytmów spisuje się lepiej [\ref{zitler_and_thiele_eq}]. Wadą tej metody jest to, że nie mówi ona nic o tym w jakim stopniu jeden algorytm jest lepszy od drugiego.\\
+
+\begin{equation}
+\label{zitler_and_thiele_eq}
+C(X^{'}, X^{''}) = \dfrac{|a^{''} \in X^{''}; \exists a^{'} \in X^{'}: a^{'} \preceq a^{''	}|}{|X^{''}|}
+\end{equation}
+\\
+Przy porównaniu rezultatów osiaganych przez wybrane algorytmy genetyczne autor zrezygnował z metryki przedstawionej w punkcie \ref{zitler_and_thiele_eq} na rzecz dokładniejszych metryk przedstawionych w "REF". Są to trzy metryki bezpośrednio odpowiadające przedstawionym wcześniej kryteriom oceny.
+\begin{equation}
+M_{1}(X^{'}) = \dfrac{1}{|X^{'}|}\sum_{a^{'} \in X^{'}}^{} \min \{{||a^{'} - \overline{a}||;\overline{a} \in \overline{X}}\}
+\end{equation}
+\begin{equation}
+M_{2}(X^{'}) = \dfrac{1}{|X^{'} - 1|} \sum_{a^{'} \in X^{'}}^{} |\{b^{'} \in X^{'}; ||a^{'} - b^{'}|| > \sigma\}|
+\end{equation}
+\begin{equation}
+M_{3}(X^{'}) = \sqrt{\sum_{i = 1}^{m} \max \{||a_{i}^{'} - b_{i}^{'}||;a^{'}, b^{'} \in X^{'}\}}
+\end{equation}
+
+Na potrzeby testów przygotowanych zostało 6 zestawów testowych. Zostały one dobrane pod względem wielkości oraz nieregularności kształtu terenu. W ten sposób powstały następujące kombinacje:
+\begin{itemize}
+	\item Mały obszar o regularnym kształcie
+	\item Mały obszar o nieregularnym kształcie
+	\item Średni obszar o regularnym kształcie
+	\item Średni obszar o nieregularnym kształcie
+	\item Duży obszar o regularnym kształcie
+	\item Duży obszar o nieregularnym kształcie.\\
+\end{itemize}
+
+Każdy z algorytmów został uruchomiony 15 razy dla każdego z wymienionych przypadków. Z każdego uruchomienia wybierane były niezdominowane rozwiązania dodawane do głównej puli rozwiązań. Na koniec z powstałej puli jeszcze raz wybierane były rozwiązania niezdominowane uwzględniane w badaniach.\\\\
+Ustawienia algorytmów były zależne od badanej kombinacji.
+\begin{enumerate}
+	\item \textbf{Mały teren}
+	\begin{itemize}
+		\item Liczba populacji: \textbf{250}
+		\item Wielkość populacji: \textbf{200}
+		\item Prawdopodobieństwo krzyżowania: \textbf{0.9}
+		\item Prawdopodobieństwo mutacji: \textbf{0.01}
+	\end{itemize}
+	\item \textbf{Średni teren}
+		\begin{itemize}
+		\item Liczba populacji: \textbf{1000}
+		\item Wielkość populacji: \textbf{250}
+		\item Prawdopodobieństwo krzyżowania: \textbf{0.9}
+		\item Prawdopodobieństwo mutacji: \textbf{0.01}
+	\end{itemize}
+	\item \textbf{Duży teren}
+		\begin{itemize}
+		\item Liczba populacji: \textbf{3000}
+		\item Wielkość populacji: \textbf{300}
+		\item Prawdopodobieństwo krzyżowania: \textbf{0.9}
+		\item Prawdopodobieństwo mutacji: \textbf{0.01}
+	\end{itemize}
+\end{enumerate}
 \subsubsection{Rezultaty badań}
 \subsubsection{Podsumowanie badań}
 
