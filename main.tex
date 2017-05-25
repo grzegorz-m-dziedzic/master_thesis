@@ -238,7 +238,11 @@ Jak zostało wspomniane w "REF" prawdpopodobnie niemożliwe jest zdefiniowanie p
 \label{zitler_and_thiele_eq}
 C(X^{'}, X^{''}) = \dfrac{|a^{''} \in X^{''}; \exists a^{'} \in X^{'}: a^{'} \preceq a^{''	}|}{|X^{''}|}
 \end{equation}
-\\
+,gdzie:\\
+$C$ - wartość metryki\\
+$X^{'}$ - zbiór optymalnych niezdominowaych rozwiązań znalezionych przez pierwszy algorytm\\
+$X^{''}$ - zbiór optymalnych niezdominowaych rozwiązań znalezionych przez drugi algorytm\\
+
 Przy porównaniu rezultatów osiaganych przez wybrane algorytmy genetyczne autor zrezygnował z metryki przedstawionej w punkcie \ref{zitler_and_thiele_eq} na rzecz dokładniejszych metryk przedstawionych w "REF". Są to trzy metryki bezpośrednio odpowiadające przedstawionym wcześniej kryteriom oceny.
 \begin{equation}
 M_{1}(X^{'}) = \dfrac{1}{|X^{'}|}\sum_{a^{'} \in X^{'}}^{} \min \{{||a^{'} - \overline{a}||;\overline{a} \in \overline{X}}\}
@@ -249,6 +253,11 @@ M_{2}(X^{'}) = \dfrac{1}{|X^{'} - 1|} \sum_{a^{'} \in X^{'}}^{} |\{b^{'} \in X^{
 \begin{equation}
 M_{3}(X^{'}) = \sqrt{\sum_{i = 1}^{m} \max \{||a_{i}^{'} - b_{i}^{'}||;a^{'}, b^{'} \in X^{'}\}}
 \end{equation}
+,gdzie:\\
+$M1,M2,M3$ - wartości poszczególnych metryk\\
+$X^{'}$ - zbiór optymalnych niezdominowanych rozwiązań\\
+$\overline{X}$ - zbiór rozwiązań należacych do prawdziwego frontu Pareto\\
+
 
 Na potrzeby testów przygotowanych zostało 6 zestawów testowych. Zostały one dobrane pod względem wielkości oraz nieregularności kształtu terenu. W ten sposób powstały następujące kombinacje:
 \begin{itemize}
