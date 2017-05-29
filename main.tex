@@ -224,7 +224,57 @@ Odpowiednie rozmieszczenie zraszaczy jest ważne, ponieważ zapewnia równomiern
 \subsection{Interakcja z użytkownikiem}
 \section{Optymalizacja}
 \subsection{Model matematyczny}
-Załóżmy, że $$P$$ jest zbiorem punktów będących wierzchołkami terenu, który ma zostać nawodniony. 
+Załóżmy, że $P$ jest zbiorem punktów będących wierzchołkami terenu, który ma zostać nawodniony. Poprzez opisanie danego terenu prostokątem otrzymujemy teren roboczy, który dodatkowo podzielony jest na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną w tabeli \eqref{matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
+\begin{table}[]
+\centering
+\caption{My caption}
+\label{matrix_m}
+\begin{tabular}{cllll}
+\multicolumn{1}{l}{} & \multicolumn{4}{c}{\textbf{m}} \\ \cline{2-5} 
+\multicolumn{1}{c|}{\multirow{4}{*}{\textbf{n}}} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-5} 
+\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-5} 
+\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-5} 
+\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-5} 
+\end{tabular}
+\end{table}
+Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się w środku $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz koszt $c_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$. Z racji tego, że pojedynczy kwadrat jest jedyną jednostką używaną w obliczeniach, również promień jak i współrzędne zraszaczy wodnych są wyrażane za pomocą tej jednostki. Teren podlany przez pojedynczy zraszacz jest generowany za pomocą algorytmu punktu środkowego koła (Midpoint circle algorithm).
+Generalnie poprzez stopień nawodnienia danego obszaru rozumie się różnicę pomiędzy liczbą wszystkich elementów macierzy $M$ należących do $P$, a liczbą nawodnionych elementów tej macierzy należących do $P$:
+\begin{equation}\label{eq:simple_f1}
+	F_{0} = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n))
+\end{equation}
+, gdzie $irr(m,n)$ jest funkcją mówiącą o tym czy dany element macierzy jest nawodniony \eqref{eq:is_irrigated_func}.
+\begin{equation}\label{eq:is_irrigated_func}
+	irr(x,y) = \begin{cases}
+				0,& \text{if } M_{ij} = 0 \\
+				1,& \text{if } M_{ij} > 0
+			   \end{cases}
+\end{equation}
+Jak zostało wspomniane w poprzednich rozdziałach zaimplementowane algorytmy oceniają stopień nawodnienia obszaru na dwa sposoby w zależności od tego czy wybrana jest opcja minimalizacji nawodnienia poza wskazanym obszarem. Jeśli minimalizacja jest wyłączona do obliczeń używana jest prosta funkcja opisana powyżej \eqref{eq:simple_f1}. Bardziej szczegółowe rozwinięcie funkcji przewiduje wprowadzenie kary za naruszenie ograniczeń:
+
+\begin{equation}
+\begin{split}
+	F_{1} = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n)) \\ + 
+	\alpha \cdot \bigg{[}\dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)} \\ + \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}\bigg{]}
+\end{split}
+\end{equation}
+, gdzie $\alpha$ jest zmienną określającą to czy na funkcję celu wpływa minimalizacja nawodnienia poza wskazanym obszarem. Zmienna $\alpha$ może przyjmować wartość 0 lub 1. Jeśli $\alpha=1$ minimalizacja jest brana pod uwagę; $ovrirr(m,n)$ jest funkcją mówiącą czy dany obszar został nadmiernie nawodniony \eqref{eq:is_overirrigated_func}.
+\begin{equation}\label{eq:is_overirrigated_func}
+	ovrirr(x,y) = \begin{cases}
+				0,& \text{if } M_{ij} \leq 1 \\
+				1,& \text{if } M_{ij} > 1
+			   \end{cases}
+\end{equation}
+\\Jak zostało wspomniane wcześniej, do każdego z rozmieszczonych zraszaczy przypisany jest koszt. Dzieje się to w oparciu o utworzoną bazę danych zawierającą w sobie konkretne zraszacze produkowane przez firmę Gardena. Spis wszystkich używanych zraszaczy znajduje się w tabeli REF. Każdy zraszacz znajdujący się w bazie danych charakteryzuje się nazwą, kosztem i minimalnym oraz maksymalnym zasięgiem. Koszt konkretnego rozmieszczonego zraszacza jest wyznaczany poprzez wybranie najtańszego dostępnego zraszacza z bazy danych, którego zasięg odpowiada temu wyznaczonemu w procesie optymalizacji:
+\begin{equation}
+	C = min_{i}\text{ }c_{i} : a_{i} \leq r_{s} \leq b_{i}
+\end{equation}
+, gdzie $c_{i}$ określa koszt konkretnego zraszacza z bazy danych; $a_{i}, b_{i}$ są wartościami mówiącymi kolejno o minimalnym oraz maksymalnym zasięgu konkretnego zraszacza; $r_{s}$ określa zasięg zraszacza, na podstawie którego wyszukiwany jest najtańszy odpowiednik z bazy danych.\\\\
+Całkowity koszt konkretnego rozwiązania wynosi zatem:
+\begin{equation}
+	F_{2} = \sum_{s=1}^{N} C(r_{s})
+\end{equation}
+, gdzie $N$ jest liczbą wykorzystanych zraszaczy.
+
 \subsection{Porównanie algorytmów genetycznych}
 \subsubsection{Plan badań}
 Złożoność oceny algorytmów służących do optymalizacji wielokryterialnej jest znacznie większa niż tej dla algorytmów rozwiązujących problemy obejmujące jedno kryterium. Wynika tak z samej definicji rozwiązania problemu wielokryterialnego, która wyjaśniona została wcześniej. Oceniając rozwiązanie takiego problemu należy wziąć pod uwagę następujące składowe:
