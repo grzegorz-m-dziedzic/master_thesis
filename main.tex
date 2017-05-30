@@ -224,27 +224,21 @@ Odpowiednie rozmieszczenie zraszaczy jest ważne, ponieważ zapewnia równomiern
 \subsection{Interakcja z użytkownikiem}
 \section{Optymalizacja}
 \subsection{Model matematyczny}
-Załóżmy, że $P$ jest zbiorem punktów będących wierzchołkami terenu, który ma zostać nawodniony. Poprzez opisanie danego terenu prostokątem otrzymujemy teren roboczy, który dodatkowo podzielony jest na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną w tabeli \eqref{matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
-\begin{table}[]
-\centering
-\caption{My caption}
-\label{matrix_m}
-\begin{tabular}{cllll}
-\multicolumn{1}{l}{} & \multicolumn{4}{c}{\textbf{m}} \\ \cline{2-5} 
-\multicolumn{1}{c|}{\multirow{4}{*}{\textbf{n}}} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-5} 
-\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-5} 
-\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-5} 
-\multicolumn{1}{c|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ \cline{2-5} 
-\end{tabular}
-\end{table}
-Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się w środku $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz koszt $c_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$. Z racji tego, że pojedynczy kwadrat jest jedyną jednostką używaną w obliczeniach, również promień jak i współrzędne zraszaczy wodnych są wyrażane za pomocą tej jednostki. Teren podlany przez pojedynczy zraszacz jest generowany za pomocą algorytmu punktu środkowego koła (Midpoint circle algorithm).
+Załóżmy, że $P$ jest wielokątem odwzorowującym kszałt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy $A$. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. $A$ jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku \ref{fig:matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{mandf}}
+	\centering
+	\caption{blah}
+	\label{fig:matrix_m}
+\end{figure}
+Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się wewnątrz $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz koszt $c_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$. Z racji tego, że pojedynczy kwadrat jest jedyną jednostką używaną w obliczeniach, również promień jak i współrzędne zraszaczy wodnych są wyrażane za pomocą tej jednostki. Teren podlany przez pojedynczy zraszacz jest generowany za pomocą algorytmu punktu środkowego koła (Midpoint circle algorithm).
 Generalnie poprzez stopień nawodnienia danego obszaru rozumie się różnicę pomiędzy liczbą wszystkich elementów macierzy $M$ należących do $P$, a liczbą nawodnionych elementów tej macierzy należących do $P$:
 \begin{equation}\label{eq:simple_f1}
 	F_{0} = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n))
 \end{equation}
 , gdzie $irr(m,n)$ jest funkcją mówiącą o tym czy dany element macierzy jest nawodniony \eqref{eq:is_irrigated_func}.
 \begin{equation}\label{eq:is_irrigated_func}
-	irr(x,y) = \begin{cases}
+	irr(i,j) = \begin{cases}
 				0,& \text{if } M_{ij} = 0 \\
 				1,& \text{if } M_{ij} > 0
 			   \end{cases}
@@ -259,7 +253,7 @@ Jak zostało wspomniane w poprzednich rozdziałach zaimplementowane algorytmy oc
 \end{equation}
 , gdzie $\alpha$ jest zmienną określającą to czy na funkcję celu wpływa minimalizacja nawodnienia poza wskazanym obszarem. Zmienna $\alpha$ może przyjmować wartość 0 lub 1. Jeśli $\alpha=1$ minimalizacja jest brana pod uwagę; $ovrirr(m,n)$ jest funkcją mówiącą czy dany obszar został nadmiernie nawodniony \eqref{eq:is_overirrigated_func}.
 \begin{equation}\label{eq:is_overirrigated_func}
-	ovrirr(x,y) = \begin{cases}
+	ovrirr(i,j) = \begin{cases}
 				0,& \text{if } M_{ij} \leq 1 \\
 				1,& \text{if } M_{ij} > 1
 			   \end{cases}
@@ -271,9 +265,18 @@ Jak zostało wspomniane w poprzednich rozdziałach zaimplementowane algorytmy oc
 , gdzie $c_{i}$ określa koszt konkretnego zraszacza z bazy danych; $a_{i}, b_{i}$ są wartościami mówiącymi kolejno o minimalnym oraz maksymalnym zasięgu konkretnego zraszacza; $r_{s}$ określa zasięg zraszacza, na podstawie którego wyszukiwany jest najtańszy odpowiednik z bazy danych.\\\\
 Całkowity koszt konkretnego rozwiązania wynosi zatem:
 \begin{equation}
-	F_{2} = \sum_{s=1}^{N} C(r_{s})
+	F_{2} = \sum_{s=1}^{S} C(r_{s})
 \end{equation}
-, gdzie $N$ jest liczbą wykorzystanych zraszaczy.
+, gdzie $S$ jest liczbą wykorzystanych zraszaczy.\\\\
+Podsumowując celem zadania jest rozwiazanie następującego problemu optymalizacyjnego:
+\begin{equation}
+	\begin{split}
+		min \text{  } & 	F_{1} = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n)) \\
+		&+ \alpha \cdot \bigg{[}\dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)} \\
+		&+ \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}\bigg{]}\\
+		min \text{  }&	F_{2} = \sum_{s=1}^{S} C(r_{s})
+	\end{split}
+\end{equation}
 
 \subsection{Porównanie algorytmów genetycznych}
 \subsubsection{Plan badań}
