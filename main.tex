@@ -210,7 +210,16 @@ Odpowiednie rozmieszczenie zraszaczy jest ważne, ponieważ zapewnia równomiern
 \section{Optymalizacja wielokryterialna}
 
 \chapter{Algorytmy genetyczne}
+JAKIŚ WSTĘP - np dlaczego one sa wogole opisywane
 \section{Opis ogólny}
+Algorytm genetyczny jest heurystyką przeszukującą przestrzeń alternatywnych rozwiązań problemu w celu wyszukania rozwiązań najlepszych. Jak wskazuje nazwa działanie algorytmu jest inspirowane selekcją naturalną, która oparta jest właśnie o geny. Algorytmy genetyczne są tylko jednym z wielu przykładów wykorzystania wzorców zauważonych w naturze do rozwiązywania skomplikowanych problemów optymalizacyjnych. Innymi przykładami są algorytmy mrówkowe czy chociażby coraz częściej używane sieci neuronowe.
+
+Cały proces działania algorytmu genetycznego można porównować do procesu ewolucji występującego w przyrodzie. Najlepiej przystosowane osobniki mają największe szanse na reprodukcję, a więc przekazanie swojego DNA kolejnym pokoleniom. Dzieje się tak dlatego, że z punktu widzenia biologii najlepiej przystosowane osobniki to te najbardziej atrakcyjne dla potencjalnych partnerów oraz w przypadku zwierząt stadnych, te dominujące całą resztę, a więc mające pierwszeństwo jeśli chodzi o wybór partnerów, reprodukcję czy chociażby pożywianie się. Generalizując natura dąży do tego, aby do puli z której utworzone ma zostać kolejne pokolenie danej populacji trafiały jak najlepsze geny. Gdyby działo się inaczej żaden gatunek nie przetrwałby więcej niż kiludziesięciu pokoleń.\\
+Jak zostało wspomniane największe szanse na potomstwo mają osobniki najlepsze patrząc z perspektywy szansy na przetrwanie. Potomstwo par takich osobników powstaje na wskutek procesu nazywanego krzyżowaniem. Krzyżowanie polega na łączeniu genów jednego osobnika z drugim, tworząc w ten sposób potomka, charakteryzującego się cechami zarówno pierwszego jak i drugiego rodzica. Oczywiście im lepiej rodzice danego osobnika byli przystosowani, tym większa szansa, że również i on będzie stał wyosoko w hierachii.\\
+Kolejnym istotnym elementem w procesie ewolucji jest mutacja. Mutacja jest losowym procesem polegającym na zmianie fragmentu kodu DNA. Poprzez taką zmianę osobnik staje się jeszcze lepiej lub mniej przystosowany. W pierwszym przypadku jego szanse na reprodukcję zwrastają, więc jest większe prawdopodobieństwo, że zmiana wprowadzona przez mutację zostanie przekazana dalej. W drugim przypadku linia osobników ze zmienionym DNA prawdopodobnie wygaśnie zdecydowanie szybciej niż w przypadku pierwszym.
+
+Podsumowując, proces ewolucji złożony jest z trzech elementów: selekcji, krzyżowania oraz mutacji. Dokładnie takie same funkcje wykorzystuje algorytm genetyczny. Na rysunku REF przedstawiony został ogólny schemat działania takiego algorytmu.
+
 \section{Algorytmy wielokryterialne}
 \subsection{NSGA-II}
 \subsection{SPEA}
@@ -252,7 +261,6 @@ Generalnie poprzez stopień nawodnienia danego obszaru rozumie się różnicę p
 \begin{equation}\label{eq:simple_f1}
 	F_{0}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S))
 \end{equation}
-
 Im wartość funkcji $F_{0}$ jest mniejsza tym mniej jest obszarów nienawodnionych, a więc rozwiązanie jest lepsze. $F_{0} = $ jest rozwiązaniem idealnym z perspektywy kryterium nawodnienia.\\\\
 Jak zostało wspomniane w poprzednich rozdziałach zaimplementowane algorytmy oceniają stopień nawodnienia obszaru na dwa sposoby w zależności od tego czy wybrana jest opcja minimalizacji nawodnienia poza wskazanym obszarem. Jeśli minimalizacja jest wyłączona do obliczeń używana jest prosta funkcja opisana powyżej \eqref{eq:simple_f1}. Bardziej szczegółowe rozwinięcie funkcji przewiduje wprowadzenie kary za naruszenie ograniczeń:
 
