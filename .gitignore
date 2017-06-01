@@ -3,4 +3,10 @@
 !.gitignore
 *.pdf
 *.tex
+*.bst
+*.cls
+!/img
+!/img/*
+!/logos
+!/logos/*
 

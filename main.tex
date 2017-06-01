@@ -210,18 +210,61 @@ Odpowiednie rozmieszczenie zraszaczy jest ważne, ponieważ zapewnia równomiern
 \section{Optymalizacja wielokryterialna}
 
 \chapter{Algorytmy genetyczne}
-JAKIŚ WSTĘP - np dlaczego one sa wogole opisywane
+Problem optymalizacyjny opisany na wstępie pracy został rozwiązany przy użyciu algorytmów genetycznych. Są to algorytmy, których działanie oparte jest na tych samych zasadach na których odbywa się proces ewolucji zachodzący w naturze. W tym rozdziale przedstawiony zostanie opis ogólny algorytmu genetycznego, jego powiązanie z procesami zachodzącymi w przyrodzie, schemat działania oraz dokładny opis wykorzystywanych operatorów: krzyżowania, selekcji oraz mutacji. Następnie przedstawiony zostanie koncept wielokryterialnych algorytmów genetycznych oraz opisane zostaną dwa algorytmy wykorzystane do rozwiązania przedstawionego wcześniej problemu: NSGA-II oraz SPEA.
 \section{Opis ogólny}
-Algorytm genetyczny jest heurystyką przeszukującą przestrzeń alternatywnych rozwiązań problemu w celu wyszukania rozwiązań najlepszych. Jak wskazuje nazwa działanie algorytmu jest inspirowane selekcją naturalną, która oparta jest właśnie o geny. Algorytmy genetyczne są tylko jednym z wielu przykładów wykorzystania wzorców zauważonych w naturze do rozwiązywania skomplikowanych problemów optymalizacyjnych. Innymi przykładami są algorytmy mrówkowe czy chociażby coraz częściej używane sieci neuronowe.
+Algorytmy genetyczne są procedurami wykorzystywanymi do rozwiązywania problemów optymalizacyjnych, opartymi o genetykę oraz selekcję naturalną. Cały proces działania takiego algorytmu można porównywać do procesu ewolucji występującego w przyrodzie. Obserwując taki proces można zauważyć, że najlepiej przystosowane osobniki mają największe szanse na reprodukcję, a więc przekazanie swojego DNA kolejnym pokoleniom. Dzieje się tak dlatego, że z punktu widzenia biologii najlepiej przystosowane osobniki to te najbardziej atrakcyjne dla potencjalnych partnerów oraz w przypadku zwierząt stadnych, te dominujące całą resztę, a więc mające pierwszeństwo jeśli chodzi o wybór partnerów, reprodukcję czy chociażby pożywianie się. Generalizując natura dąży do tego, aby do puli z której utworzone ma zostać kolejne pokolenie danej populacji trafiały jak najlepsze geny. Gdyby działo się inaczej żaden gatunek nie przetrwałby więcej niż kilkudziesięciu pokoleń.\\
+Jak zostało wspomniane największe szanse na potomstwo mają osobniki najlepsze patrząc z perspektywy szansy na przetrwanie. Potomstwo par takich osobników powstaje na wskutek procesu nazywanego krzyżowaniem. Krzyżowanie polega na łączeniu genów jednego osobnika z drugim, tworząc w ten sposób potomka, charakteryzującego się cechami zarówno pierwszego jak i drugiego rodzica. Oczywiście im lepiej rodzice danego osobnika byli przystosowani, tym większa szansa, że również i on będzie stał wysoko w hierarchii.\\
+Kolejnym istotnym elementem w procesie ewolucji jest mutacja. Mutacja jest losowym procesem polegającym na zmianie fragmentu kodu DNA. Poprzez taką zmianę osobnik staje się jeszcze lepiej lub gorzej przystosowany. W pierwszym przypadku jego szanse na reprodukcję wzrastają, więc jest większe prawdopodobieństwo, że zmiana wprowadzona przez mutację zostanie przekazana dalej. W drugim przypadku linia osobników ze zmienionym DNA prawdopodobnie wygaśnie zdecydowanie szybciej niż w przypadku pierwszym.
 
-Cały proces działania algorytmu genetycznego można porównować do procesu ewolucji występującego w przyrodzie. Najlepiej przystosowane osobniki mają największe szanse na reprodukcję, a więc przekazanie swojego DNA kolejnym pokoleniom. Dzieje się tak dlatego, że z punktu widzenia biologii najlepiej przystosowane osobniki to te najbardziej atrakcyjne dla potencjalnych partnerów oraz w przypadku zwierząt stadnych, te dominujące całą resztę, a więc mające pierwszeństwo jeśli chodzi o wybór partnerów, reprodukcję czy chociażby pożywianie się. Generalizując natura dąży do tego, aby do puli z której utworzone ma zostać kolejne pokolenie danej populacji trafiały jak najlepsze geny. Gdyby działo się inaczej żaden gatunek nie przetrwałby więcej niż kiludziesięciu pokoleń.\\
-Jak zostało wspomniane największe szanse na potomstwo mają osobniki najlepsze patrząc z perspektywy szansy na przetrwanie. Potomstwo par takich osobników powstaje na wskutek procesu nazywanego krzyżowaniem. Krzyżowanie polega na łączeniu genów jednego osobnika z drugim, tworząc w ten sposób potomka, charakteryzującego się cechami zarówno pierwszego jak i drugiego rodzica. Oczywiście im lepiej rodzice danego osobnika byli przystosowani, tym większa szansa, że również i on będzie stał wyosoko w hierachii.\\
-Kolejnym istotnym elementem w procesie ewolucji jest mutacja. Mutacja jest losowym procesem polegającym na zmianie fragmentu kodu DNA. Poprzez taką zmianę osobnik staje się jeszcze lepiej lub mniej przystosowany. W pierwszym przypadku jego szanse na reprodukcję zwrastają, więc jest większe prawdopodobieństwo, że zmiana wprowadzona przez mutację zostanie przekazana dalej. W drugim przypadku linia osobników ze zmienionym DNA prawdopodobnie wygaśnie zdecydowanie szybciej niż w przypadku pierwszym.
+Podsumowując, proces ewolucji złożony jest z trzech elementów: selekcji, krzyżowania oraz mutacji. Na tych samych operacjach opiera się działanie algorytmu genetycznego. W kontekście algorytmu są one nazywane operatorami genetycznymi. Na rysunku \eqref{fig:ga_sequence} przedstawiony został ogólny schemat działania takiego algorytmu.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{ga_sequence}}
+	\centering
+	\caption{Schemat działania algorytmu genetycznego}
+	\label{fig:ga_sequence}
+\end{figure}
 
-Podsumowując, proces ewolucji złożony jest z trzech elementów: selekcji, krzyżowania oraz mutacji. Dokładnie takie same funkcje wykorzystuje algorytm genetyczny. Na rysunku REF przedstawiony został ogólny schemat działania takiego algorytmu.
+Punktem startowym jest utworzenie losowej populacji osobników. Następnie każdy osobnik jest oceniany przez pryzmat ustalonego kryterium. Na podstawie oceny przeprowadzany jest proces selekcji, czyli wyboru najlepszych osobników, które wykorzystane zostaną do reprodukcji. Podczas procesu reprodukcji generowane są nowe osobniki tworzące kolejne pokolenie. Każdy nowy osobnik jest wynikiem krzyżowania, czyli łączenia chromosomu dwóch rodziców w jeden. Chromosom z punktu widzenia biologii jest formą organizacji materiału genetycznego. Z punktu widzenia algorytmu będzie to zestaw parametrów charakteryzujących danego osobnika, który zostanie opisany później. Następnie chromosomy nowych osobników mogą ulec mutacji, czyli losowej zmianie pojedynczych genów. Gdy zostanie utworzona odpowiednia liczba nowych osobników, czyli powstanie nowe pokolenie, cały proces zaczyna się od początku, dopóki nie osiągnięte zostanie zdefiniowane kryterium końcowe.\\\\
+W powyższym opisie pojawiło się kilka pojęć wartych wyjaśnienia.
+\subsubsection{Populacja}
+Populacja jest grupą o ustalonym rozmiarze. Elementami grupy są pojedyncze osobniki. Jedną z przewag algorytmów genetycznych nad tradycyjnymi technikami optymalizacyjnymi jest właśnie operowanie nie na jednym konkretnym rozwiązaniu, lecz na całej grupie. Duża różnorodność osobników w połączeniu z odpowiednim użyciem operatorów genetycznych pozwala uniknąć problemu utknięcia na optimum lokalnym.
+\subsubsection{Chromosom}
+Chromosom, jak zostało już wspomniane, jest sposobem reprezentacji właściwości cechujących danego osobnika. Chromosom można zdefiniować na dwa sposoby: za pomocą ciągu binarnego lub wartości rzeczywistych. Ciąg binarny jest ciągiem wartości $0$ lub $1$ ułożonych w taki sposób aby odpowiednio zakodować przekazywaną informację. W ramach przykładu załóżmy, że mamy dany cylinder o średnicy $d = 10 cm$ oraz wysokości $h = 14 cm$. Rysunek \eqref{fig:cylinder} pokazuje przykładowy sposób reprezentacji takiego cylindra w formie ciągu binarnego. 
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{cylinder}}
+	\centering
+	\caption{Przykład ciągu binarnego}
+	\label{fig:cylinder}
+\end{figure}
+\\Chromosom reprezentujący cylinder złożony jest z 10 bitów. Na pierwszych pięciu z nich zakodowana jest informacja o wysokości, a na kolejnych informacja o średnicy. Wartości przedstawione przez poszczególne części ciągu należy traktować jak liczby binarne i w ten sam sposób je interpretować.
 
+W większości przypadków preferowane jest używanie ciągu binarnego jako sposobu reprezentacji osobników. Jednym z powodów jest łatwość przeprowadzania operacji krzyżowania oraz mutacji, o których mowa będzie później. Używając reprezentacji binarnej można w prosty sposób zmienić sposób kodowania osobników bez konieczności ingerowania w operatory genetyczne - operatory krzyżowania oraz mutacji nie biorą pod uwagę sposobu w jaki informacja została zapisana w chromosomie. Kolejne argumenty przemawiające za użyciem takiej reprezentacji przedstawione zostały w pracach Hollanda (1991)REF oraz Goldberga (1993)REF. Kolejne etapy działania algorytmów genetycznych wyjaśnione zostaną przy założeniu, że osobniki przedstawione są za pomocą ciągów binarnych.
+\subsubsection{Ewaluacja}
+Po ustaleniu sposobu reprezentacji osobników należy wygenerować losową populację oraz poddać ją ocenie, czyli ewaluacji. Proces ewaluacji polega na przypisaniu każdemu osobnikowi odpowiedniej wartości pozwalającej ocenić go na tle reszty populacji. Korzystając z wcześniejszego przykładu załóżmy, że podczas procesu ewaluacji zdefiniowanemu wcześniej cylindrowi przypisywany jest koszt wyprodukowania, wyrażony następującym wzorem:
+\begin{equation}
+f(d,h) = c\big{(}\dfrac{\pi d^{2}}{2} + \pi dh\big{)}
+\end{equation}
+, gdzie $c$ oznacza koszt materiału na $cm^{2}$.\\
+Zgodnie z podanymi wcześniej danymi oraz przy założeniu, ze $c = 0.01$ koszt wyprodukowania danego cylindra wynosi:
+\[f(10, 14) = 6\]
+Zakładając, że celem procesu optymalizacji jest minimalizacja kosztu wyprodukowania cylindra, należy zauważyć, że osobnik z przypisaną mniejszą wartością jest lepszy w kontekście wybranego kryterium.
+\subsubsection{Reprodukcja}
+Kolejnym etapem działania algorytmu genetycznego jest reprodukcja inaczej zwana też selekcją. Jest to proces mający na celu zwiększenie liczby dobrych osobników w populacji oraz redukcję liczby tych gorszych, jednocześnie utrzymując niezmieniony rozmiar całej populacji. Jest to osiągane poprzez realizację następujących zadań:\\
+\begin{enumerate}
+	\item Zidentyfikowanie dobrych (ocenionych powyżej średniej) osobników.
+	\item Utworzenie kopii dobrych osobników.
+	\item Eliminacja osobników gorszych, tak aby kopie dobrych mogły zostać dodane do populacji.\\
+\end{enumerate}
+Powyższe zadania mogą zostać osiągnięte przy użyciu kilku metod. Najpopularniejszymi z nich są: metoda turniejowa, metoda ruletki oraz metoda rankingu.
+Metoda turniejowa polega na rozgrywaniu turniejów pomiędzy kilkoma osobnikami wybranymi losowo z populacji. Zwycięzca każdego turnieju, jako rodzic, przechodzi do etapu krzyżowania, który zostanie opisany później\eqref{fig:tournament}. Rozmiar pojedynczego turnieju znacząco wpływa na przebieg procesu selekcji. Im jest większy, tym mniejsza szansa, że słabsze osobniki przejdą do kolejnego etapu. Wbrew pozorom takie zachowanie nie jest pożądane ze względu na potrzebę zachowania różnorodności populacji. Im rozmiar jest większy tym większa szansa, że do kolejnego etapu dostanie się zbyt dużo słabszych osobników, co również nie jest dobrym rozwiązaniem. Jeśli rozmiar turnieju $S = 1$ selekcja staje się równoważna losowemu wyborowi osobnika. Najczęściej stosuje się turnieje o rozmiarze 2. Metoda turniejowa jest jedną z najczęściej wybieranych metod selekcji. Jest prosta w implementacji oraz pozwala na łatwe manipulowanie rozmiarem turnieju, co z kolei wpływa na szybkość zbliżania się znalezionych rozwiązań do rozwiązania optymalnego. Ponadto jak zostało udowodnione selekcja turniejowa zawsze zapewnia lepszą lub taką samą szybkość zbliżania się do rozwiązań optymalnych jak inne metody selekcji oraz mniejszą lub taką samą złożoność obliczeniową. Z wymienionych powyżej powodów to właśnie metoda turniejowa została zaimplementowana w wybranych przez autora algorytmach.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{tournament}}
+	\centering
+	\caption{Przykład rozegranego turnieju o rozmiarze 2.\\1.Wybór losowych osobników; 2.Turniej pomiędzy wybranymi osobnikami.}
+	\label{fig:tournament}
+\end{figure}
 \section{Algorytmy wielokryterialne}
-\subsection{NSGA-II}
+\subsection{NSGA-II}y
 \subsection{SPEA}
 \section{Strojenie}
 
@@ -233,13 +276,14 @@ Podsumowując, proces ewolucji złożony jest z trzech elementów: selekcji, krz
 \subsection{Interakcja z użytkownikiem}
 \section{Optymalizacja}
 \subsection{Model matematyczny}
-Załóżmy, że $P$ jest wielokątem odwzorowującym kszałt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy $A$. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. $A$ jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku \ref{fig:matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{mandf}}
-	\centering
-	\caption{blah}
-	\label{fig:matrix_m}
-\end{figure}
+Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy $A$. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. $A$ jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku REF. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
+
+%\begin{figure}[!htb]
+%	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{mandf}}
+%	\centering
+%	\caption{blah}
+%	\label{fig:matrix_m}
+%\end{figure}
 Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się wewnątrz $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz konkretny model $t_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$.\\
 Kwadrat o współrzędnych $(x,y)$ jest nawodniony jeśli znajduje się w zasięgu zraszacza. Jest to wyrażone następującą funkcją:
 \begin{equation}
@@ -248,15 +292,14 @@ Kwadrat o współrzędnych $(x,y)$ jest nawodniony jeśli znajduje się w zasię
 							0,& w.p.p
 						  \end{cases}
 \end{equation}
-, gdzie $x$ oraz $y$ oznaczają współrzędne środka kwadratu; $x_{i}, y_{i}$ oznaczają współrzędne zraszacza; $r_{i}$ jest liczba wyrażającą zasięg zraszacza.\\\\
-Załóżmy, że $S$ jest zbiorem rozmieszczonych zraszaczy. Wtedy dany kwadrat jest nawodniony jeśli znajduje się w zasięgu przynajmniej jednego zraszacza ze zbioru $S$:
+, gdzie $x$ oraz $y$ oznaczają współrzędne środka kwadratu; $s_{i}$ jest konkretnym zraszaczem; $x_{i}, y_{i}$ oznaczają współrzędne zraszacza $s_{i}$; $r_{i}$ jest liczba wyrażającą zasięg zraszacza.\\\\
+Załóżmy, że $S$ jest zbiorem wszystkich rozmieszczonych zraszaczy. Wtedy dany kwadrat jest nawodniony jeśli znajduje się w zasięgu przynajmniej jednego zraszacza ze zbioru $S$:
 \begin{equation}
 	irr(x, y, S) = \begin{cases}
 				   	1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 0 \\
 				   	0,& w.p.p			   	
 				   \end{cases}
 \end{equation}
-, gdzie $s$ jest konkretnym zraszaczem ze zbioru $S$.\\\\
 Generalnie poprzez stopień nawodnienia danego obszaru rozumie się różnicę pomiędzy liczbą wszystkich elementów macierzy $M$ należących do $P$, a liczbą nawodnionych elementów tej macierzy należących do $P$:
 \begin{equation}\label{eq:simple_f1}
 	F_{0}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S))
@@ -281,7 +324,7 @@ Jak zostało wspomniane w poprzednich rozdziałach zaimplementowane algorytmy oc
 \begin{equation}
 	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
 \end{equation}\\
-Podsumowując celem zadania jest rozwiazanie następującego problemu optymalizacyjnego:
+Podsumowując celem zadania jest rozwiązanie następującego problemu optymalizacyjnego:
 
 \begin{equation}
 	\begin{split}
