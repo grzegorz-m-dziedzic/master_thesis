@@ -213,7 +213,7 @@ Odpowiednie rozmieszczenie zraszaczy jest ważne, ponieważ zapewnia równomiern
 Problem optymalizacyjny opisany na wstępie pracy został rozwiązany przy użyciu algorytmów genetycznych. Są to algorytmy, których działanie oparte jest na tych samych zasadach na których odbywa się proces ewolucji zachodzący w naturze. W tym rozdziale przedstawiony zostanie opis ogólny algorytmu genetycznego, jego powiązanie z procesami zachodzącymi w przyrodzie, schemat działania oraz dokładny opis wykorzystywanych operatorów: krzyżowania, selekcji oraz mutacji. Następnie przedstawiony zostanie koncept wielokryterialnych algorytmów genetycznych oraz opisane zostaną dwa algorytmy wykorzystane do rozwiązania przedstawionego wcześniej problemu: NSGA-II oraz SPEA.
 \section{Opis ogólny}
 Algorytmy genetyczne są procedurami wykorzystywanymi do rozwiązywania problemów optymalizacyjnych, opartymi o genetykę oraz selekcję naturalną. Cały proces działania takiego algorytmu można porównywać do procesu ewolucji występującego w przyrodzie. Obserwując taki proces można zauważyć, że najlepiej przystosowane osobniki mają największe szanse na reprodukcję, a więc przekazanie swojego DNA kolejnym pokoleniom. Dzieje się tak dlatego, że z punktu widzenia biologii najlepiej przystosowane osobniki to te najbardziej atrakcyjne dla potencjalnych partnerów oraz w przypadku zwierząt stadnych, te dominujące całą resztę, a więc mające pierwszeństwo jeśli chodzi o wybór partnerów, reprodukcję czy chociażby pożywianie się. Generalizując natura dąży do tego, aby do puli z której utworzone ma zostać kolejne pokolenie danej populacji trafiały jak najlepsze geny. Gdyby działo się inaczej żaden gatunek nie przetrwałby więcej niż kilkudziesięciu pokoleń.\\
-Jak zostało wspomniane największe szanse na potomstwo mają osobniki najlepsze patrząc z perspektywy szansy na przetrwanie. Potomstwo par takich osobników powstaje na wskutek procesu nazywanego krzyżowaniem. Krzyżowanie polega na łączeniu genów jednego osobnika z drugim, tworząc w ten sposób potomka, charakteryzującego się cechami zarówno pierwszego jak i drugiego rodzica. Oczywiście im lepiej rodzice danego osobnika byli przystosowani, tym większa szansa, że również i on będzie stał wysoko w hierarchii.\\
+Jak zostało wspomniane największe szanse na potomstwo mają osobniki najlepsze patrząc z perspektywy szansy na przetrwanie. Potomstwo par takich osobników powstaje na skutek procesu nazywanego krzyżowaniem. Krzyżowanie polega na łączeniu genów jednego osobnika z drugim, tworząc w ten sposób potomka, charakteryzującego się cechami zarówno pierwszego jak i drugiego rodzica. Oczywiście im lepiej rodzice danego osobnika byli przystosowani, tym większa szansa, że również i on będzie stał wysoko w hierarchii.\\
 Kolejnym istotnym elementem w procesie ewolucji jest mutacja. Mutacja jest losowym procesem polegającym na zmianie fragmentu kodu DNA. Poprzez taką zmianę osobnik staje się jeszcze lepiej lub gorzej przystosowany. W pierwszym przypadku jego szanse na reprodukcję wzrastają, więc jest większe prawdopodobieństwo, że zmiana wprowadzona przez mutację zostanie przekazana dalej. W drugim przypadku linia osobników ze zmienionym DNA prawdopodobnie wygaśnie zdecydowanie szybciej niż w przypadku pierwszym.
 
 Podsumowując, proces ewolucji złożony jest z trzech elementów: selekcji, krzyżowania oraz mutacji. Na tych samych operacjach opiera się działanie algorytmu genetycznego. W kontekście algorytmu są one nazywane operatorami genetycznymi. Na rysunku \eqref{fig:ga_sequence} przedstawiony został ogólny schemat działania takiego algorytmu.
@@ -240,7 +240,7 @@ Chromosom, jak zostało już wspomniane, jest sposobem reprezentacji właściwo�
 
 W większości przypadków preferowane jest używanie ciągu binarnego jako sposobu reprezentacji osobników. Jednym z powodów jest łatwość przeprowadzania operacji krzyżowania oraz mutacji, o których mowa będzie później. Używając reprezentacji binarnej można w prosty sposób zmienić sposób kodowania osobników bez konieczności ingerowania w operatory genetyczne - operatory krzyżowania oraz mutacji nie biorą pod uwagę sposobu w jaki informacja została zapisana w chromosomie. Kolejne argumenty przemawiające za użyciem takiej reprezentacji przedstawione zostały w pracach Hollanda (1991)REF oraz Goldberga (1993)REF. Kolejne etapy działania algorytmów genetycznych wyjaśnione zostaną przy założeniu, że osobniki przedstawione są za pomocą ciągów binarnych.
 \subsubsection{Ewaluacja}
-Po ustaleniu sposobu reprezentacji osobników należy wygenerować losową populację oraz poddać ją ocenie, czyli ewaluacji. Proces ewaluacji polega na przypisaniu każdemu osobnikowi odpowiedniej wartości pozwalającej ocenić go na tle reszty populacji. Korzystając z wcześniejszego przykładu załóżmy, że podczas procesu ewaluacji zdefiniowanemu wcześniej cylindrowi przypisywany jest koszt wyprodukowania, wyrażony następującym wzorem:
+Po ustaleniu sposobu reprezentacji osobników należy wygenerować losową populację oraz poddać ją ocenie, czyli ewaluacji. Proces ewaluacji polega na przypisaniu każdemu osobnikowi odpowiedniej wartości pozwalającej ocenić go na tle reszty populacji. Jest to wartość dopasowania osobnika. Korzystając z wcześniejszego przykładu załóżmy, że podczas procesu ewaluacji zdefiniowanemu wcześniej cylindrowi przypisywany jest koszt wyprodukowania, wyrażony następującym wzorem:
 \begin{equation}
 f(d,h) = c\big{(}\dfrac{\pi d^{2}}{2} + \pi dh\big{)}
 \end{equation}
@@ -263,9 +263,152 @@ Metoda turniejowa polega na rozgrywaniu turniejów pomiędzy kilkoma osobnikami 
 	\caption{Przykład rozegranego turnieju o rozmiarze 2.\\1.Wybór losowych osobników; 2.Turniej pomiędzy wybranymi osobnikami.}
 	\label{fig:tournament}
 \end{figure}
+
+Kolejną popularną metody selekcji jest metoda proporcjonalna. W metodzie tej wprowadzone zostaje pojęcie puli rozrodczej. Jest to pula spośród której wybierane są osobniki wykorzystywane później do krzyżowania. Wypełnienie puli rozrodczej kopiami osobników wykonywane jest procesie selekcji. Liczba kopii danego osobnika w puli jest proporcjonalna do jego wartości dopasowania. Jeśli średnia wartość dopasowania dla całej populacji wynosi $f_{avg}$, dany osobnik $s_{i}$ będzie posiadał $f_{i}/f_{avg}$ kopii w puli rozrodczej. Metoda proporcjonalna często nazywana jest również metodą ruletki, ponieważ właśnie za pomocą koła ruletki można zobrazować sobie jej działanie. Wspomniane koło jest podzielone na $N$ części, gdzie $N$ jest wielkością populacji. Każdy wycinek koła odpowiada jednemu osobnikowi z populacji. Wielkość danego wycinka jest proporcjonalna do wartości dopasowania osobnika. Wynika z tego, że wycinki powiązane z lepszymi osobnikami będą zajmować większą część koła. Jak można zauważyć na rysunku \eqref{fig:roulette} osobnik o numerze 6 jest najlepszy na tle całej populacji, natomiast osobnik o numerze 2 jest osobnikiem najgorszym. Wybór osobników do puli rozrodczej odbywa się poprzez kręcenie kołem. Czynność ta powtarzana jest $N$ razy. Po zatrzymaniu wybierany jest osobnik na którego wycinku zatrzymał się wskaźnik. Osobniki z najlepszą wartością dopasowania mają największe szanse na trafienie do puli rozrodczej.
+
+Wadami metody proporcjonalnej jest duża złożoność obliczeniowa oraz problemy ze skalowaniem. Załóżmy, że jeden osobnik jest znacząco lepszy od reszty. Wtedy powiązany z nim wycinek będzie zajmował niemal całe koło, a co za tym idzie prawdopodobieństwo wyboru takiego osobnika będzie zbliżone do 1. W konsekwencji pula rozrodcza będzie w większości zapełniona kopiami jednego osobnika, co prowadzi do braku zróżnicowania. Z drugiej strony jeśli wszystkie osobniki mają bardzo zbliżone wartości dopasowania, każdy z nich ma również podobne prawdopodobieństwo wyboru do puli. Prowadzi to do sytuacji, kiedy każdy osobnik ma dokładnie jedną kopię w puli rozrodczej. Taki proces selekcji nie wnosi żadnej wartości i równie dobrze mógłby zostać pominięty. 
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{roulette}}
+	\centering
+	\caption{Przykładowa wizualizacja selekcji proporcjonalnej}
+	\label{fig:roulette}
+\end{figure}
+
+Opisanych powyżej problemów ze skalowaniem można uniknąć korzystając z metody rankingowej. Polega ona na posortowaniu osobników z populacji ze względu na ich wartość dopasowania. W ten sposób najgorszemu osobnikowi zostaje przypisane pierwsze miejsce w tworzonym rankingu. Osobnik najlepszy znajdzie się wtedy na $N$-tym miejscu. Po takim przygotowaniu na posortowanej populacji zostaje użyty operator selekcji proporcjonalnej. Na tym etapie przygotowanie koła ruletki nie opiera się już na wartości dopasowania poszczególnych osobników, lecz na ich pozycji w rankingu. Pozwala to na pozbycie się opisanych wcześniej problemów.
+
+\subsubsection{Krzyżowanie}
+Po wyborze osobników mających zostać rodzicami następuje czas na skorzystanie z operatora krzyżowania. Tutaj należy zwrócić uwagę na to, że opisany wcześniej proces reprodukcji nie tworzy żadnych nowych osobników. Dzieje się to dopiero w trakcie procesu krzyżowania. Jak wskazuje nazwa, krzyżowanie polega na łączeniu dwóch osobników w celu utworzenia ich potomstwa. Dzieje się to na poziomie zdefiniowanych wcześniej chromosomów. Najprostszą i najlepiej ilustrującą ideę krzyżowania metodą jest metoda jednopunktowa. Polega ona na losowym wybraniu punktu względem którego nastąpi podział chromosomu na dwie części. Potomstwo powstaje na skutek wymiany pomiędzy rodzicami części chromosomu znajdującej się po prawej stronie od wybranego punktu podziału. Proces ten został przedstawiony na rysunku \eqref{fig:one_point_cross}. Po lewej stronie znajdują się chromosomy pary rodziców. Punkt podziału został losowo ustalony na $d=4$, co symbolizuje pionowa przerywana linia. Po prawie stronie znajduje się potomstwo - wynik zastosowania operatora krzyżowania. Jak widać chromosom każdego nowego osobnika powstał na skutek złożenia chromosomów rodziców.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.34]{one_point_cross}}
+	\centering
+	\caption{Przykład krzyżowania jednopunktowego}
+	\label{fig:one_point_cross}
+\end{figure}
+
+W tym miejscu należy zauważyć, że nowe osobniki utworzone w procesie krzyżowania niekoniecznie muszą być lepsze od swoich rodziców. Może zdarzyć się tak, że potomstwo będzie gorzej przystosowane. Nie należy się tym jednak martwić, ponieważ jak zostało wyjaśnione wcześniej osobniki o mniejszej wartości przystosowania mają mniejsze szanse na przetrwanie selekcji, a co za tym idzie ich geny nie zostaną przekazane kolejnym pokoleniom. Ponadto jest znacznie bardziej prawdopodobne, że operatory krzyżowania wygenerują rozwiązania lepsze niż generowanie losowe. Dzieje się tak dlatego, że chromosomy wybrane do procesu nie są przypadkowe. Przeszły one selekcje co wskazuje na to, że zawierają w sobie wartościowe kombinacje bitów. Operator krzyżowania użyty na parze rodziców, może wygenerować jedynie $l$ par potomków, gdzie $l$ jest długością chromosomu. Biorąc pod uwagę fakt, że potomstwo jest generowane przy użyciu chromosomów dobrych osobników, istnieje duże prawdopodobieństwo, że utworzone rozwiązania również będą dobre.
+
+Opisany powyżej proces krzyżowania może zostać przeprowadzony również przy użyciu kilku punktów podziału. Na rysunku \eqref{fig:two_point_cross} przedstawiona jest selekcja dwupunktowa. Chromosom dzielony jest na trzy części. Potomstwo powstaje na skutek wymiany części środkowej.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{two_point_cross}}
+	\centering
+	\caption{Przykład krzyżowania dwupunktowego}
+	\label{fig:two_point_cross}
+\end{figure}
+
+Przedstawioną ideę podziału chromosomu można dowolnie rozszerzać. Ekstremum jest tzw. podział jednolity. W takim przypadku potomstwo powstaje poprzez wymianę pojedynczych bitów z określonym prawdopodobieństwem $p$. Najczęściej przyjmuje się, że $p = 0.5$, czyli istnieję 50\% szansy, że dany bit zostanie wymieniony na ten pochodzący z drugiego rodzica.
+
+W wybranych algorytmach autor stosuje metodę krzyżowania dwupunktowego, która jest typowym wyborem przy chromosomach reprezentowanych za pomocą ciągów binarnych.
+
+W celu zachowania części dobrych osobników z populacji, do procesu krzyżowania dodaje się dodatkową zmienną $p_{c}$, oznaczająca prawdopodobieństwo krzyżowania. Oznacza ona jaka część obecnej populacji zostanie użyta do procesu krzyżowania. Gdy $p_{c} = 1$ nowa populacja w całości zostanie zapełniona potomkami osobników ze starej populacji. W innym przypadku $100(1 - p_{c})\%$ osobników ze starej populacji zostanie skopiowanych do nowej. Najczęściej prawdopodobieństwo krzyżowania ustawia się na poziomie 80-90\%.
+\subsubsection{Mutacja}
+Nowe osobniki powstałe na skutek krzyżowania mogą ulec mutacji. Mutacja jest odpowiedzialna za losową modyfikację chromosomu danego osobnika. Operator mutacji zapewnia utrzymanie różnorodności populacji na odpowiednim poziomie. Działanie tego operatora opiera się na zmiennej wyrażającej prawdopodobieństwo mutacji: $p_{m}$. Operator nie działa na poziomie całego chromosomu, lecz pojedynczych bitów, a jego zastosowanie jest równoznaczne ze zmianą wartości danego bitu. Zostało to zilustrowane na rysunku \eqref{fig:mutation}.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{mutation}}
+	\centering
+	\caption{Przykład mutacji}
+	\label{fig:mutation}
+\end{figure}
+
+Podobnie jak w przypadku zastosowania operatora krzyżowania tak i w przypadku mutacji, osobnik będący rezultatem może okazać się gorszy od oryginału. Mimo to, warto zauważyć, że używanie operatora mutacji przy użyciu niskiego prawdopodobieństwa $p_{m}$ nie jest operacją losową. Powodem jest to, że rozwiązanie generowane jest na podstawie już istniejącego osobnika oraz cały proces może utworzyć jedynie kilka nowych rozwiązań, z dużym prawdopodobieństwem, również dobrych.\\
+
+Podsumowując, algorytmy genetyczne używają trzech operatorów: selekcji, krzyżowania oraz mutacji. Operator selekcji odpowiedzialny jest za wybór najlepiej przystosowanych osobników. Operator krzyżowania służy do łączenia wybranych wcześniej osobników w celu utworzenia potomstwa. Operator mutacji losowo zmienia część chromosomu danego osobnika w nadziei na znalezienie jeszcze lepszego rozwiązania. Należy tutaj zwrócić uwagę, że żaden z opisanych operatorów nie jest deterministyczny. Każdy z nich oparty jest w znacznym stopniu o losowość, co powoduje, że nie zawsze będą one osiągać zamierzone rezultaty. Nie mniej jednak w kontekście działania algorytmu wymagane jest, aby gorsze osobniki były eliminowane w procesie reprodukcji, na rzecz osobników lepszych, których geny powinny być przekazywane do kolejnych pokoleń.
 \section{Algorytmy wielokryterialne}
-\subsection{NSGA-II}y
+Główną różnicą pomiędzy klasycznymi metodami optymalizacji, a algorytmami genetycznymi jest fakt, że te drugie nie operują na jednym rozwiązaniu ale na całej populacji rozwiązań. Różnica ta daje ogromną przewagę algorytmom genetycznym jeśli chodzi o rozwiązywanie wielokryterialnych problemów optymalizacyjnych. Jak zostało wspomniane w rozdziale \ref{blah} celem optymalizacji wielokryterialnej jest znalezienie jak największej liczby rozwiązań optymalnych w sensie Pareto. Algorytmy genetyczne dają możliwość znalezienia grupy takich rozwiązań jako rezultatu uruchomienia jednej symulacji. Eliminuje to konieczność wielokrotnego używania metod optymalizacji jednokryterialnej w celu znajdowania kolejnych optymalnych rozwiązań. Ponadto używając algorytmów genetycznych można pozbyć się wielu parametrów koniecznych przy używaniu metod klasycznych. Przykładem może być chociażby wektor wag, wykorzystywany do transformacji problemu wielokryterialnego w problem jednokryterialny. Jest on konieczny, ponieważ konkretne ustawienie takiego wektora jest ściśle powiązane z jednym znalezionym rozwiązaniem optymalnym. Jeśli chcemy znaleźć inne rozwiązanie należy zmienić ustawienia wektora oraz ponownie uruchomić symulację. W przypadku algorytmów genetycznych nie będzie to konieczne, ponieważ jak zostało wspomniane rezultatem zwróconym przez taki algorytm będzie nie pojedyncze rozwiązanie ale cała grupa rozwiązań.
+
+Co więcej operatory genetyczne mogą zostać zmodyfikowane tak, aby faworyzować rozwiązania niezdominowane oraz jednocześnie utrzymywać różnorodność populacji na odpowiednim poziomie. Te dwie cechy połączone z ogólna ideą algorytmów genetycznych prowadzą do znalezienia zróżnicowanej grupy osobników optymalnych w sensie Pareto, czyli rozwiązania wielokryterialnego problemu optymalizacyjnego.
+
+W kolejnych podrozdziałach opisane zostaną dwa algorytmy spełniające powyższe założenia: NSGA-II oraz SPEA. Wyjaśnione zostanie na jakich zasadach działają oba algorytmy oraz w jaki sposób modyfikują poszczególne operatory genetyczne.
+\subsection{NSGA-II}
+NSGA-II jest drugą wersją zaproponowanego w 2000 roku algorytmu NSGA (Elitist Non-Dominated Sorting Genetic Algorithm). Jego działanie opiera się na dwóch konceptach: elitaryzmie oraz strategii zachowania różnorodności w populacji. 
+
+\subsubsection{Elitaryzm}
+Elitaryzm jest dodatkowym operatorem używanym w algorytmach genetycznych. Jego rolą jest zwiększenie szansy, że najlepsze rozwiązania z danego pokolenia (elita) zostaną bezpośrednio przeniesione do pokolenia następnego. Istnieje wiele sposobów na zdefiniowanie operatora elitaryzmu. W przypadku problemów jednokryterialnych przykładem może być porównywanie potomków utworzonych w procesie krzyżowania z ich rodzicami oraz zachowanie dwóch najlepszych osobników. W globalnego punktu widzenia elitaryzm może być wprowadzony poprzez łączenie rodziców oraz potomków w jedną populację, na której używane są później operatory genetyczne. W ten sposób rodzice również mają szanse na rywalizację ze swoim potomstwem.
+
+Celem elitaryzmu jest zapewnienie, że wartość przystosowania najlepszego osobnika w danym pokoleniu nie jest gorsza od jego odpowiednika z poprzedniego pokolenia. Operator elitaryzmu, że najlepsze rozwiązania znalezione na początku symulacji nie zostaną zgubione. Ponadto ich obecność w kolejnych populacjach zwiększa szanse na utworzenie równie dobrego potomstwa. 
+
+Podsumowując, odpowiednio użyty elitaryzm zapewnia lepsze działanie algorytmów genetycznych. Należy jednak zwrócić uwagę na to jaki procent najlepszych osobników można nazwać elitą. Jest to określane przez zmienną $\alpha$. Jeśli procent ten jest duży, prawdopodobne jest, że w następnych pokoleniach populacja zacznie skupiać się wokół najlepszych osobników, prowadząc do zmniejszenia różnorodności. Jeśli procent będzie za mały wpływ elitaryzmu może zostać nadmiernie zredukowany nie wprowadzając żadnego pozytywnego wpływu. Wartości pomiędzy $\alpha = 1$, a $\alpha = 0.1N$, gdzie $N$ jest wielkością populacji, są najbardziej popularne.\\
+
+W NSGA-II początkowym krokiem jest połączenie populacji rodziców $P_{t}$ z populacją potomstwa $Q_{t}$. Wskutek tego powstaje grupa $R_{t}$ o rozmiarze $2N$, gdzie $N$ jest rozmiarem populacji. Jest to grupa, na której będzie pracował algorytm. Następnym krokiem jest poddanie $R_{t}$ sortowaniu rozwiązań niezdominowanych, które zostało opisane w rozdziale \ref{blah}. Następnie tworzona zostaje nowa populacja $P_{t+1}$ o rozmiarze $N$. Dzieje się to poprzez wypełnianie nowej populacji osobnikami należącymi do danego frontu grupy $R_{t}$, zaczynając od frontu najlepszego, czyli pierwszego. Proces ten jest kontynuowany aż do momentu kiedy w nowej populacji nie ma już miejsca na kolejne osobniki. Warto zwrócić uwagę, że osobniki przenoszone są z grupy o rozmiarze $2N$ do grupy o rozmiarze $N$. Przez to nie wszystkie fronty mogą zostać przeniesione. Fronty, które nie mieszczą się w nowej populacji są po prostu usuwane. Inaczej sytuacja wygląda, gdy dany front może zmieścić się tylko częściowo. Zostało to przedstawione na rysunku \eqref{fig:nsga2_fronts}. Wtedy na danym froncie stosowane jest sortowanie oparte o lokalną wartość zagęszczenia, która zdefiniowana zostanie później. Następnie do nowej populacji zostaje przeniesionych $n$ brakujących osobników, które podczas sortowania zostały uznane za najlepsze.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{nsga2_fronts}}
+	\centering
+	\caption{Uproszczony schemat działania algorytmu NSGA-II.\\1.Sortowanie rozwiązań niezdominowanych.\\2.Sortowanie w oparciu o lokalna wartość zagęszczenia.}
+	\label{fig:nsga2_fronts}
+\end{figure}
+
+Na nowej populacji $P_{t+1}$ stosowany jest następnie zmodyfikowany operator selekcji. Użycie takie operatora zakłada, że każdy osobnik charakteryzuje się dwoma cechami:\\
+\begin{enumerate}
+	\item Numerem frontu, na którym się znajduje.
+	\item Lokalną wartością zagęszczenia, która opisana zostanie później.\\
+\end{enumerate}
+Bazując na tych dwóch cechach, osobnik $i$ jest lepszy od osobnika $j$, jeśli:\\
+\begin{enumerate}
+	\item Osobnik $i$ znajduje się na lepszym froncie niż osobnik. $j$
+	\item Osobnik $i$ znajduje się na tym samym froncie co osobnik $j$ ale charakteryzuje się mniejszą lokalną wartością zagęszczenia.\\
+\end{enumerate}
+Pierwszy warunek jest odzwierciedleniem konceptu dominacji. Osobnik leżący na lepszym froncie dominuje osobnika znajdującego się na froncie gorszym. Drugi warunek został wprowadzony, aby rozstrzygać, który z osobników jest bardziej wartościowy jeśli oba leżą na tym samym froncie. Jak zostało wyjaśnione wcześniej rozwiązując wielokryterialne problemy optymalizacyjne należy skupić się nie tylko na jakości rozwiązań ale również ich różnorodności. Różnorodność danego rozwiązania na tle całości populacji jest definiowana za pomocą metryki określającej zagęszczenie opisanej w \ref{blah}. 
+
+Polega ona na obliczeniu średniego dystansu pomiędzy dwoma najbliższymi sąsiadami danego osobnika, znajdującymi się po jego przeciwnych stronach. Zostało to zilustrowane na rysunku \eqref{fig:nsga2_cd}. Takie obliczenia są przeprowadzane $m$ razy dla każdego osobnika, gdzie $m$ jest liczbą zdefiniowanych kryteriów. Następnie wyniki otrzymane dla każdego kryterium są agregowane do jednej wartości $d_{i}$. Generalnie algorytm obliczający zagęszczenie populacji można przedstawić następująco:\\
+\begin{enumerate}
+	\item Dla każdego osobnika z populacji przypisz $d_{i} = 0$ oraz zdefiniuj $l$ jako liczbę osobników.
+	\item Dla każdego kryterium $m$, posortuj populację względem wartości funkcji oceny danego kryterium $f_{m}$, tworząc wektor $I^{m}$
+	\item Pierwszemu i ostatniemu osobnikowi z wektora $I^{m}$ przypisz dużą wartość zagęszczenia: $d_{I^{m}_{1}} = d_{I^{m}_{l}} = \infty$. Reszcie osobników przypisz wartość zagęszczenia korzystając ze wzoru:
+	\begin{equation}\label{eq:dist_eq}
+		d_{I^{m}_{j}} = d_{I^{m}_{j}} + \dfrac{f_{m}^{(I^{m}_{j+1})} - f_{m}^{(I^{m}_{j-1})}}{f^{max}_{m} - f^{min}_{m}}
+	\end{equation}
+\end{enumerate}
+$I_{j}$ oznacza osobnika znajdującego się na $j$-ej pozycji w posortowanym wektorze $I^{m}$. Wynika z tego, że $I_{1}$ oraz $I_{l}$ są osobnikami charakteryzującymi się kolejno najgorszą oraz najlepszą wartością funkcji oceny w porównaniu do całości populacji. Prawa strona równania \eqref{eq:dist_eq} jest różnicą wartości funkcji oceny dwóch najbliższych sąsiadów osobnika $I_{j}$. Jak łatwo zauważyć różnica ta jest połową obwodu prostokąta przedstawionego na rysunku \eqref{fig:nsga2_cd}. Dodatkowo wyliczony dystans jest dzielony przez różnicę pomiędzy największą ($f^{max}_{m}$), a najmniejszą ($f^{min}_{m}$) wartością przyjmowaną przez funkcję oceny $f_{m}$. 
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{nsga_2_cd}}
+	\centering
+	\caption{Reprezentacja najbliższego sąsiedztwa punktu $i$}
+	\label{fig:nsga2_cd}
+\end{figure}
+\\Podsumowując schemat działania algorytmu NSGA-II wygląda następująco:\\
+\begin{enumerate}
+	\item Połącz populację rodziców $P_{t}$ z populacją potomków $Q_{t}$ tworząc grupę $R_{t}$.
+	\item Na $R_{t}$ zastosuj sortowanie rozwiązań niezdominowanych w celu zdefiniowania frontów rozwiązań.
+	\item Utwórz nową populację $P_{t+1}$ za pomocą opisanej wcześniej procedury.
+	\item Utwórz nową populację potomków $Q_{t+1}$ za pomocą zmodyfikowanego operatora selekcji oraz standardowych operatorów krzyżowania oraz mutacji.\\
+\end{enumerate}
+
+W opisanym powyżej algorytmie NSGA-II różnorodność znalezionych rozwiązań niezdominowanych jest zapewniona poprzez zastosowanie zmodyfikowanego operatora selekcji. Osobniki rywalizują ze sobą opierając swoją wartość o front, na którym się znajdują oraz lokalną wartość zagęszczenia. Wartość zagęszczenie staje się szczególnie ważna w późniejszych momentach symulacji, kiedy większość osobników znajduje się już na najlepszym froncie. Biorąc pod uwagę fakt, że algorytm operuje na grupie o rozmiarze $2N$ istnieje duża szansa, że liczba osobników z pierwszego frontu jest większa niż $N$, a więc w celu wybrania najlepszych osobników wzięta zostanie pod uwagę wartość zagęszczenia. W konsekwencji rezultatem będzie zbiór rozwiązań niezdominowanych, cechujący się wysokim stopniem różnorodności.
 \subsection{SPEA}
+SPEA (Strength Pareto Evolutionary Algorithm) jest algorytmem zaproponowanym w 1998 roku. Koncept elitaryzmu jest tutaj wprowadzony w postaci zewnętrznej populacji $\overline{P}$. W populacji tej przechowywane są wszystkie niezdominowane rozwiązania znalezione w trakcie działania algorytmu. SPEA oprócz przechowywania najlepszych rozwiązań wykorzystuje je także w procesie reprodukcji, co ma znaczący wpływ na jakość generowanych potomków.
+
+Pierwszym krokiem algorytmu jest utworzenie losowej populacji $P_{0}$ oraz pustej zewnętrznej populacji $\overline{P_{0}}$ o ustalonym rozmiarze, nie większym niż $N$, gdzie $N$ jest wielkością populacji $P_{0}$. Na początku każdej iteracji $t$, na populacji $P_{t}$ stosowane jest sortowanie rozwiązań niezdominowanych, w celu znalezienia najlepszego frontu. Osobniki znajdujące się na tym froncie są dodawane do populacji zewnętrznej. Następnie z populacji zewnętrznej usuwane są osobniki zdominowane przez nowo dodane rozwiązania. W ten sposób w populacji zewnętrznej zawsze będą znajdować się jedynie osobniki najlepsze. Łatwo uświadomić sobie, że wraz z działaniem algorytmu wielkość zewnętrznej populacji będzie rosnąć, aż do osiągnięcia zdefiniowanego wcześniej rozmiaru. Gdy ten zostanie osiągnięty pojawia się problem co robić z elitami znajdowanymi w kolejnych pokoleniach, skoro w populacji zewnętrznej nie ma już dla nich miejsca. Rozwiązaniem jest posłużenie jest wartością zagęszczenia, opisaną w poprzednim podrozdziale. Do populacji zewnętrznej trafiają osobniki charakteryzujące się największą różnorodnością na tle populacji. Jak zostało zasugerowane \ref{blah} wartość zagęszczenia może zostać zdefiniowana przy użyciu metryki wykorzystanej w algorytmie NSGA-II.
+
+Kiedy populacja zewnętrzna zostanie zaktualizowana, następuje proces ewaluacji. Proces ten zostaje najpierw wykonany na populacji zewnętrznej. Dla każdego osobnika $i$ przypisywana zostaje wartość, zdefiniowana jako \textit{siła} $S_{i}$. Siła danego osobnika z zewnętrznej populacji wyrażona jest wzorem:
+\begin{equation}\label{eq:str_ep}
+	S_{i} = \dfrac{n_{i}}{N + 1}
+\end{equation}
+, gdzie $n_{i}$ określa liczbę osobników populacji, która jest zdominowana przez osobnika $i$. Jak łatwo zauważyć, osobnik dominujący więcej rozwiązań będzie charakteryzował się wyższą wartością funkcji $S_{i}$.\\\\
+Osobniki z populacji $P_{i}$ ocenianie są przy użyciu następującej funkcji:
+\begin{equation}\label{eq:str_p}
+	F_{j} = 1 + \sum_{i \in \overline{P_{t}} \wedge i \preceq j} S_{i}
+\end{equation}
+Liczba $1$ zostaje dodana to po to, aby zapewnić, że wartość oceny każdego rozwiązania będzie większa od siły osobników znajdujących się w populacji zewnętrznej. Ponadto dodawana jest suma siły każdego osobnika, przez którego danego rozwiązanie $j$ jest słabo zdominowane. W tym miejscu warto zauważyć, że im mniejsza jest wartość funkcji oceny $F_{j}$, tym lepszy jest dany osobnik. Przykład procesu ewaluacji został przedstawiony na rysunku \eqref{fig:spea_eval}. Osobniki zaznaczone na czerwone należą do populacji zewnętrznej. Jak łatwo zauważyć w procesie reprodukcji faworyzowane będą osobniki charakteryzujące się mniejszą wartością funkcji oceny, a więc te z populacji zewnętrznej.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.7]{spea_eval}}
+	\centering
+	\caption{Przypisanie wartości funkcji oceny}
+	\label{fig:spea_eval}
+\end{figure}
+
+Po zakończeniu procesu ewaluacji, reszta procesu przebiega według standardowego schematu. Należy jednak pamiętać, że wszystkie operatory genetyczne działają zarówno na populacji $P_{t}$ jak i populacji zewnętrznej $\overline{P_{t}}$.\\\\
+Podsumowując schemat działania algorytmu SPEA wygląda następująco:\\
+\begin{enumerate}
+	\item Zastosuj sortowanie niezdominowanych rozwiązań na populacji $P_{t}$ w celu znalezienia rozwiązań niezdominowanych.
+	\item Skopiuj znalezione rozwiązania do populacji zewnętrznej $\overline{P_{t}}$.
+	\item Z populacji zewnętrznej usuń rozwiązania zdominowane.
+	\item Jeśli rozmiar populacji zewnętrznej jest większy niż $N$, zastosuj sortowanie w oparciu o wartość zagęszczenia oraz zredukuj rozmiar populacji zewnętrznej do $N$ pozbywając się najgorszych osobników.
+	\item Oceń wszystkie rozwiązania korzystając z opisanych wzorów (\ref{eq:str_ep}, \ref{eq:str_p}).
+	\item Utwórz nową populacje korzystając z operatorów selekcji, krzyżowania oraz mutacji.
+\end{enumerate}
+
+Analizując przedstawiony algorytm, łatwo zauważyć, że raz znalezione rozwiązanie optymalne w sensie Pareto nigdy nie przepadnie, ponieważ będzie przechowywane w populacji zewnętrznej. Jedynym sposobem na pozbycie się takiego rozwiązania jest znalezienie kolejnego rozwiązania optymalnego w sensie Pareto, lecz charakteryzującego się lepszą wartością zagęszczenia. Takie podejście zapewnia jakość oraz różnorodność znajdowanych osobników.
+
+Duże znaczenie dla działania algorytmu ma wielkość zewnętrznej populacji $\overline{N}$. Jeśli ta jest duża (porównywalna do $N$)  nacisk na selekcję rozwiązań z populacji zewnętrznej będzie większy, co może prowadzić do tego, że algorytm nie będzie potrafił wygenerować rozwiązań leżących na prawdziwym froncie Pareto. Gdy $\overline{N}$ będzie zbyt małe, wpływ elitaryzmu będzie niezauważalny. Ponadto może to prowadzić do sytuacji w której wiele rozwiązań z populacji nie będzie zdominowanej przez żadnego osobnika z populacji zewnętrznej. Będzie skutkować to tym, że wartość funkcji oceny dla tych osobników będzie tak sama. Proponowaną wielkością populacji zewnętrznej jest $1/4$ wielkości populacji $N$.
 \section{Strojenie}
 
 \chapter{Systemy wspomagania decyzji}
@@ -366,7 +509,7 @@ Na potrzeby analizy i oceny dwóch zaproponowanych algorytmów wybrane zostały 
 	\end{equation}
 	Gdzie $K$ oznacza liczbę funkcji celu; $f_{i}^{k}$ jest wartością $i$-tego rozwiązania z perspektywy kryterium $k$.\\
 \end{enumerate}
-Aby skorzystać z powyższych metryk konieczne jest znalezienie prawdziwego frontu Pareto. Na potrzeby badań został on wygenerowany   poprzez wybranie niezdominowanych rozwiązań ze skumulowanej puli rozwiązań powstałej na wskutek uruchomienia symulacji 10 razy dla każdego algorytmu. Rezultaty każdej symulacji były dodawane do puli po czym zredukowane do rozwiązań niezdominowanych.\\
+Aby skorzystać z powyższych metryk konieczne jest znalezienie prawdziwego frontu Pareto. Na potrzeby badań został on wygenerowany   poprzez wybranie niezdominowanych rozwiązań ze skumulowanej puli rozwiązań powstałej na skutek uruchomienia symulacji 10 razy dla każdego algorytmu. Rezultaty każdej symulacji były dodawane do puli po czym zredukowane do rozwiązań niezdominowanych.\\
 Dla badań przygotowanych zostało 6 przypadków testowych. Zostały one podzielone ze względu na wielkość obszaru mającego zostać nawodniony oraz tego czy algorytm ma minimalizować nawadnianie poza zaznaczonym obszarem. Kształt wybranych obszarów został dobrany tak, aby jak najlepiej wizualizować wpływ ograniczeń na działanie algorytmów.
 
 \begin{table}[]
