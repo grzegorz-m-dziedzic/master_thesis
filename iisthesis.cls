@@ -99,14 +99,14 @@
 %
 % Bardziej wyraziste wypunktowania 
 %
-%\renewcommand{\labelitemi}{$\bullet$}
-%\renewcommand{\labelitemii}{$\circ$}
+\renewcommand{\labelitemi}{$\bullet$}
+\renewcommand{\labelitemii}{$\circ$}
 
 %
 % Delikatniejsze wypunktowania
 %
-\renewcommand{\labelitemi}{$\circ$}
-\renewcommand{\labelitemii}{$\cdot$}
+%\renewcommand{\labelitemi}{$\circ$}
+%\renewcommand{\labelitemii}{$\cdot$}
 
 % Odst?p wypunktowania od tekstu
 \addtolength{\leftmargini}{3mm}

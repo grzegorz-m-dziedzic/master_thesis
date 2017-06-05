@@ -177,6 +177,24 @@ Odpowiednie nawodnienie ogrodu jest jedną z podstawowych czynności pielęgnacy
 
 Proces projektowania sieci zraszaczy może być żmudny oraz długotrwały, biorąc pod uwagę różnorodność sprzętu dostępnego na rynku czy chociażby nieregularność powierzchni, która ma zostać nawodniona. Z pomocą może przyjść tutaj nowoczesna technologia. Opisany powyżej problem idealnie nadaje się do rozwiązania przy pomocy dostępnych algorytmów optymalizacyjnych. Praca ta będzie skupiać się na rozwiązaniu omówionego problemu poprzez opracowanie systemu wspomagania decyzji i implementację oraz porównanie wielokryterialnych algorytmów genetycznych.
 
+\section{Problem nawodnienia obszaru}
+Jednym z podstawowych problemów z jakim spotykają się właściciele ogrodów jest instalacja odpowiedniego systemu nawadniania. Mogą to zrobić sami albo zlecić zadanie firmie zajmujacej się projektowaniem ogrodów i systemów nawadniania.
+Jest kilka szczególnie ważnych elementów, na które należy zwrócić uwagę projektując taki system:\\
+\begin{itemize}
+	\item Odpowiedni pomiar terenu, który ma zostać nawodniony
+	\item Wzięcie pod uwagę ukształtowania terenu
+	\item Obliczenie potrzebnego ciśnienia wody
+	\item Wybór i rozmieszczenie zraszaczy
+	\item Wybór i poprowadzenie rur
+	\item Umiejscowienie zaworów\\
+\end{itemize}
+Wszystkie wymienione powyżej elementy znacząca wpływają na cenę, jakość oraz wydajność zaprojektowanego systemu.
+
+W tej pracy autor skupia się na dwóch z powyższych punktów: wyborze i rozmieszczeniu zraszaczy oraz poprowadzeniu rur i nie będzie brał pod uwagę reszty wymienionych punktów.
+
+Odpowiednie rozmieszczenie zraszaczy jest ważne, ponieważ zapewnia równomierne nawodnienia.
+
+
 \section{Cel pracy}
 Opracowanie informatycznego systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni, a w szczególności zaproponowanie oraz przebadanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu.
 
@@ -190,27 +208,119 @@ TODO
 \section{Opis pracy}
 W kolejnych rozdziałach opisane będą poszczególne zagadnienia związane z realizacją celu pracy. Najpierw dokładniej opisany zostanie problem nawodnienia obszaru, czyli problem z którym muszą zmagać się wszyscy projektanci ogrodów i systemów nawadniania. Następnie wyjaśnione zostaną pojęcia optymalizacji oraz optymalizacji wielokryterialnej, czyli dwa zagadnienia na których bazuje cała praca. W kolejnym rozdziale opisane zostaną algorytmy genetyczne, zarówno te w wersji podstawowej jak i wielokryterialnej wraz z ich wybranymi wersjami, tak aby przybliżyć czytelnikowi dlaczego i w jaki sposób one działają. W następnej kolejności zostanie wyjaśnione czym jest system wspomagania decyzji, jakie założenia powinien spełniać oraz jakimi funkcjonalnościami się wyróżniać. Kolejne rozdziały będą już odzwierciedleniem wykonanej pracy i dokładnym opisem przyjętego sposobu realizacji zadania. Najpierw dokładnie opisany zostanie opracowany system wspomagania decyzji. Zaprezentowana będzie architektura oraz przykładowe zrzuty ekranu pokazujące przygotowany interfejs graficzny. W kolejnym rozdziale skonkretyzowany zostanie problem optymalizacji. Przedstawiony będzie opracowany model matematyczny, przykładowe rezultaty oraz wyniki badań mające na celu porównania wybranych wersji algorytmów genetycznych. Na końcu pracy znajdzie się podsumowanie oceniające przedstawione rozwiązanie oraz propozycje dalszego rozwoju opracowanego systemu oraz badań.
 
-\chapter{Problem nawodnienia obszaru}
-Jednym z podstawowych problemów z jakim spotykają się właściciele ogrodów jest instalacja odpowiedniego systemu nawadniania. Mogą to zrobić sami albo zlecić zadanie firmie zajmujacej się projektowaniem ogrodów i systemów nawadniania.
-Jest kilka szczególnie ważnych elementów, na które należy zwrócić uwagę projektując taki system:
-\begin{itemize}
-	\item Odpowiedni pomiar terenu, który ma zostać nawodniony
-	\item Wzięcie pod uwagę ukształtowania terenu
-	\item Obliczenie potrzebnego ciśnienia wody
-	\item Wybór i rozmieszczenie zraszaczy
-	\item Wybór i poprowadzenie rur
-	\item Umiejscowienie zaworów
-\end{itemize}
-Wszystkie wymienione powyżej elementy znacząca wpływają na cenę, jakość oraz wydajność zaprojektowanego systemu.\\
-W tej pracy autor skupia się na dwóch z powyższych punktów: wyborze i rozmieszczeniu zraszaczy oraz poprowadzeniu rur i nie będzie brał pod uwagę reszty wymienionych punktów.\\
-Odpowiednie rozmieszczenie zraszaczy jest ważne, ponieważ zapewnia równomierne nawodnienia.
+\chapter{Model matematyczny}
+Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy $A$. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. $A$ jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku \eqref{fig:matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
+
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{mandf}}
+	\centering
+	\caption{blah}
+	\label{fig:matrix_m}
+\end{figure}
+Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się wewnątrz $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz konkretny model $t_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$.\\
+Kwadrat o współrzędnych $(x,y)$ jest nawodniony jeśli znajduje się w zasięgu zraszacza. Jest to wyrażone następującą funkcją:
+\begin{equation}
+	is\_irr(x, y, s_{i}) = \begin{cases}
+							1,& \text{jeśli } (x - x_{i})^{2} + (y - y_{i})^2 \leq r_{i}^{2}\\
+							0,& w.p.p
+						  \end{cases}
+\end{equation}
+, gdzie $x$ oraz $y$ oznaczają współrzędne środka kwadratu; $s_{i}$ jest konkretnym zraszaczem; $x_{i}, y_{i}$ oznaczają współrzędne zraszacza $s_{i}$; $r_{i}$ jest liczba wyrażającą zasięg zraszacza.\\\\
+Załóżmy, że $S$ jest zbiorem wszystkich rozmieszczonych zraszaczy. Wtedy dany kwadrat jest nawodniony jeśli znajduje się w zasięgu przynajmniej jednego zraszacza ze zbioru $S$:
+\begin{equation}
+	irr(x, y, S) = \begin{cases}
+				   	1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 0 \\
+				   	0,& w.p.p			   	
+				   \end{cases}
+\end{equation}
+Generalnie poprzez stopień nawodnienia danego obszaru rozumie się różnicę pomiędzy liczbą wszystkich elementów macierzy $M$ należących do $P$, a liczbą nawodnionych elementów tej macierzy należących do $P$:
+\begin{equation}\label{eq:simple_f1}
+	F_{0}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S))
+\end{equation}
+Im wartość funkcji $F_{0}$ jest mniejsza tym mniej jest obszarów nienawodnionych, a więc rozwiązanie jest lepsze. $F_{0} = $ jest rozwiązaniem idealnym z perspektywy kryterium nawodnienia.\\\\
+Jak zostało wspomniane w poprzednich rozdziałach zaimplementowane algorytmy oceniają stopień nawodnienia obszaru na dwa sposoby w zależności od tego czy wybrana jest opcja minimalizacji nawodnienia poza wskazanym obszarem. Jeśli minimalizacja jest wyłączona do obliczeń używana jest prosta funkcja opisana powyżej \eqref{eq:simple_f1}. Bardziej szczegółowe rozwinięcie funkcji przewiduje wprowadzenie kary za naruszenie ograniczeń:
+
+\begin{equation}
+\begin{split}
+	F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) \\ + 
+	\alpha \cdot \bigg{[}\dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)} \\ + \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}\bigg{]}
+\end{split}
+\end{equation}
+, gdzie $\alpha$ jest zmienną określającą to czy na funkcję celu wpływa minimalizacja nawodnienia poza wskazanym obszarem. Zmienna $\alpha$ może przyjmować wartość 0 lub 1. Jeśli $\alpha=1$ minimalizacja jest brana pod uwagę; $ovrirr(m,n,S)$ jest funkcją mówiącą czy dany obszar został nadmiernie nawodniony \eqref{eq:is_overirrigated_func}.
+\begin{equation}\label{eq:is_overirrigated_func}
+	ovrirr(x,y,S) = \begin{cases}
+				1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 1 \\
+				0,& w.p.p
+			   \end{cases}
+\end{equation}
+\\Jak zostało wspomniane wcześniej, każdy rozmieszczony zraszacz charakteryzowany jest przez konkretny model. Załóżmy, że $C(t_{i})$ jest funkcją zwracającą cenę rynkową dla danego modelu $t_i$. Wtedy całkowity koszt konkretnego rozwiązania wynosi:
+\begin{equation}
+	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
+\end{equation}\\
+Podsumowując celem zadania jest rozwiązanie następującego problemu optymalizacyjnego:
+
+\begin{equation}
+	\begin{split}
+		min \text{  } & 	F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) \\ +& 
+		\alpha \cdot \bigg{[}\dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)} \\ +& \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}\bigg{]}\\\\
+		min \text{  }&	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
+	\end{split}
+\end{equation}
 
 \chapter{Optymalizacja}
+Optymalizacja jest procesem polegającym na wyznaczeniu najlepszego rozwiązania lub rozwiązań z punktu widzenia danego kryterium lub kryteriów. Procesy takie w w obecnym świecie obecne są wszędzie. Zaczynając od mechaniki, poprzez ekonomie, finanse, elektrykę po geofizykę czy modelowanie molekularne. Przykładem może być konieczność minimalizacji kosztów produkcji w fabryce, maksymalizacja prawdopodobieństwa zysku z przeprowadzanych transakcji czy chociażby znalezienie najbardziej odpowiadającego danej osobie modelu samochodu.
+
+W kolejnych podrozdziałach dokładnie opisane zostaną zagadanie powiązane kolejno z optymalizacją jednokryterialną oraz wielokryterialną.
 \section{Optymalizacja jednokryterialna}
+Optymalizacja jednokryterialna, jak wskazuje nazwa, odnosi się do problemów opisywanych za pomocą jednej funkcji celu. Przykładem może być tutaj problem spotykający ludzi wybierających się na wakacje, a więc poszukiwanie najlepszego hotelu w danym mieście. Załóżmy, że jedynym kryterium branym pod uwagę w trakcie szukania takiego hotel jest cena ze spęrdzoną noc. Przykładem będzie tutaj sytuacja przestawiona na rysuku \eqref{fig:opt_ex}. Jak łatwo zauważyć najtańszy jest hotel $A$. Można więc powiedzieć, że hotel $A$ jest rozwiązaniem przedstawionego problemu optymalizacyjnego. Patrząc na to z drugiej strony, możemy stwierdzić, że cena hotelu nie ma dla nas żadnego znaczenia, a zależy nam jedynie na tym aby ten znajdował się jak najbliżej morza. Przy takiej zmianie kryterium, zmienia się również rozwiązanie problemu. Najlepszy staje się hotel $E$, ponieważ to właśnie on znajduje się najbliższej morza.
+
+Z matematycznego punktu widzenia rozwiązanie jednokryterialnego problemu optymalizacyjnego sprowadza się do znalezienia ekstremum  funkcji opisującej wybrane kryterium oceny.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.6]{opt_ex}}
+	\centering
+	\caption{Powiązanie pomiędzy ceną hotelu, a dystansem od morza}
+	\label{fig:opt_ex}
+\end{figure}
 \section{Optymalizacja wielokryterialna}
+Jeśli problem optymalizacyjny zawiera w sobie kilka funkcji celu, proces znajdowania optymalnego rozwiązania bądź rozwiązań nazywa się optymalizacją wielokryterialną. Zdecydowana większość realnych problemów jest właśnie przykładem wymagającym wykorzystania optymalizacji wielokryterialnej. W takich przypadkach nie można skupiać się jedynie na jednym kryterium, ponieważ pozostałe są równie ważne. Przykładem może być tutaj problem wyboru hotelu na wakacje, opisany w poprzednim podrozdziale. 
+
+Załóżmy, że tym razem oba kryteria przedstawione na rysunku \eqref{fig:opt_ex} są dla nas tak samo ważne. Gdyby było inaczej i wszyscy kierowali by się jedynie ceną hotelu, wszyscy chcieliby mieszkać w hotelu $A$. Oczywiście w realnym świecie taka sytuacja nigdy nie będzie miała miejsca, ponieważ w większości przypadków proces decyzyjny nie jest taki prosty.
+
+Jak możemy zauważyć do wyboru mamy 6 różnych hoteli. Każdy z nich charakteryzuje się ceną za jedną noc oraz odległością od morza wyrażoną w metrach. Do porównania wybierzmy dwa hotele: $D$ oraz $F$. Jak widać hotel $D$ jest zarówno tańszy jak i znajduje się bliżej morza w porównaniu do hotelu $F$. W tym przypadku decyzja o wyborze jest oczywista i jest nią hotel $D$. Sytuacja wygląda inaczej, gdy porównamy hotel $D$ z hotelem $C$. Hotel $D$ znajduję się bliżej plaży, natomiast jest również droższy od $C$. Które rozwiązanie w tej sytuacji będzie lepsze? To już zależy wyłącznie od preferencji konkretnej osoby. Nie da się bowiem stwierdzić, które z wybranych rozwiązań jest lepsze patrząc z perspektywy obu kryteriów. Z tego powodu problemy, w których występuje kilka kryteriów negatywnie na siebie wpływających, charakteryzują się posiadaniem wielu rozwiązań optymalnych.
+
+\subsubsection{Dominacja}
+Jednym z głównych pojęć, na których opiera się optymalizacja wielokryterialna jest pojęcie dominacji. Jednym z celów rozwiązywania problemów wielokryterialnych jest znalezienie rozwiązań niezdominowanych, co dokładniej wyjaśnione zostanie później. Koncept dominacji polega na porównywaniu ze sobą znalezionych rozwiązań przez pryzmat wszystkich określonych kryteriów oceny. Załóżmy, że $M$ określa liczbę kryteriów. Wtedy można powiedzieć, że rozwiązanie $A$ dominuje rozwiązanie $B$ jeśli:\\
+
+\begin{enumerate}
+	\item Dla każdego kryterium $m \in M$ rozwiązanie $A$ nie jest gorsze od $B$.
+	\item Przynajmniej dla jednego kryterium $m \in M$ rozwiązanie $A$ jest lepsze od $B$.\\
+\end{enumerate}
+
+Korzystając z przykładu opisanego wcześniej przykładu hoteli, możemy zauważyć, że rozwiązanie $F$ jest zdominowane przez rozwiązanie $D$. Jest tak dlatego, że rozwiązanie $D$ jest pod względem każdego kryterium lepsze od rozwiązania $F$, a więc spełnione są wymienione powyżej warunki. Nie można tego samego powiedzieć, gdy do porównania użyjemy hotelu $A$ oraz $B$. Rozwiązanie $A$ nie spełnia pierwszego warunku - hotel jest położony dalej od morza.
+
+\subsubsection{Optimum Pareto}
+Rozwiązanie jest rozwiązaniem optymalnym w sensie Pareto, jeśli nie da się poprawić danego rozwiązania pod względem jednego kryterium, nie pogarszając jednocześnie oceny rozwiązania, patrząc z perspektywy pozostałych kryteriów. Spójrzmy na hotel $C$ z wykorzystywanego wcześniej przykładu oraz załóżmy, że jest to rozwiązanie optymalne w sensie Pareto. W takiej sytuacji nie da obniżyć się ceny za pobyt w hotelu bez zmiany jego lokalizacji, oddalającej go od plaży. Sytuacja wygląda identycznie w drugą stronę. Nie da się zmienić położenia hotelu na bliższe morzu, bez zwiększenia ceny za noc. Optimum Pareto jest więc kompromisem pomiędzy pomiędzy uwzględnianymi kryteriami.
+
+Grupa rozwiązań optymalnych w sensie Pareto tworzy tzw. front lub zbiór Pareto. Rozwiązanie optymalne w sensie Pareto jest jednocześnie rozwiązaniem niezdominowanym, tak więc front Pareto jest również zbiorem rozwiązań niezdominowanych. Przykład takiego frontu, w postaci niebieskiej linii, został przestawiony na rysunku \eqref{fig:pareto_ex}. Rozwiązania (1-4) leżące na froncie są rozwiązaniami optymalnymi w sensie Pareto, które dominują pozostałe rozwiązania znajdujące się na rysunku.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{pareto_ex}}
+	\centering
+	\caption{Front Pareto}
+	\label{fig:pareto_ex}
+\end{figure}
+
+Przedstawiona powyżej definicja frontu Pareto może zostać wykorzystana w dwóch kontekstach: lokalnym oraz globalnym. Front Pareto w sensie globalnym jest zbiorem rozwiązań niezdominowanych w kontekście całej przestrzeni możliwych rozwiązań. Lokalny front Pareto natomiast, jest grupą rozwiązań niezdominowanych ale tylko w określonym zakresie przestrzeni. Biorąc to pod uwagę dowolną grupę rozwiązań można podzielić na $n$ frontów, gdzie $n$ jest liczbą frontów potrzebnych do objęcia wszystkich rozwiązań z grupy. Zostało to zobrazowane na rysunku \eqref{fig:fronts_ex}. Liczby znajdujące się przy frontach oznaczają ich miejsce w hierarchii. Najlepszy front oznaczony jest liczbą 1, kolejny liczbą 2 itd.. Warto tutaj zauważyć, że rozwiązania znajdujące się na drugim froncie nie są niezdominowane w sensie globalnym (dominują je rozwiązania z frontu pierwszego). Są natomiast optymalne w sensie lokalnym, czyli po ograniczeniu przestrzeni rozwiązań do tych nieznajdujących się na pierwszym froncie.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.6]{fronts_ex}}
+	\centering
+	\caption{Lokalne fronty Pareto}
+	\label{fig:fronts_ex}
+\end{figure}
+\subsubsection{Sortowanie rozwiązań niezdominowanych}
+Proces podziału dostępnych rozwiązań na fronty nazywa się sortowaniem rozwiązań niezdominowanych. Jest to ważne zagadnienie, ponieważ często wykorzystywane jest w metodach optymalizacji wielokryterialnej.
 
 \chapter{Algorytmy genetyczne}
-Problem optymalizacyjny opisany na wstępie pracy został rozwiązany przy użyciu algorytmów genetycznych. Są to algorytmy, których działanie oparte jest na tych samych zasadach na których odbywa się proces ewolucji zachodzący w naturze. W tym rozdziale przedstawiony zostanie opis ogólny algorytmu genetycznego, jego powiązanie z procesami zachodzącymi w przyrodzie, schemat działania oraz dokładny opis wykorzystywanych operatorów: krzyżowania, selekcji oraz mutacji. Następnie przedstawiony zostanie koncept wielokryterialnych algorytmów genetycznych oraz opisane zostaną dwa algorytmy wykorzystane do rozwiązania przedstawionego wcześniej problemu: NSGA-II oraz SPEA.
+Problem optymalizacyjny opisany na wstępie pracy został rozwiązany przy użyciu algorytmów genetycznych. Są to algorytmy, których działanie oparte jest na tych samych zasadach na których odbywa się proces ewolucji zachodzący w naturze. W tym rozdziale przedstawiony zostanie opis ogólny algorytmu genetycznego, jego powiązanie z procesami zachodzącymi w przyrodzie, schemat działania oraz dokładny opis wykorzystywanych operatorów: krzyżowania, selekcji oraz mutacji. Następnie przedstawiony zostanie koncept wielokryterialnych algorytmów genetycznych oraz opisane zostaną dwa algorytmy wykorzystane do rozwiązania przedstawionego wcześniej problemu: NSGA-II oraz SPEA. Kolejny podrozdział będzie skupiał się na procesie strojenia algorytmów. Następnie opisana zostanie konkretna implementacja zastosowana w celu rozwiązania problemu nawodnienia.
 \section{Opis ogólny}
 Algorytmy genetyczne są procedurami wykorzystywanymi do rozwiązywania problemów optymalizacyjnych, opartymi o genetykę oraz selekcję naturalną. Cały proces działania takiego algorytmu można porównywać do procesu ewolucji występującego w przyrodzie. Obserwując taki proces można zauważyć, że najlepiej przystosowane osobniki mają największe szanse na reprodukcję, a więc przekazanie swojego DNA kolejnym pokoleniom. Dzieje się tak dlatego, że z punktu widzenia biologii najlepiej przystosowane osobniki to te najbardziej atrakcyjne dla potencjalnych partnerów oraz w przypadku zwierząt stadnych, te dominujące całą resztę, a więc mające pierwszeństwo jeśli chodzi o wybór partnerów, reprodukcję czy chociażby pożywianie się. Generalizując natura dąży do tego, aby do puli z której utworzone ma zostać kolejne pokolenie danej populacji trafiały jak najlepsze geny. Gdyby działo się inaczej żaden gatunek nie przetrwałby więcej niż kilkudziesięciu pokoleń.\\
 Jak zostało wspomniane największe szanse na potomstwo mają osobniki najlepsze patrząc z perspektywy szansy na przetrwanie. Potomstwo par takich osobników powstaje na skutek procesu nazywanego krzyżowaniem. Krzyżowanie polega na łączeniu genów jednego osobnika z drugim, tworząc w ten sposób potomka, charakteryzującego się cechami zarówno pierwszego jak i drugiego rodzica. Oczywiście im lepiej rodzice danego osobnika byli przystosowani, tym większa szansa, że również i on będzie stał wysoko w hierarchii.\\
@@ -403,13 +513,53 @@ Podsumowując schemat działania algorytmu SPEA wygląda następująco:\\
 	\item Z populacji zewnętrznej usuń rozwiązania zdominowane.
 	\item Jeśli rozmiar populacji zewnętrznej jest większy niż $N$, zastosuj sortowanie w oparciu o wartość zagęszczenia oraz zredukuj rozmiar populacji zewnętrznej do $N$ pozbywając się najgorszych osobników.
 	\item Oceń wszystkie rozwiązania korzystając z opisanych wzorów (\ref{eq:str_ep}, \ref{eq:str_p}).
-	\item Utwórz nową populacje korzystając z operatorów selekcji, krzyżowania oraz mutacji.
+	\item Utwórz nową populacje korzystając z operatorów selekcji, krzyżowania oraz mutacji.\\
 \end{enumerate}
 
 Analizując przedstawiony algorytm, łatwo zauważyć, że raz znalezione rozwiązanie optymalne w sensie Pareto nigdy nie przepadnie, ponieważ będzie przechowywane w populacji zewnętrznej. Jedynym sposobem na pozbycie się takiego rozwiązania jest znalezienie kolejnego rozwiązania optymalnego w sensie Pareto, lecz charakteryzującego się lepszą wartością zagęszczenia. Takie podejście zapewnia jakość oraz różnorodność znajdowanych osobników.
 
 Duże znaczenie dla działania algorytmu ma wielkość zewnętrznej populacji $\overline{N}$. Jeśli ta jest duża (porównywalna do $N$)  nacisk na selekcję rozwiązań z populacji zewnętrznej będzie większy, co może prowadzić do tego, że algorytm nie będzie potrafił wygenerować rozwiązań leżących na prawdziwym froncie Pareto. Gdy $\overline{N}$ będzie zbyt małe, wpływ elitaryzmu będzie niezauważalny. Ponadto może to prowadzić do sytuacji w której wiele rozwiązań z populacji nie będzie zdominowanej przez żadnego osobnika z populacji zewnętrznej. Będzie skutkować to tym, że wartość funkcji oceny dla tych osobników będzie tak sama. Proponowaną wielkością populacji zewnętrznej jest $1/4$ wielkości populacji $N$.
 \section{Strojenie}
+Jak zostało opisane wcześniej działanie algorytmów genetycznych opiera się na wielu parametrach. Parametry te są ze sobą mocno  powiązane oraz znacząco wpływają na jakość symulacji. Proces wyboru odpowiednich wartości dla wspomnianych parametrów, nazywa się strojeniem.
+\section{Implementacja}
+W obu wybranych algorytmach (NSGA-II, SPEA) pojedynczy osobnik reprezentowany jest jako zbiór zraszaczy $S$. Maksymalna ilość zraszaczy została ustalona na poziomie $ms = 50$. Pojedynczy zraszacz jest reprezentowany jako następujący ciąg bitów:
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{sprinkler_bin_repr}}
+	\centering
+	\caption{Reprezentacja bitowa pojedynczego zraszacza}
+	\label{fig:sprinkler_bin_repr}
+\end{figure}
+\\Ciąg binarny podzielony jest na trzy części. Pierwsza z nich odpowiada za indeks, czyli pozycję danego zraszacza. Zraszacz może znajdować się w jednym z kwadratów macierzy $M$, którego środek znajduje się w środku wielokąta $P$. Indeks danego kwadratu jest ustalany według wzoru:
+\begin{equation}
+	ind_{i} = n_{i} m + m_{i}
+\end{equation}
+, gdzie $n_{i}$ oznacza wierz macierzy $M$, w którym znajduję się kwadrat $i$; $m$ jest wartością wyrażającą szerokość macierzy; $m_{i}$ oznacza kolumnę macierzy $M$.\\\\
+Długość części reprezentującej położenie danego zraszacza wynosi:
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\begin{equation}
+	L_{p} = \ceil[\big]{\log_{2} \text{ } ind_{p}} + 1
+\end{equation}
+, gdzie $ind_p$ jest liczbą reprezentującą największy indeks należący do $P$.
+
+Kolejną częścią reprezentacji binarnej jest część odpowiadająca za zasięg danego zraszacza. Wymaga ona zużycia $L_{r}$ bitów, gdzie $L_{r}$ jest definiowane jako:
+\begin{equation}
+	L_{r} = \ceil[\big]{\log_{2} \text{ } r_{max}} + 1
+\end{equation}
+Wartość $r_{max}$ jest wartością oznaczającą maksymalny zasięg zraszacza. Jest ona definiowana na podstawie zbudowanej bazy danych i określana poprzez wybranie największej wartości zasięgu spośród wszystkich dostępnych.
+
+Ostatnia, trzecia część reprezentacji binarnej to jeden bit mówiący o statusie danego zraszacza. $b = 1$ oznacza, że dany zraszacza został wybrany do rozwiązania oraz będzie uwzględniany w obliczeniach. W przeciwnym wypadku $b = 0$.\\\\
+Podsumowując długość chromosomu każdego osobnika z populacji wynosi:
+\begin{equation}
+	L = ms(L_{p} + L_{r} + 1)
+\end{equation}
+W tym miejscu warto zauważyć, że długość chromosomu jest zawsze stała. Nieaktywne zraszacze ($b=0$) nie są w żaden sposób usuwane z reprezentacji. Takie podejście niweluje problemy pojawiające się przy użyciu reprezentacji chromosomów o zmiennej długości. Problemy te są najczęściej powiązane z trudnościami w implementacji operatorów krzyżowania oraz selekcji.
+
+Oba algorytmy zaimplementowane zostały z wykorzystaniem selekcji turniejowej o rozmiarze turnieju równym 2, krzyżowania dwupunktowego (z losowym wyborem punktów podziału) oraz mutacji binarnej. Wskutek przeprowadzonego procesu strojenia ustalono, że algorytmy najlepiej pracują na następującym zestawie parametrów:\\
+\begin{itemize}
+	\item Prawdopodobieństwo krzyżowania : $0.9$.
+	\item Prawdopodobieństwo mutacji : $0.05$.
+	\item Wielkość populacji zewnętrznej (SPEA) : $1/4$N.
+\end{itemize}
 
 \chapter{Systemy wspomagania decyzji}
 
@@ -418,64 +568,6 @@ Duże znaczenie dla działania algorytmu ma wielkość zewnętrznej populacji $\
 \subsection{Architektura}
 \subsection{Interakcja z użytkownikiem}
 \section{Optymalizacja}
-\subsection{Model matematyczny}
-Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy $A$. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. $A$ jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku \eqref{fig:matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
-
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{mandf}}
-	\centering
-	\caption{blah}
-	\label{fig:matrix_m}
-\end{figure}
-Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się wewnątrz $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz konkretny model $t_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$.\\
-Kwadrat o współrzędnych $(x,y)$ jest nawodniony jeśli znajduje się w zasięgu zraszacza. Jest to wyrażone następującą funkcją:
-\begin{equation}
-	is\_irr(x, y, s_{i}) = \begin{cases}
-							1,& \text{jeśli } (x - x_{i})^{2} + (y - y_{i})^2 \leq r_{i}^{2}\\
-							0,& w.p.p
-						  \end{cases}
-\end{equation}
-, gdzie $x$ oraz $y$ oznaczają współrzędne środka kwadratu; $s_{i}$ jest konkretnym zraszaczem; $x_{i}, y_{i}$ oznaczają współrzędne zraszacza $s_{i}$; $r_{i}$ jest liczba wyrażającą zasięg zraszacza.\\\\
-Załóżmy, że $S$ jest zbiorem wszystkich rozmieszczonych zraszaczy. Wtedy dany kwadrat jest nawodniony jeśli znajduje się w zasięgu przynajmniej jednego zraszacza ze zbioru $S$:
-\begin{equation}
-	irr(x, y, S) = \begin{cases}
-				   	1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 0 \\
-				   	0,& w.p.p			   	
-				   \end{cases}
-\end{equation}
-Generalnie poprzez stopień nawodnienia danego obszaru rozumie się różnicę pomiędzy liczbą wszystkich elementów macierzy $M$ należących do $P$, a liczbą nawodnionych elementów tej macierzy należących do $P$:
-\begin{equation}\label{eq:simple_f1}
-	F_{0}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S))
-\end{equation}
-Im wartość funkcji $F_{0}$ jest mniejsza tym mniej jest obszarów nienawodnionych, a więc rozwiązanie jest lepsze. $F_{0} = $ jest rozwiązaniem idealnym z perspektywy kryterium nawodnienia.\\\\
-Jak zostało wspomniane w poprzednich rozdziałach zaimplementowane algorytmy oceniają stopień nawodnienia obszaru na dwa sposoby w zależności od tego czy wybrana jest opcja minimalizacji nawodnienia poza wskazanym obszarem. Jeśli minimalizacja jest wyłączona do obliczeń używana jest prosta funkcja opisana powyżej \eqref{eq:simple_f1}. Bardziej szczegółowe rozwinięcie funkcji przewiduje wprowadzenie kary za naruszenie ograniczeń:
-
-\begin{equation}
-\begin{split}
-	F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) \\ + 
-	\alpha \cdot \bigg{[}\dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)} \\ + \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}\bigg{]}
-\end{split}
-\end{equation}
-, gdzie $\alpha$ jest zmienną określającą to czy na funkcję celu wpływa minimalizacja nawodnienia poza wskazanym obszarem. Zmienna $\alpha$ może przyjmować wartość 0 lub 1. Jeśli $\alpha=1$ minimalizacja jest brana pod uwagę; $ovrirr(m,n,S)$ jest funkcją mówiącą czy dany obszar został nadmiernie nawodniony \eqref{eq:is_overirrigated_func}.
-\begin{equation}\label{eq:is_overirrigated_func}
-	ovrirr(x,y,S) = \begin{cases}
-				1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 1 \\
-				0,& w.p.p
-			   \end{cases}
-\end{equation}
-\\Jak zostało wspomniane wcześniej, każdy rozmieszczony zraszacz charakteryzowany jest przez konkretny model. Załóżmy, że $C(t_{i})$ jest funkcją zwracającą cenę rynkową dla danego modelu $t_i$. Wtedy całkowity koszt konkretnego rozwiązania wynosi:
-\begin{equation}
-	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
-\end{equation}\\
-Podsumowując celem zadania jest rozwiązanie następującego problemu optymalizacyjnego:
-
-\begin{equation}
-	\begin{split}
-		min \text{  } & 	F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) \\ +& 
-		\alpha \cdot \bigg{[}\dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)} \\ +& \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}\bigg{]}\\\\
-		min \text{  }&	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
-	\end{split}
-\end{equation}
 
 \subsection{Porównanie algorytmów genetycznych}
 \subsubsection{Plan badań}
