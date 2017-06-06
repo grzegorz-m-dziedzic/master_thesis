@@ -309,16 +309,70 @@ Grupa rozwiązań optymalnych w sensie Pareto tworzy tzw. front lub zbiór Paret
 	\label{fig:pareto_ex}
 \end{figure}
 
-Przedstawiona powyżej definicja frontu Pareto może zostać wykorzystana w dwóch kontekstach: lokalnym oraz globalnym. Front Pareto w sensie globalnym jest zbiorem rozwiązań niezdominowanych w kontekście całej przestrzeni możliwych rozwiązań. Lokalny front Pareto natomiast, jest grupą rozwiązań niezdominowanych ale tylko w określonym zakresie przestrzeni. Biorąc to pod uwagę dowolną grupę rozwiązań można podzielić na $n$ frontów, gdzie $n$ jest liczbą frontów potrzebnych do objęcia wszystkich rozwiązań z grupy. Zostało to zobrazowane na rysunku \eqref{fig:fronts_ex}. Liczby znajdujące się przy frontach oznaczają ich miejsce w hierarchii. Najlepszy front oznaczony jest liczbą 1, kolejny liczbą 2 itd.. Warto tutaj zauważyć, że rozwiązania znajdujące się na drugim froncie nie są niezdominowane w sensie globalnym (dominują je rozwiązania z frontu pierwszego). Są natomiast optymalne w sensie lokalnym, czyli po ograniczeniu przestrzeni rozwiązań do tych nieznajdujących się na pierwszym froncie.
+Przedstawiona powyżej definicja frontu Pareto może zostać wykorzystana w dwóch kontekstach: lokalnym oraz globalnym. Front Pareto w sensie globalnym jest zbiorem rozwiązań niezdominowanych w kontekście całej przestrzeni możliwych rozwiązań. Taki front nazywany jest również prawdziwym frontem Pareto. Lokalny front Pareto natomiast, jest grupą rozwiązań niezdominowanych ale tylko w określonym zakresie przestrzeni. Biorąc to pod uwagę dowolną grupę rozwiązań można podzielić na $n$ frontów, gdzie $n$ jest liczbą frontów potrzebnych do objęcia wszystkich rozwiązań z grupy. Zostało to zobrazowane na rysunku \eqref{fig:fronts_ex}. Liczby znajdujące się przy frontach oznaczają ich miejsce w hierarchii. Najlepszy front oznaczony jest liczbą 1, kolejny liczbą 2 itd.. Warto tutaj zauważyć, że rozwiązania znajdujące się na drugim froncie nie są niezdominowane w sensie globalnym (dominują je rozwiązania z frontu pierwszego). Są natomiast optymalne w sensie lokalnym, czyli po ograniczeniu przestrzeni rozwiązań do tych nieznajdujących się na pierwszym froncie.
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.6]{fronts_ex}}
 	\centering
 	\caption{Lokalne fronty Pareto}
 	\label{fig:fronts_ex}
 \end{figure}
-\subsubsection{Sortowanie rozwiązań niezdominowanych}
-Proces podziału dostępnych rozwiązań na fronty nazywa się sortowaniem rozwiązań niezdominowanych. Jest to ważne zagadnienie, ponieważ często wykorzystywane jest w metodach optymalizacji wielokryterialnej.
+\subsubsection{Znajdowanie rozwiązań niezdominowanych}
+Kolejnym ważnym zagadnieniem jest proces znajdowania rozwiązań niezdominowanych w danej grupie rozwiązań. Proces ten jest wykorzystywany w większości metod służących do optymalizacji wielokryterialnej, m.in. w wielokryterialnych algorytmach genetycznych opisanych w kolejnym rozdziale.
 
+Istnieje wiele sposobów na posortowanie grupy ze względu na kryterium dominacji. Najprostszym z nich jest podejście iteracyjne. Polega ono na porównaniu danego rozwiązania $i$, z każdym innym rozwiązaniem. Jeśli rozwiązanie $i$ jest zdominowane przez jakiekolwiek inne rozwiązanie, znaczy to, że nie może zostać dodane do zbioru rozwiązań niezdominowanych. Generalnie dla danego zbioru rozwiązań $S$ o rozmiarze $N$, algorytm iteracyjny może zostać opisany następującymi krokami:\\
+
+\begin{enumerate}
+	\item Utwórz pusty zbiór rozwiązań niezdominowanych $P'$.
+	\item Ustaw licznik $i = 0$.
+	\item Dla każdego rozwiązania $j$, takiego że $j \neq i$, sprawdź czy rozwiązanie $j$ dominuje rozwiązanie $i$. Jeśli tak przejdź do punktu 5.
+	\item Jeśli $j < N$, zwiększ licznik $j$ oraz przejdź do punktu 2. Jeśli $j = N$, dodaj rozwiązanie $i$ do zbioru rozwiązań niezdominowanych.
+	\item Jeśli $i < N$, zwiększ licznik $i$ oraz przejdź do punktu 2. W innym wypadku $P'$ jest końcowym zbiorem rozwiązań niezdominowanych.\\
+\end{enumerate}
+Przedstawiony powyżej algorytm jest prosty ale też cechuje się dużą złożonością obliczeniową. Łatwo zauważyć, że złożoność punktu 3. w najgorszym przypadku wynosi $O(MN)$. Z racji tego, że punkt 4. rekursywnie wywołuje punkt 2, wymaga on złożoności obliczeniowej $O(MN^{2})$. Warto zauważyć, że jest to najgorszy możliwy przypadek, ponieważ w drugim kroku nie zawsze konieczne jest wykonanie wszystkich ($N-1$) porównań.
+
+Lepszym rozwiązaniem jest zastosowanie efektywnej metody opracowanej przez Kunga wraz z innymi autorami (Kung et al.'s Efficient Method). Jak zostało wykazane metoda ta cechuje się złożonością obliczeniową $O(N(\log N)^{M-2})$ dla ponad trzech kryteriów oceny oraz $O(N\log N)$ dla dwóch i trzech kryteriów oceny.
+
+Pierwszym krokiem metody jest posortowanie grupy rozwiązań na podstawie wartości pierwszej funkcji oceny, w kolejności od najlepszego do najgorszego. Następnie grupę dzielona jest na połowę, tworząc dwie podgrupy: górną (T) oraz dolną (B). Sortowanie zapewniło, że rozwiązania z grupy T są lepsze od rozwiązań z grupy B z perspektywy pierwszego kryterium. Kolejnym krokiem jest porównywanie rozwiązań z dolnej grupy z rozwiązaniami z grupy górnej w kontekście dominacji. Rozwiązanie niezdominowane są przenoszone do górnej grupy. Operacje łączenia oraz porównania zaczynają być wykonywane, gdy w wyniki rekursywnego podziału grupy na dwie podgrupy, w danej podgrupie znajduje się jedynie jedno rozwiązanie. Przedstawiony proces może zostać zobrazowany w formie kodu głównej funkcji:
+\lstset{
+language=Python,
+keywordstyle=\color{red}\ttfamily,
+stringstyle=\color{black}\ttfamily,
+frame=tb,
+columns=fullflexible,
+showstringspaces=false
+}
+\begin{lstlisting}[label=some-code,caption=Znajdowanie rozwiązań niezdominowanych]
+def Front(P):
+	if len(P) == 1:
+		return P
+	T = Front(P[:len(pop)/2])
+	B = Front(P[len(pop)/2:])
+	
+	NotDominatedSolutions = []
+	for B_Solution in B:
+		NotDominated = True
+		for T_Solution in T:
+			if T_Solution.Dominates(B_Solution):
+				NotDominated = False
+				break
+		if NotDominated:
+			NotDominateSolutions.append(B_Solution)
+	NotDominatedSolutions += T
+	return NotDominatedSolutions
+\end{lstlisting}
+Kod został napisany w języku Python 2.7. Argumentem funkcji ($P$) jest posortowana lista rozwiązań.
+
+Ze względu na najlepszą złożoność obliczeniową metoda opisana powyżej została zaimplementowana w wybranych algorytmach genetycznych.
+
+\subsubsection{Sortowanie rozwiązań niezdominowanych}
+Większość z metod służących do rozwiązywania problemów wielokryterialnych wykorzystuje koncept znajdowania zbioru rozwiązań niezdominowanych. Istnieją również algorytmy, w tym opisywany później NSGA-II, które wymagają podziału całej populacji na kolejne niezdominowane grupy (fronty). W takim przypadku populacja jest przechowywana jako zbiór frontów ułożonych w kolejności od najlepszego (front pierwszy) do najgorszego.
+
+Istnieje prosta procedura służąca do dzielenia całej populacji na poszczególne fronty. Wykorzystuje ona metody opisane w poprzedniej sekcji. Po znalezieniu pierwszego frontu, rozwiązania należącego do niego stają się tymczasowo ignorowane. Następnie procedura jest powtarzana, w celu znalezienia kolejnego frontu. Ponownie rozwiązania leżące na danym froncie są dodawane do grupy rozwiązań ignorowanych. Proces jest powtarzany, dopóki każde rozwiązanie z populacji nie jest przyporządkowane do odpowiedniego frontu.
+
+\subsubsection{Cele optymalizacji wielokryterialnej}
+Jak zostało wspomniane wcześniej rezultatem procesu optymalizacji wielokryterialnej, nie jest jedno rozwiązanie, lecz grupa rozwiązań. Grupę taką ocenia się z perspektywy dwóch kryteriów. Po pierwsze grupa ta powinna znajdować się jak najbliższej prawdziwego frontu Pareto. Rozwiązanie idealne odwzorowuje sytuację kiedy każde znalezione rozwiązanie jest optymalne w sensie Pareto. Po drugie znaleziona grupa powinna cechować się różnorodnością. Jest to ważne z perspektywy zachowania takiej samej wagi dla każdego ustalonego kryterium. Warto tutaj wspomnieć, że proces optymalizacji wielokryterialnej nie jest odpowiedzialny za wybór jednego konkretnego rozwiązania, które będzie najlepsze dla konkretnego użytkownika. Wynikiem takiej optymalizacji ma być natomiast zbiór równie dobrych rozwiązań, z których użytkownik będzie mógł wybrać najbardziej dla siebie odpowiednie. Im większa różnorodność rozwiązań tym więcej opcji do wyboru ma użytkownik.
+
+Oba wymienione kryteria są tak samo ważne, dlatego algorytmy służące do optymalizacji wielokryterialnej powinny skupiać się na zaspokojeniu obu tych kryteriów w takim samym stopniu.
 \chapter{Algorytmy genetyczne}
 Problem optymalizacyjny opisany na wstępie pracy został rozwiązany przy użyciu algorytmów genetycznych. Są to algorytmy, których działanie oparte jest na tych samych zasadach na których odbywa się proces ewolucji zachodzący w naturze. W tym rozdziale przedstawiony zostanie opis ogólny algorytmu genetycznego, jego powiązanie z procesami zachodzącymi w przyrodzie, schemat działania oraz dokładny opis wykorzystywanych operatorów: krzyżowania, selekcji oraz mutacji. Następnie przedstawiony zostanie koncept wielokryterialnych algorytmów genetycznych oraz opisane zostaną dwa algorytmy wykorzystane do rozwiązania przedstawionego wcześniej problemu: NSGA-II oraz SPEA. Kolejny podrozdział będzie skupiał się na procesie strojenia algorytmów. Następnie opisana zostanie konkretna implementacja zastosowana w celu rozwiązania problemu nawodnienia.
 \section{Opis ogólny}
