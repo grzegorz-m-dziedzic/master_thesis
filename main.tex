@@ -621,8 +621,75 @@ Oba algorytmy zaimplementowane zostały z wykorzystaniem selekcji turniejowej o 
 \section{System wspomagania decyzji}
 \subsection{Architektura}
 \subsection{Interakcja z użytkownikiem}
-\section{Optymalizacja}
+Po uruchomieniu aplikacji użytkownikowi ukazuje się ekran przedstawiony na rysunku \eqref{fig:gui_1}. Ekran dzieli się na cztery zasadnicze części. Zostały one oznaczone na rysunku odpowiadającymi im liczbami. Część pierwsza jest częścią główną aplikacji. To właśnie do tego obszaru ładowany jest plan ogrodu, na którym użytkownik definiuje teren mający zostać nawodniony oraz określa miejsce źródła wody. To również na tym ekranie prezentowany są wszystkie rezultaty. Część druga jest częścią informacyjną. Tutaj wyświetlane są instrukcje podpowiadające użytkownikowi co w danym momencie powinien zrobić. Trzecia część jest kontenerem na przyciski, za pomocą których użytkownik zatwierdza swoje wybory, anuluje je lub przechodzi do kolejnych etapów. Część czwarta jest przeznaczona na dodatkowe opcje mające wpływ na działanie algorytmów znajdujących się po stronie serwera.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.35]{gui_1}}
+	\centering
+	\caption{Ekran startowy aplikacji}
+	\label{fig:gui_1}
+\end{figure}
 
+Pierwszym krokiem w pracy z aplikacją jest wczytanie planu ogrodu. Przykładowy wczytany plan został przedstawiony na rysunku \eqref{fig:gui_2}. Jak można zauważyć zmienił się status panelu informacyjnego widocznego po prawej stronie.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_2}}
+	\centering
+	\caption{Wczytanie planu ogrodu}
+	\label{fig:gui_2}
+\end{figure}
+
+Mając wczytany plan ogrodu należy zdefiniować skalę rysunku. Jest to wykonywane poprzez zaznaczenie na wczytanym planie dwóch punktów. Po wykonaniu tej czynności na ekranie pojawia się okno, w którym można zdefiniować dystans pomiędzy zaznaczonymi punktami \eqref{fig:gui_3}.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.75]{gui_3}}
+	\centering
+	\caption{Definiowanie skali wczytanego planu ogrodu}
+	\label{fig:gui_3}
+\end{figure}
+
+Następnym krokiem jest zaznaczenie na załadowanym planie obszaru, który ma zostać nawodniony. Dzieje się to poprzez określenie, za pomocą lewego przycisku myszy, wierzchołków wielokąta mającego tworzyć wspomniany obszar \eqref{fig:gui_4}. Liczba wierzchołków jest nieograniczona. Po wybraniu obszaru należy rozwinąć panel "Ustawienia". Jak widać w obecnej wersji aplikacji użytkownik może jedynie zdecydować się na to czy chce ograniczyć nawadnianie obszaru poza zaznaczonymi granicami. Aby przejść dalej należy wcisnąć przycisk "Dalej". Spowoduje to przesłanie obecnych ustawień do serwera oraz uruchomienie obliczeń.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{gui_4}}
+	\centering
+	\caption{Zaznaczenie obszaru mającego zostać nawodniony}
+	\label{fig:gui_4}
+\end{figure}
+
+Po zakończeniu działania algorytmu użytkownik zostanie automatycznie przeniesiony na stronę prezentującą listę wyników \eqref{fig:gui_5}. Użytkownik może tutaj wybrać rozwiązanie, które go interesuje oraz podejrzeć je wciskając przycisk ''Zobacz''.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{gui_5}}
+	\centering
+	\caption{Lista rezultatów}
+	\label{fig:gui_5}
+\end{figure}
+
+Po wybraniu konkretnego rozwiązania użytkownik zostanie przeniesiony na stronę prezentującą rozmieszczone zraszacze \eqref{fig:gui_6}. Są one zaprezentowane w postaci przezroczystych niebieskich okręgów. Po najechaniu na każdy z nich pojawia się informacja o modelu konkretnego zraszacza, zasięgu oraz cenie. Na tym samym widoku użytkownik może określić, w którym miejscu na planie znajduje się źródło wody. Po wciśnięciu przycisku ''Zakończ'' na planie ogrodu dodatkowo pojawi się schemat poprowadzenia rur \eqref{fig:gui_7}
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_6}}
+	\centering
+	\caption{Rozmieszczenie zraszaczy}
+	\label{fig:gui_6}
+\end{figure}
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_7}}
+	\centering
+	\caption{Schemat poprowadzenia rur}
+	\label{fig:gui_7}
+\end{figure}
+
+W tym momencie użytkownik ma możliwość przejścia do widoku ''Lista zakupów'' \eqref{fig:gui_8}. W tym miejscu warto zauważyć, że lista, znajdująca się po prawej stronie ekranu i pełniąca do tej pory rolę informacyjną, zmieniła się w panel nawigacyjny. Za jej pomocą użytkownik może w łatwy sposób przemieszać się pomiędzy widokami, będącymi podsumowaniem wybranego rozwiązania. Użytkownik ma do wyboru trzy widoki:\\
+\begin{enumerate}
+	\item Widok rozmieszczonych zraszaczy.
+	\item Widok rozmieszczonych zraszaczy oraz schematu poprowadzenia rur.
+	\item Widok listy zakupów.\\
+\end{enumerate}
+
+Wybierając widok listy zakupów użytkownik zobaczy listę rozmieszczonych zraszaczy. Nazwa każdego zraszacza jest jednocześnie odnośnikiem do opisu konkretnego modelu znajdującego się na stronie producenta. Oprócz tego do każdej pozycji na liście przypisana jest cena. Pod listą znajduje się kwota będąca sumą całych zakupów.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_8}}
+	\centering
+	\caption{Lista zakupów}
+	\label{fig:gui_8}
+\end{figure}
+\section{Optymalizacja}
 \subsection{Porównanie algorytmów genetycznych}
 \subsubsection{Plan badań}
 Złożoność oceny algorytmów służących do optymalizacji wielokryterialnej jest znacznie większa niż tej dla algorytmów rozwiązujących problemy obejmujące jedno kryterium. Wynika tak z samej definicji rozwiązania problemu wielokryterialnego, która wyjaśniona została wcześniej. Oceniając rozwiązanie takiego problemu należy wziąć pod uwagę następujące składowe:
