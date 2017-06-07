@@ -145,7 +145,7 @@ nodes near coords align={vertical},
 \title{ Wielokryterialny problem rozmieszczenia zraszaczy wodnych na zadanej powierzchni }
 \titleEN{ Multicriteria water sprinklers deployment problem on a given area}
 \shortTitle{SHORT TITLE}
-\author{inż. Grzegorz Dziedzic}
+\author{Grzegorz Dziedzic}
 \advisor{dr Mariusz Fraś}
 \instituteLogo{logos/pwr}
 \slowaKluczowe{optymalizacja wielokryterialna,\\ algorytmy genetyczne,\\zraszacze wodne}
@@ -175,10 +175,12 @@ nodes near coords align={vertical},
 \section{Wprowadzenie}
 Odpowiednie nawodnienie ogrodu jest jedną z podstawowych czynności pielęgnacyjnych. Gdy właściciel dysponuje odpowiednim budżetem najlepszym rozwiązaniem będzie dla niego inwestycja w automatyczny system nawadniania. System taki składa się z zraszaczy wodnych, rur pomiędzy nimi oraz systemu sterowania. Takie rozwiązanie pozwala zaoszczędzić czas tracony na ręcznym podlewaniu ogrodu oraz zapewnia równomierne nawodnienie na całej ustalonej powierzchni. Jednym z głównych problemów koniecznych do rozwiązania podczas instalacji takiego systemu jest odpowiednie rozmieszczenie poszczególnych zraszaczy. Te najczęściej znajdują się pod ziemią oraz posiadają wynurzalną głowicę. Z tego powodu raz zainstalowany zraszacz najczęściej zostaje na swoim miejscu, aż do momentu wymiany całej instalacji wodnej. Biorąc to pod uwagę rozmieszczenie zraszaczy powinno być dobrze przemyślane już podczas etapu projektowania systemu nawadniania. Projektując taki system należy przyjąć jako cel nawodnienie całości wskazanego obszaru jak najmniejszym kosztem przy przestrzeganiu wskazanych przez właściciela ograniczeń.
 
-Proces projektowania sieci zraszaczy może być żmudny oraz długotrwały, biorąc pod uwagę różnorodność sprzętu dostępnego na rynku czy chociażby nieregularność powierzchni, która ma zostać nawodniona. Z pomocą może przyjść tutaj nowoczesna technologia. Opisany powyżej problem idealnie nadaje się do rozwiązania przy pomocy dostępnych algorytmów optymalizacyjnych. Praca ta będzie skupiać się na rozwiązaniu omówionego problemu poprzez opracowanie systemu wspomagania decyzji i implementację oraz porównanie wielokryterialnych algorytmów genetycznych.
+Proces projektowania sieci zraszaczy może być żmudny oraz długotrwały, biorąc pod uwagę różnorodność sprzętu dostępnego na rynku czy chociażby nieregularność powierzchni, która ma zostać nawodniona. Z pomocą może przyjść tutaj jedna z gałęzi matematyki oraz informatyki, która obecna jest wokół nas na każdym kroku. Mowa tutaj o optymalizacji. Czym dokładnie jest optymalizacja zostanie opisane później. W tym momencie ważne natomiast jest to, że opisany powyżej problem idealnie wpasowuje się obszar problemów, których rozwiązanie obejmują procesy optymalizacyjne. Jednym z najczęściej używanych narzędzi do rozwiązywania skomplikowanych problemów optymalizacyjnych stały się algorytmy genetyczne, opierające swoje działanie na procesach zachodzących w przyrodzie.
+
+Praca ta będzie skupiać się na rozwiązaniu omówionego problemu rozmieszczenia zraszaczy wodnych oraz poprowadzenia połączeń pomiędzy nimi poprzez opracowanie systemu wspomagania decyzji oraz implementację i porównanie wielokryterialnych algorytmów genetycznych rozwiązujących omówione zagadnienie.
 
 \section{Problem nawodnienia obszaru}
-Jednym z podstawowych problemów z jakim spotykają się właściciele ogrodów jest instalacja odpowiedniego systemu nawadniania. Mogą to zrobić sami albo zlecić zadanie firmie zajmujacej się projektowaniem ogrodów i systemów nawadniania.
+Jednym z podstawowych problemów z jakim spotykają się właściciele ogrodów jest instalacja odpowiedniego systemu nawadniania. Mogą to zrobić sami albo zlecić zadanie firmie zajmującej się projektowaniem ogrodów i systemów nawadniania.
 Jest kilka szczególnie ważnych elementów, na które należy zwrócić uwagę projektując taki system:\\
 \begin{itemize}
 	\item Odpowiedni pomiar terenu, który ma zostać nawodniony
@@ -194,19 +196,11 @@ W tej pracy autor skupia się na dwóch z powyższych punktów: wyborze i rozmie
 
 Odpowiednie rozmieszczenie zraszaczy jest ważne, ponieważ zapewnia równomierne nawodnienia.
 
-
 \section{Cel pracy}
-Opracowanie informatycznego systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni, a w szczególności zaproponowanie oraz przebadanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu.
-
-\section{Przegląd literatury}
-Problem przedstawiony w temacie pracy nie był do tej pory poruszany w literaturze. Nie mniej jednak biorąc pod uwagę, opisane później, założenia przyjęte podczas realizacji pracy można znaleźć publikacje o tematyce zbliżonej, czyli takie w których autorzy starają się rozwiązać problem pokrycia danego obszaru (Area Coverage Problem).
-
-W większości znalezionych publikacji do rozwiązania stawianego problemu używane są algorytmy ewolucyjne, w tym głównie algorytmy genetyczne.
-Przykładem jest "REF", gdzie autorzy rozwiązują optymalizacyjny problem rozmieszczenia sensorów w sieci bezprzewodowej przy użyciu algorytmu genetycznego NSGA-II. Autorzy skupiają się na pokryciu określonego terenu sygnałem z jak najmniejszej ilości sensorów. Przedstawione wyniki są obiecujące - w 500 pokoleń ilość potrzebnych sensorów z BEGIN spadła do END.
-TODO
+Opracowanie informatycznego systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni oraz poprowadzeniu rur pomiędzy nimi, a w szczególności zaproponowanie oraz przebadanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu.
 
 \section{Opis pracy}
-W kolejnych rozdziałach opisane będą poszczególne zagadnienia związane z realizacją celu pracy. Najpierw dokładniej opisany zostanie problem nawodnienia obszaru, czyli problem z którym muszą zmagać się wszyscy projektanci ogrodów i systemów nawadniania. Następnie wyjaśnione zostaną pojęcia optymalizacji oraz optymalizacji wielokryterialnej, czyli dwa zagadnienia na których bazuje cała praca. W kolejnym rozdziale opisane zostaną algorytmy genetyczne, zarówno te w wersji podstawowej jak i wielokryterialnej wraz z ich wybranymi wersjami, tak aby przybliżyć czytelnikowi dlaczego i w jaki sposób one działają. W następnej kolejności zostanie wyjaśnione czym jest system wspomagania decyzji, jakie założenia powinien spełniać oraz jakimi funkcjonalnościami się wyróżniać. Kolejne rozdziały będą już odzwierciedleniem wykonanej pracy i dokładnym opisem przyjętego sposobu realizacji zadania. Najpierw dokładnie opisany zostanie opracowany system wspomagania decyzji. Zaprezentowana będzie architektura oraz przykładowe zrzuty ekranu pokazujące przygotowany interfejs graficzny. W kolejnym rozdziale skonkretyzowany zostanie problem optymalizacji. Przedstawiony będzie opracowany model matematyczny, przykładowe rezultaty oraz wyniki badań mające na celu porównania wybranych wersji algorytmów genetycznych. Na końcu pracy znajdzie się podsumowanie oceniające przedstawione rozwiązanie oraz propozycje dalszego rozwoju opracowanego systemu oraz badań.
+W kolejnych rozdziałach opisane będą poszczególne zagadnienia związane z realizacją celu pracy. Na samym początku sformułowany zostanie model matematyczny opisujący rozwiązywany problem. Rozdział ten zawierał będzie dokładny opis podejścia do danego zagadnienia wraz z opisem wzorów wykorzystanych do zdefiniowania funkcji celu. Następnie wyjaśnione zostaną pojęcia optymalizacji, optymalizacji jednokryterialnej oraz optymalizacji wielokryterialnej, czyli zagadnienia na których bazuje cała praca. W kolejnym rozdziale przedstawione zostaną algorytmy genetyczne, zarówno te w wersji podstawowej jak i wielokryterialnej wraz z ich wybranymi wersjami, tak aby przybliżyć czytelnikowi w jaki sposób ona działają oraz dlaczego są używane. W następnej kolejności zostanie wyjaśnione czym jest system wspomagania decyzji, jakie założenia powinien spełniać oraz jakimi funkcjonalnościami się wyróżniać. Kolejne rozdziały będą już odzwierciedleniem wykonanej pracy i dokładnym opisem przyjętego sposobu realizacji zadania. Najpierw dokładnie opisany zostanie opracowany system wspomagania decyzji. Wymienione zostaną technologie użyte do implementacji oraz przykładowy scenariusz interakcji użytkownika z system wraz z zrzutami ekranu prezentującymi poszczególne widoki aplikacji. W kolejnym rozdziale zaprezentowana zostanie porównanie ze sobą wybranych algorytmów genetycznych. Przedstawiony zostanie plan badań oraz ich rezultaty wraz z wynikającymi z nich wnioskami. Na końcu pracy znajdzie się podsumowanie oceniające przedstawione rozwiązanie oraz propozycje dalszego rozwoju opracowanego systemu oraz badań.
 
 \chapter{Model matematyczny}
 Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy $A$. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. $A$ jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku \eqref{fig:matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
@@ -619,8 +613,19 @@ Oba algorytmy zaimplementowane zostały z wykorzystaniem selekcji turniejowej o 
 
 \chapter{Rozwiązanie problemu}
 \section{System wspomagania decyzji}
-\subsection{Architektura}
-\subsection{Interakcja z użytkownikiem}
+System wspomagania decyzji został zaimplementowany w formie aplikacji webowej. Została ona wykonana przy użyciu następujących technologii:\\
+\begin{itemize}
+	\item Python (PyPy).
+	\item Framework Django.
+	\item HTML 5.
+	\item JavaScript.
+	\item CSS.\\
+\end{itemize} 
+Użytkownik systemu poprzez interfejs graficzny wprowadza dane oraz wybiera opcje, która później przesyłane są na serwer. Na serwerze dane są przekształcane do formatu zrozumiałego przez zaimplementowane algorytmy genetyczne. Po zakończeniu obliczeń rezultaty zwracane są użytkownikowi w czytelnej oraz przejrzystej formie.
+
+W następnej części podrozdziału przedstawiony zostanie przykładowy scenariusz interakcji użytkownika z system, obrazujący jego działanie.
+
+\subsubsection{Interakcja z użytkownikiem}
 Po uruchomieniu aplikacji użytkownikowi ukazuje się ekran przedstawiony na rysunku \eqref{fig:gui_1}. Ekran dzieli się na cztery zasadnicze części. Zostały one oznaczone na rysunku odpowiadającymi im liczbami. Część pierwsza jest częścią główną aplikacji. To właśnie do tego obszaru ładowany jest plan ogrodu, na którym użytkownik definiuje teren mający zostać nawodniony oraz określa miejsce źródła wody. To również na tym ekranie prezentowany są wszystkie rezultaty. Część druga jest częścią informacyjną. Tutaj wyświetlane są instrukcje podpowiadające użytkownikowi co w danym momencie powinien zrobić. Trzecia część jest kontenerem na przyciski, za pomocą których użytkownik zatwierdza swoje wybory, anuluje je lub przechodzi do kolejnych etapów. Część czwarta jest przeznaczona na dodatkowe opcje mające wpływ na działanie algorytmów znajdujących się po stronie serwera.
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.35]{gui_1}}
@@ -689,10 +694,9 @@ Wybierając widok listy zakupów użytkownik zobaczy listę rozmieszczonych zras
 	\caption{Lista zakupów}
 	\label{fig:gui_8}
 \end{figure}
-\section{Optymalizacja}
-\subsection{Porównanie algorytmów genetycznych}
-\subsubsection{Plan badań}
-Złożoność oceny algorytmów służących do optymalizacji wielokryterialnej jest znacznie większa niż tej dla algorytmów rozwiązujących problemy obejmujące jedno kryterium. Wynika tak z samej definicji rozwiązania problemu wielokryterialnego, która wyjaśniona została wcześniej. Oceniając rozwiązanie takiego problemu należy wziąć pod uwagę następujące składowe:
+\section{Porównanie algorytmów genetycznych}
+\subsection{Plan badań}
+Złożoność oceny algorytmów służących do optymalizacji wielokryterialnej jest znacznie większa niż tej dla algorytmów rozwiązujących problemy obejmujące jedno kryterium. Wynika tak z samej definicji rozwiązania problemu wielokryterialnego, która wyjaśniona została wcześniej. Oceniając rozwiązanie takiego problemu należy wziąć pod uwagę następujące składowe:\\
 \begin{itemize}
 	\item Dystans znalezionego niezdominowanego zbioru rozwiązań od prawdziwego zbioru Pareto
 	\item Równomierny rozkład znalezionych rozwiązań
@@ -738,8 +742,8 @@ Duży & 3 \\ \hline
 \end{tabular}
 \end{table}
 
-\subsubsection{Rezultaty badań}
-\subsubsection{Podsumowanie badań}
+\subsection{Rezultaty badań}
+\subsection{Podsumowanie badań}
 
 \chapter{Podsumowanie}
 
