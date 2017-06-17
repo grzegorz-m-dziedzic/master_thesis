@@ -8,7 +8,6 @@
 \usepackage{listings}
 \usepackage{algorithm}
 \usepackage{algorithmic}
-\usepackage{subcaption}
 \usepackage{mathtools}
 \usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
@@ -19,6 +18,7 @@
 \usepackage{fancyvrb} % dla srodowiska Verbatim
 \usepackage{color}
 \usepackage{lscape}
+\usepackage{subfig}
 
 \hypersetup{
     colorlinks,
@@ -628,14 +628,15 @@ Podsumowując długość chromosomu każdego osobnika z populacji wynosi:
 \end{equation}
 W tym miejscu warto zauważyć, że długość chromosomu jest zawsze stała. Nieaktywne zraszacze ($b=0$) nie są w żaden sposób usuwane z reprezentacji. Takie podejście niweluje problemy pojawiające się przy użyciu reprezentacji chromosomów o zmiennej długości. Problemy te są najczęściej powiązane z trudnościami w implementacji operatorów krzyżowania oraz selekcji.
 
-Oba algorytmy zaimplementowane zostały z wykorzystaniem selekcji turniejowej o rozmiarze turnieju równym 2, krzyżowania dwupunktowego (z losowym wyborem punktów podziału) oraz mutacji binarnej. Wskutek przeprowadzonego procesu strojenia ustalono, że algorytmy najlepiej pracują na następującym zestawie parametrów:\\
+Oba algorytmy zaimplementowane zostały z wykorzystaniem selekcji turniejowej, krzyżowania wielopunktowego (z losowym wyborem punktów podziału) oraz mutacji binarnej. Wskutek przeprowadzonego procesu strojenia ustalono, że algorytmy najlepiej pracują na następującym zestawie parametrów:\\
 \begin{itemize}
+	\item Wielkość populacji: 200.
+	\item Wielkość populacji zewnętrznej (SPEA) : $1/4$ wielkości populacji.
 	\item Prawdopodobieństwo krzyżowania : $0.9$.
-	\item Prawdopodobieństwo mutacji : $0.05$.
-	\item Wielkość populacji zewnętrznej (SPEA) : $1/4$N.
+	\item Prawdopodobieństwo mutacji : $0.006$.
+	\item Wielkość turnieju: 2.
+	\item Punkty podziału chromosomu dla krzyżowania: 2.
 \end{itemize}
-
-\chapter{Systemy wspomagania decyzji}
 
 \chapter{Rozwiązanie problemu}
 \section{System wspomagania decyzji}
@@ -729,68 +730,233 @@ Złożoność oceny algorytmów służących do optymalizacji wielokryterialnej 
 	\item Długość przedziału pokrytego przez znalezione rozwiązania.
 	\item Czas wykonania algorytmu \cite{comparison_2}.\\
 \end{itemize}
-Na potrzeby analizy i oceny dwóch zaproponowanych algorytmów wybrane zostały cztery metryki \cite{comparison_deb}\cite{comparison_2}:
+Na potrzeby analizy i oceny dwóch zaproponowanych algorytmów wybrane zostały cztery metryki \cite{comparison_deb}\cite{comparison_2}:\\
 \begin{enumerate}
 	\item \textit{Współczynnik błędu (ER):} wskazuje procent rozwiązań, które nie należą do prawdziwego zbioru Pareto.
 	\begin{equation}
 		ER = \dfrac{\sum_{i=1}^{n} e_{i}}{n}
 	\end{equation}
-	Gdzie $n$ jest liczbą znalezionych niezdominowanych rozwiązań; $e_{i}$ zmienną określającą czy dane rozwiązanie znajduje się w prawdziwym zbiorze Pareto. Jeśli $e_{i} = 0$ rozwiązanie znajduje się w prawdziwym zbiorze Pareto, w przeciwnym razie $e_{i} = 1$. $ER = 0$ oznacza idealne rozwiązanie.\\
+	, gdzie $n$ jest liczbą znalezionych niezdominowanych rozwiązań; $e_{i}$ zmienną określającą czy dane rozwiązanie znajduje się w prawdziwym zbiorze Pareto. Jeśli $e_{i} = 0$ rozwiązanie znajduje się w prawdziwym zbiorze Pareto, w przeciwnym razie $e_{i} = 1$. $ER = 0$ oznacza idealne rozwiązanie.\\
 	\item \textit{Równomierny rozkład (SP):} metoda mierząca wariancję dystansu sąsiadujących rozwiązań znajdujących się na znalezionym froncie Pareto.
 	\begin{equation}
-		SP = \sqrt{\dfrac{1}{n-1}\sum_{i=1}^{n}{(\overline{d} - d_{i})}^{2}}
+		\begin{split}
+		SP = \sqrt{\dfrac{1}{n-1}\sum_{i=1}^{n}{(\overline{d} - d_{i})}^{2}}\\
+		d_{i} = \min_{i,j \neq i} \bigg{(} \sum_{k=1}^{K}|f_{i}^{k} - f_{j}^{k}|\bigg{)}
+		\end{split}
 	\end{equation}
-	Gdzie $n$ jest liczbą znalezionych niezdominowanych rozwiązań; $d_{i}$ oznacza dystans Euklidesowy pomiędzy danym rozwiązaniem, a jego najbliższym sąsiadem; $\overline{d}$ jest wartością oznaczającą średni dystans pomiędzy rozwiązaniami. Wartość $SP = 0$ oznacza, że znalezione rozwiązania są rozłożone równomiernie.\\
-	\item \textit{Jakość ogólna (DG):}  wskazuje jak daleko od prawdziwego zbioru Pareto znajduje się zbiór znalezionych niezdominowanych rozwiązań. Miara zdefiniowana w następujący sposób:
+	, gdzie $n$ jest liczbą znalezionych niezdominowanych rozwiązań; $\overline{d}$ jest wartością oznaczającą średni dystans pomiędzy rozwiązaniami. $f_{i}^{k}$ jest wartością $i$-tego rozwiązania z perspektywy kryterium $k$; $K$ jest liczbą wszystkich kryteriów; Wartość $SP = 0$ oznacza, że znalezione rozwiązania są rozłożone równomiernie.\\
+	\item \textit{Jakość ogólna (GD):}  wskazuje jak daleko od prawdziwego zbioru Pareto znajduje się zbiór znalezionych niezdominowanych rozwiązań. Miara zdefiniowana w następujący sposób:
 	\begin{equation}
-		DG = \dfrac{\sqrt{\sum_{i=1}^{n} d_{i}^{2}}}{n}
+		GD = \dfrac{\sqrt{\sum_{i=1}^{n} d_{i}^{2}}}{n}
 	\end{equation}
-	Gdzie $n$ oznacza liczbę znalezionych niezdominowanych rozwiązań; $d_{i}$ jest dystansem Euklidesowym pomiędzy danym rozwiązaniem, a najbliższym rozwiązaniem należącym do prawdziwego frontu Pareto. Wartość $DG = 0$ oznacza, że wszystkie znalezione rozwiązania leżą na prawdziwym froncie Pareto.\\
+	, gdzie $n$ oznacza liczbę znalezionych niezdominowanych rozwiązań; $d_{i}$ jest dystansem Euklidesowym pomiędzy danym rozwiązaniem, a najbliższym rozwiązaniem należącym do prawdziwego frontu Pareto. Wartość $DG = 0$ oznacza, że wszystkie znalezione rozwiązania leżą na prawdziwym froncie Pareto.\\
 	\item \textit{Długość frontu (FE):} metoda wskazująca jak duży obszar jest pokryty przez znalezione niezdominowane rozwiązania.
-	\begin{equation}
-		FE = \sum_{k=1}^{K} \max_{i, j!=i} \sqrt{(f_{i}^{k} - f_{j}^{k})^{2}}
+	\begin{equation}	
+		FE = \sqrt{\sum_{k=1}^{K} \max_{i, j \neq i} |f_{i}^{k} - f_{j}^{k}|}
 	\end{equation}
-	Gdzie $K$ oznacza liczbę funkcji celu; $f_{i}^{k}$ jest wartością $i$-tego rozwiązania z perspektywy kryterium $k$.\\
+	, gdzie $K$ oznacza liczbę funkcji celu; $f_{i}^{k}$ jest wartością $i$-tego rozwiązania z perspektywy kryterium $k$.\\
 \end{enumerate}
-Aby skorzystać z powyższych metryk konieczne jest znalezienie prawdziwego frontu Pareto. Na potrzeby badań został on wygenerowany   poprzez wybranie niezdominowanych rozwiązań ze skumulowanej puli rozwiązań powstałej na skutek uruchomienia symulacji 10 razy dla każdego algorytmu. Rezultaty każdej symulacji były dodawane do puli po czym zredukowane do rozwiązań niezdominowanych.\\
-Dla badań przygotowanych zostało 6 przypadków testowych. Zostały one podzielone ze względu na wielkość obszaru mającego zostać nawodniony oraz tego czy algorytm ma minimalizować nawadnianie poza zaznaczonym obszarem. Kształt wybranych obszarów został dobrany tak, aby jak najlepiej wizualizować wpływ ograniczeń na działanie algorytmów.
+Aby skorzystać z powyższych metryk konieczne jest znalezienie prawdziwego frontu Pareto. Na potrzeby badań został on wygenerowany poprzez wybranie niezdominowanych rozwiązań ze skumulowanej puli rozwiązań powstałej na skutek uruchomienia każdego algorytmu 20 razy z wykorzystaniem 10 tysięcy generacji. Rezultaty każdej symulacji były dodawane do puli po czym zredukowane do rozwiązań niezdominowanych.
 
-\begin{table}[]
-\centering
-\caption{Przypadki testowe}
-\label{my-label}
-\begin{tabular}{|l|l|}
-\hline
-Wielkość & Obszar \\ \hline
-Mały & 1 \\ \hline
-Średni & 2 \\ \hline
-Duży & 3 \\ \hline
-\end{tabular}
-\end{table}
+Do badań przygotowane zostały trzy przypadki testowe, a więc trzy różne obszary, które mają zostać nawodnione. Zostały one dobrane pod względem wielkości oraz kształtu, tak aby jak najlepiej zobrazować wpływ ograniczeń na działanie algorytmów.
 
+W kolejnym podrozdziale zilustrowane i opisane zostaną rezultaty przeprowadzonych badań. Dla danego przypadku testowego każdy algorytm uruchamiany był dziesięć razy, tworząc pulę rozwiązań, z której wybierany były rozwiązania niezdominowane zilustrowane na wykresach. Algorytmy uruchamiane były z ustawieniami opisanymi w podrozdziale mówiącym o implementacji algorytmów genetycznych.
+
+Funkcje, których wartości przedstawione zostały na wykresach wyglądają następująco:
+\begin{equation}
+	\begin{split}
+		&F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) \\ +& 
+		\dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)} \\ +& \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}\\\\
+		&F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
+	\end{split}
+\end{equation}
+Dokładny opis przedstawionych funkcji został zaprezentowany w rozdziale poświęconym modelowi matematycznemu.
 \subsection{Rezultaty badań}
+\subsubsection{Pierwszy przypadek testowy - obszar mały}
+Dla pierwszego, a więc najprostszego przypadku testowego \eqref{fig:small_area} algorytmy uruchamiane były w celu ewaluacji 1000 pokoleń. W trakcie symulacji zebrano również wyniki reprezentujące pokolenie 100 oraz 500, co zostało zobrazowane na wykresach \eqref{fig:small_front}.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{small_area}}
+	\centering
+	\caption{Pierwszy przypadek testowy - obszar mały.}
+	\label{fig:small_area}
+\end{figure}
+\begin{figure*}\centering
+\subfloat[100 generacji\label{fig:small_pareto_100}]
+        {\includegraphics[width=0.5\textwidth]{small_pareto_100}}
+    \hfill
+\subfloat[500 generacji\label{fig:small_pareto_500}]
+         {\includegraphics[width=0.5\textwidth]{small_pareto_500}}
+    \hfill
+\subfloat[1000 generacji\label{fig:small_pareto_1000}]
+        {\includegraphics[width=0.5\textwidth]{small_pareto_1000}}
+\caption{Rozwiązania niezdominowane otrzymane dla pierwszego przypadku testowego.}
+    \label{fig:small_front}
+\end{figure*}
+Analizując przedstawione wykresy można zauważyć, że oba algorytmy bardzo szybko osiągają front Pareto dla niskich wartości funkcji $F_{2}$. Dzieje się tak dlatego, że w tych przypadkach wykorzystywana jest mała liczba zraszaczy co znacząco zmniejsza złożoność problemu. Razem ze wzrostem wartości funkcji $F_{2}$ zwiększa się dystans pomiędzy znalezionymi rozwiązaniami, a tymi leżącymi na froncie Pareto, co dobrze widać na wykresie pokazującym wyniki po ewaluacji 100 pokoleń (\ref{fig:small_front}a). Obrazują to również wartości metryki $GD$ przedstawione w tabeli (\ref{fig:small_metrics}c). Warto tutaj zauważyć, że na tym etapie algorytm SPEA jest ponad trzy razy gorszy od NSGA-II jeśli chodzi o odległość znalezionych rozwiązań od rozwiązań optymalnych.
+\begin{figure*}\centering
+\subfloat[Współczynnik błędu (ER)\label{fig:er_small}]
+        {\includegraphics[width=0.5\textwidth]{er_small}}
+    \hfill
+\subfloat[Długość frontu (FE)\label{fig:fe_small}]
+         {\includegraphics[width=0.5\textwidth]{fe_small}}
+
+\subfloat[Jakość ogólna (GD)\label{fig:gd_small}]
+         {\includegraphics[width=0.5\textwidth]{gd_small}}
+    \hfill
+\subfloat[Równomierność rozkładu (SP)\label{fig:sp_small}]
+        {\includegraphics[width=0.5\textwidth]{sp_small}}
+\caption{Wartość metryk charakteryzujących wyniki symulacji dla pierwszego przypadku testowego.}
+    \label{fig:small_metrics}
+\end{figure*}
+Wraz z generowaniem nowych pokoleń znalezione rozwiązania niezdominowane coraz bardziej zbliżają się do frontu Pareto.
+
+Obserwując wyniki symulacji oraz wartości metryk można zauważyć, że w pokoleniu 500 NSGA-II prezentuje się lepiej niemal we wszystkich aspektach: znalezione przez niego rozwiązania charakteryzują się mniejszym współczynnikiem błędu, wyznaczają dłuższy front oraz znajdują się bliżej frontu Pareto. Sytuacja wygląda inaczej jeśli chodzi o równomierność rozkładu ($SP$). W tym aspekcie lepiej wypadł algorytm SPEA.
+
+Rozwiązania z 1000. generacji znajdują się zdecydowanie najbliżej rozwiązań optymalnych. Ciekawą obserwacją jest to, że wartość metryki $GD$ dla algorytmu SPEA w ostatnim pokoleniu jest gorsza niż algorytmu NSGA-II dla pokolenia 500. SPEA prezentuje się jednak lepiej, jeśli chodzi o wartość metryki definiującej współczynnik błędu - w porównaniu do liczby wszystkich rozwiązań niezdominowanych algorytm SPEA znalazł więcej rozwiązań leżących na froncie Pareto. W porównaniu do pokolenia 500. algorytm NSGA-II znacząco powiększył swoją przewagę, jeśli chodzi o długość wygenerowanego frontu.
+
+Podsumowując, z pierwszym przypadkiem testowym oba algorytmy poradziły sobie dobrze. NSGA-II znalazł więcej rozwiązań niezdominowanych. Co więcej rozwiązania te znajdują się bliżej frontu Pareto niż rozwiązania znalezione przez algorytm SPEA. Poza tym NSGA-II wygenerował znacząco dłuższy front.
+
+Z drugiej strony algorytm SPEA znalazł więcej rozwiązań znajdujących się na froncie Pareto co określa metryka $ER$. Ponadto rozwiązania znalezione przez SPEA charakteryzują się większą równomiernością rozkładu, choć może to być spowodowane mniejszą liczbą rozwiązań branych pod uwagę.
+
+\subsubsection{Drugi przypadek testowy - obszar średni}
+W celu zbadania działania wybranych algorytmów dla drugiego przypadku testowego [REF] wygenerowano 2000 generacji. Ponadto odnotowano wyniki z 100, 500 oraz 1000 pokolenia.
+
+Podobnie jak w poprzednim przypadku algorytmy bardzo szybko znalazły rozwiązania leżące na froncie Pareto oraz charakteryzujące się małą wartością funkcji $F_{2}$ \eqref{fig:medium_front}.
+\begin{figure*}\centering
+\subfloat[100 generacji\label{fig:medium_pareto_100}]
+        {\includegraphics[width=0.5\textwidth]{medium_pareto_100}}
+    \hfill
+\subfloat[500 generacji\label{fig:medium_pareto_500}]
+         {\includegraphics[width=0.5\textwidth]{medium_pareto_500}}
+    \hfill
+\subfloat[1000 generacji\label{fig:medium_pareto_1000}]
+        {\includegraphics[width=0.5\textwidth]{medium_pareto_1000}}
+\subfloat[2000 generacji\label{fig:medium_pareto_2000}]
+        {\includegraphics[width=0.5\textwidth]{medium_pareto_2000}}
+\caption{Rozwiązania niezdominowane otrzymane dla drugiego przypadku testowego.}
+    \label{fig:medium_front}
+\end{figure*}
+Analizując przedstawione wykresy można łatwo zauważyć, że algorytm NSGA-II w każdym z przedstawionych pokoleń wygenerował rozwiązania lepsze od tych znalezionych przez SPEA. Jest to dobrze widoczne na wykresie prezentującym wyniku po 500. pokoleniu. Dla dużych wartości funkcji $F_{2}$, gdzie front Pareto jeszcze nie został osiągnięty, żadne rozwiązanie znalezione przez NSGA-II nie jest zdominowane przez którekolwiek rozwiązanie wygenerowane przez SPEA. Taka sytuacja utrzymuje się, aż do końca symulacji.
+\begin{figure*}\centering
+\subfloat[Współczynnik błędu (ER)\label{fig:er_medium}]
+        {\includegraphics[width=0.5\textwidth]{er_medium}}
+    \hfill
+\subfloat[Długość frontu (FE)\label{fig:fe_medium}]
+         {\includegraphics[width=0.5\textwidth]{fe_medium}}
+
+\subfloat[Jakość ogólna (GD)\label{fig:gd_medium}]
+         {\includegraphics[width=0.5\textwidth]{gd_medium}}
+    \hfill
+\subfloat[Równomierność rozkładu (SP)\label{fig:sp_medium}]
+        {\includegraphics[width=0.5\textwidth]{sp_medium}}
+\caption{Wartość metryk charakteryzujących wyniki symulacji dla drugiego przypadku testowego.}
+    \label{fig:medium_metrics}
+\end{figure*}
+Powyżej opisane obserwacje znajdują swoje odzwierciedlenie w wartościach metryk \eqref{fig:medium_metrics}. NSGA-II przez cały czas trwania symulacji znajdował rozwiązania charakteryzujące się lepszą wartością metryk $GD$ oraz $SP$. Co ciekawe SPEA wygenerował dłuższy front rozwiązań, co jednak nie przekłada się na całościową ocenę algorytmu.
+
+Podsumowując, z drugim przypadkiem testowym zdecydowanie lepiej poradził sobie algorytm NSGA-II, co dobrze widoczne jest na wykresach \eqref{fig:medium_front}.
+\subsubsection{Trzeci przypadek testowy - obszar duży}
+Dla trzeciego przypadku testowego [REF] algorytmy uruchomione zostały z ograniczeniem 5000 pokoleń. Ponadto, podobnie jak w poprzednich przypadkach, przeanalizowano dane wygenerowane również przy 100, 1000 oraz 2000 pokoleniu.
+
+Jak widać na przedstawionych wykresach  \eqref{fig:big_front} złożoność problemu wzrosła, co widać po zdecydowanie większym koszcie zraszaczy ($F_{2}$) potrzebnym do zminimalizowania obszaru nienawodnionego ($F_{1}$).
+\begin{figure*}\centering
+\subfloat[100 generacji\label{fig:big_pareto_100}]
+        {\includegraphics[width=0.5\textwidth]{big_pareto_100}}
+    \hfill
+\subfloat[1000 generacji\label{fig:big_pareto_1000}]
+         {\includegraphics[width=0.5\textwidth]{big_pareto_1000}}
+    \hfill
+\subfloat[2000 generacji\label{fig:big_pareto_2000}]
+        {\includegraphics[width=0.5\textwidth]{big_pareto_2000}}
+\subfloat[5000 generacji\label{fig:big_pareto_5000}]
+        {\includegraphics[width=0.5\textwidth]{big_pareto_5000}}
+\caption{Rozwiązania niezdominowane otrzymane dla trzeciego przypadku testowego.}
+    \label{fig:big_front}
+\end{figure*}
+Podobnie jak w dwóch poprzednich przypadkach algorytmu nie miały problemu ze znalezieniem rozwiązań optymalnych wykorzystujących małą liczbę zraszaczy. Nie mniej jednak już od 100. pokolenia można zauważyć przewagę algorytmu NSGA-II \eqref{fig:big_metrics}, który znalazł rozwiązania charakteryzujące się lepszymi wartościami dla wszystkich zdefiniowanych metryk.
+
+W kolejnych pokoleniach sytuacja zmienia się jedynie dla metryki oceniającej długość wygenerowanego frontu. W tym przypadku lepiej wypada algorytm SPEA.
+\begin{figure*}\centering
+\subfloat[Współczynnik błędu (ER)\label{fig:er_big}]
+        {\includegraphics[width=0.5\textwidth]{er_big}}
+    \hfill
+\subfloat[Długość frontu (FE)\label{fig:fe_big}]
+         {\includegraphics[width=0.5\textwidth]{fe_big}}
+
+\subfloat[Jakość ogólna (GD)\label{fig:gd_big}]
+         {\includegraphics[width=0.5\textwidth]{gd_big}}
+    \hfill
+\subfloat[Równomierność rozkładu (SP)\label{fig:sp_big}]
+        {\includegraphics[width=0.5\textwidth]{sp_big}}
+\caption{Wartość metryk charakteryzujących wyniki symulacji dla trzeciego przypadku testowego.}
+    \label{fig:big_metrics}
+\end{figure*}
+Podsumowując algorytm NSGA-II wypadł lepiej od algorytmu SPEA, podobnie jak w drugim przypadku testowym. Patrząc na wykresy \eqref{fig:big_front} łatwo zauważyć zdecydowaną przewagą, na którą składają się rozwiązania znajdujące się bliżej frontu Pareto, mniejszy współczynnik błędu ($ER$) oraz lepsza równomierność rozkładu znalezionych rozwiązań. Algorytm SPEA charakteryzuje się jedynie generacją dłuższego frontu, co nie ma większego znaczenia w kontekście wyboru lepszego algorytmu.
+
+\subsubsection{Czas działania}
+Poza oceną algorytmów przy wykorzystaniu opisanych wcześniej metryk zdecydowano się również na sprawdzenie złożoności czasowej. Rezultaty zostały przedstawione na wykresie \eqref{fig:time}. Badanie wykonano na drugim przypadku testowym (obszar średni) dla 5000 generacji. Jak widać algorytm SPEA zakończył symulację niemal o połowę szybciej w porównaniu do NSGA-II. Z tego względu zdecydowano się rozszerzyć proces badawczy o dodatkową symulację sprawdzającą jakość zastosowanych algorytmów w zależności od czasu.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{time}}
+	\centering
+	\caption{Czasy potrzebne do wykonania symulacji}
+	\label{fig:time}
+\end{figure}
+Pod uwagę wzięto trzeci przypadek testowy. Oba algorytmy pracowały przez godzinę. Na wykresach \eqref{fig:big_time_results} przedstawione zostały rezultaty przeprowadzonej symulacji
+\begin{figure*}\centering
+\subfloat[10 minut\label{fig:big_time_10}]
+        {\includegraphics[width=0.5\textwidth]{big_time_10}}
+    \hfill
+\subfloat[20 minut\label{fig:big_time_20}]
+         {\includegraphics[width=0.5\textwidth]{big_time_20}}
+
+\subfloat[30 minut\label{fig:big_time_30}]
+         {\includegraphics[width=0.5\textwidth]{big_time_30}}
+    \hfill
+\subfloat[40 minut\label{fig:big_time_40}]
+        {\includegraphics[width=0.5\textwidth]{big_time_40}}
+    \hfill
+\subfloat[50 minut\label{fig:big_time_50}]
+        {\includegraphics[width=0.5\textwidth]{big_time_50}}
+    \hfill
+\subfloat[60 minut\label{fig:big_time_60}]
+        {\includegraphics[width=0.5\textwidth]{big_time_60}}
+\caption{Rozwiązania niezdominowane otrzymane dla trzeciego przypadku testowego po określonym czasie.}
+    \label{fig:big_time_results}
+\end{figure*}
+Po ocenie złożoności czasowej algorytmów, można było mieć nadzieję, że wyniki wygenerowane przez SPEA w wyniku dodatkowej symulacji będą lepsze od tych znalezionych przez algorytm NSGA-II. Sprawiałoby to, że SPEA stałby się atrakcyjniejszym wyborem w kontekście zastosowania w opracowanym systemie wspomagania decyzji. Stałoby się tak, ponieważ dla użytkownika większe znaczenie ma który algorytm w stosunkowo krótkim czasie zwróci lepsze rezultaty, a nie to jak te rezultaty będą wyglądać po ewaluacji 5000 pokoleń.
+Jak widać na zamieszczonych wykresach oraz tabelach prezentujących poszczególne metryki \eqref{fig:big_time_metrics} powyższy scenariusz nie sprawdził się. Ponownie lepszym wyborem okazuje się algorytm NSGA-II. Przez cały czas trwania symulacji wyniki generowane przez NSGA-II charakteryzowały się mniejszym współczynnikiem błędu, były rozłożone na dłuższym froncie oraz co najważniejsze, po 60 minutach pracy wszystkie rozwiązania leżały na froncie Pareto, na co wskazuje metryka $GD$. Ponadto cechowały się lepszą równomiernością rozkładu.
+\begin{figure*}\centering
+\subfloat[Współczynnik błędu (ER)\label{fig:times_er}]
+        {\includegraphics[width=0.5\textwidth]{times_er}}
+    \hfill
+\subfloat[Długość frontu (FE)\label{fig:times_fe}]
+         {\includegraphics[width=0.5\textwidth]{times_fe}}
+
+\subfloat[Jakość ogólna (GD)\label{fig:times_gd}]
+         {\includegraphics[width=0.5\textwidth]{times_gd}}
+    \hfill
+\subfloat[Równomierność rozkładu (SP)\label{fig:times_sp}]
+        {\includegraphics[width=0.5\textwidth]{times_sp}}
+\caption{Wartość metryk charakteryzujących wyniki symulacji dla trzeciego przypadku testowego po określonym czasie.}
+    \label{fig:big_time_metrics}
+\end{figure*}
 \subsection{Podsumowanie badań}
+Po analizie rezultatów przeprowadzonych badań jednoznacznie okazało się, że lepszym wyborem przy rozwiązywaniu zdefiniowanego w pracy problemu jest algorytm NSGA-II. We wszystkich przypadkach testowych radził sobie lepiej lub równie dobrze co algorytm SPEA.
 
+Pierwszy przypadek testowy reprezentował najprostszy scenariusz. Algorytmy miały za zadanie rozwiązać problem optymalizacyjny na małym obszarze roboczym, przez co złożoność problemu była zdecydowanie mniejsza w porównaniu do kolejnych przypadków. Oba algorytmy w stosunkowo krótkim czasie znalazły rozwiązania leżące na froncie Pareto lub w jego bliskim sąsiedztwie. Rozwiązania znalezione przez NSGA-II cechowały się lepszą jakością ogólną, równomiernością rozkładu oraz rozciągały się na dłuższym froncie. Rozwiązania algorytmu SPEA charakteryzowały się natomiast mniejszym współczynnikiem błędu. Jak widać algorytm NSGA-II okazał się lepszy w kontekście trzech metryk na cztery. Należy tutaj jednak zwrócić uwagę, że różnice pomiędzy algorytmami dla małego obszaru nie były tak znaczące jak w pozostałych przypadkach. Co więcej jak wykazało badanie złożoności czasowej algorytm SPEA potrzebuje niemal o połowę czasu mniej na ewaluację 1000 generacji. Biorąc to pod uwagę, dla problemów opartych na małym obszarze kiedy algorytmy nie mają problemów ze znalezieniem dobrych rozwiązań, lepszym wyborem może okazać się algorytm SPEA, właśnie ze względu na czas działania oraz porównywalną do NSGA-II jakość znalezionych rozwiązań.
+
+Dla drugiego przypadku testowego został wybrany obszar mający reprezentować scenariusz o średnim stopniu trudności. Jak widać po załączonych wykresach oraz tabelach wraz ze wzrostem złożoności problemu rośnie przewaga algorytmu NSGA-II. Rozwiązania znajdowane w poszczególnych pokoleniach przez NSGA-II znajdowały się zdecydowanie bliżej frontu Pareto oraz cechowały się lepszą równomiernością rozkładu. Co prawda SPEA wygenerował rozwiązania rozciągające się na dłuższym froncie, a więc w praktyce zapewniające większą różnorodność. Należy jednak zwrócić tutaj uwagę, że jedynie rozwiązania znalezione dla małych wartości funkcji $F_{2}$ są równie dobre co odpowiedniki znalezione przez NSGA-II. Dla większych wartości $F_{2}$ (> 800), wszystkie rozwiązania SPEA są zdominowane przez rozwiązania NSGA-II.
+
+Ostatnim przypadek testowy był reprezentowany przez największy obszar. W tym przypadku żadnemu algorytmowi przez 5000 generacji nie udało się znaleźć rozwiązań rozciągających się na całej długości frontu Pareto. Podobnie jak w poprzednim przypadku dłuższy front wygenerował algorytm SPEA. Nie przekłada się to jednak na ogólną jakość rozwiązań. NSGA-II znalazł rozwiązania cechujące się lepszym wartościami dla wszystkich pozostałych metryk.
+
+Po porównaniu algorytmów w kontekście różnych przypadków testowych zdecydowano się dodatkowo na zbadanie ich złożoności czasowej. Badanie wykonano dla drugiego przypadku testowego. Jednoznacznym zwycięzcą porównania okazał się algorytm SPEA, który zakończył ewaluację 5000 pokoleń w czasie o połowę krótszym od algorytmu NSGA-II.
+
+Biorąc pod uwagę poprzednie wyniki oraz te obrazujące czas działania zdecydowano się sprawdzić czy SPEA jest w stanie wygenerować równie dobre wyniki co NSGA-II, biorąc pod uwagę, nie liczbę populacji, lecz złożoność czasową. Metryka taka jest bowiem bardziej naturalnym wyborem jeśli chodzi o systemy wspomagania decyzji. Użytkownika bowiem nie będzie obchodziło po ilu generacjach dany algorytm znalazł rozwiązania leżące na froncie Pareto, lecz jak szybko udało się to zrobić.
+
+Dodatkową symulację przeprowadzona na trzecim przypadku testowym. Jak się okazało mimo mniejszej złożoności czasowej algorytm SPEA przez godzinę pracy nie był w stanie wygenerować rozwiązań lepszych niż NSGA-II. Co więcej po 60 minutowej symulacji wszystkie rozwiązania znalezione przez NSGA-II znajdowały się na froncie Pareto, co dobrze obrazują metryki: $ER=0$ oraz $GD=0$.
+
+Podsumowując, lepszym wyborem przy rozwiązywaniu zdefiniowanego w pracy problemu jest algorytm NSGA-II co zostało udowodnione poprzez rezultaty badań oraz powyższe podsumowanie.
 \chapter{Podsumowanie}
-
-\begin{mydef}
-\textbf{Definicja} - pierwsza
-\end{mydef}
-
-
-
-
- \clearpage
-\appendix
-\chapter{Appendix 1}
-
-
-\clearpage
-\pagestyle{plain}
-\listofmyfigure
-\listofmyequations
-\listofmyalgorithm
-\clearpage
 
 %\bibliographystyle{apalike}%Used BibTeX style is unsrt
 
