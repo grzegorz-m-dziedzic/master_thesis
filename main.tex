@@ -19,6 +19,7 @@
 \usepackage{color}
 \usepackage{lscape}
 \usepackage{subfig}
+\usepackage{multirow}
 
 \hypersetup{
     colorlinks,
@@ -144,7 +145,7 @@ nodes near coords align={vertical},
 \nocite{*}
 \title{ Wielokryterialny problem rozmieszczenia zraszaczy wodnych na zadanej powierzchni }
 \titleEN{ Multicriteria water sprinklers deployment problem on a given area}
-\shortTitle{SHORT TITLE}
+\shortTitle{}
 \author{Grzegorz Dziedzic}
 \advisor{dr Mariusz Fraś}
 \instituteLogo{logos/pwr}
@@ -155,13 +156,13 @@ nodes near coords align={vertical},
 % Wstawienie abstractu pracy
 	%\input {abstract}
 
-\abstractSH{SHORT ABSTRACT}
+\abstractSH{Niniejsza praca miała na celu opracowanie systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni oraz wybór i porównanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu.}
 
 \abstractPL{
-	ABSTRACT PL
+Celem niniejszej pracy było rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych na zadanej powierzchni poprzez opracowanie systemu wspomagania podejmowania decyzji, a w szczególności wybór oraz porównanie algorytmów wielokryterialnych w kontekście wybranego problemu. Praca została podzielona na kilka części. Pierwszą z nich stanowi wprowadzenie w tematykę problemu, dokładniejszy opis rozwiązywanego problemu, przegląd literatura oraz definicja celu pracy. Kolejny rozdział jest opisem opracowanego modelu matematycznego, na którym swoje działanie opierają zaimplementowane algorytmy. W następnym rozdziale zdefiniowane są pojęcie optymalizacji oraz różnice pomiędzy optymalizacją jednokryterialną i wielokryterialną. W kolejnym rozdziale dokładnie opisany został schemat działania algorytmu genetycznego. Dodatkowo przedstawiono dwa algorytmy wybrane do rozwiązania omawianego problemu - NSGA-II oraz SPEA. Następna część pracy stanowi opis rezultatów. Najpierw przedstawiono opracowany system wspomagania decyzji, następnie porównano ze sobą wybrane algorytmy genetyczne oraz podsumowane różnice pomiędzy nimi. Na końcu pracy znajduje się podsumowanie, w którym umieszczono ocenę wykonanej pracy oraz dalsze możliwości rozwoju i badań.
 }
 \abstractEN{
-	ABSTRACT EN
+The purpose of this thesis was solution of the multicriteria water sprinklers deployment problem on a given area. It was done by designing a decision support system and especially by selection and comparison of multicriteria genetic algorithms in the context of defined problem. The thesis was divied into several parts. First of them is and introduction to the chosen problem. Moreover it contains precise description of the problem, review of the literature and the definition of purpose. Next chapter describes developed mathematical model, that chosen algorithms are based on. Next chapter presents the definition of optimization and shows differences between single criteria optimization and multicriteria optimization. Next one is a precise description of genetic algorithms. Moreover it shows two algorithms chosen for solving defined problem - NSGA-II and SPEA. Next part of this thesis is a reflection of work that has been done. At first it show designed decision support system. Then it shows the results of comparison made between chosen algorithms and summary of the their differences. At the end is a summary, where critical evaluation and further possibilites for development and analysis are placed.
 }
 
 \maketitle
@@ -173,33 +174,43 @@ nodes near coords align={vertical},
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 \chapter{Wstęp}
 \section{Wprowadzenie}
-Odpowiednie nawodnienie ogrodu jest jedną z podstawowych czynności pielęgnacyjnych. Gdy właściciel dysponuje odpowiednim budżetem najlepszym rozwiązaniem będzie dla niego inwestycja w automatyczny system nawadniania. System taki składa się z zraszaczy wodnych, rur pomiędzy nimi oraz systemu sterowania. Takie rozwiązanie pozwala zaoszczędzić czas tracony na ręcznym podlewaniu ogrodu oraz zapewnia równomierne nawodnienie na całej ustalonej powierzchni. Jednym z głównych problemów koniecznych do rozwiązania podczas instalacji takiego systemu jest odpowiednie rozmieszczenie poszczególnych zraszaczy. Te najczęściej znajdują się pod ziemią oraz posiadają wynurzalną głowicę. Z tego powodu raz zainstalowany zraszacz najczęściej zostaje na swoim miejscu, aż do momentu wymiany całej instalacji wodnej. Biorąc to pod uwagę rozmieszczenie zraszaczy powinno być dobrze przemyślane już podczas etapu projektowania systemu nawadniania. Projektując taki system należy przyjąć jako cel nawodnienie całości wskazanego obszaru jak najmniejszym kosztem przy przestrzeganiu wskazanych przez właściciela ograniczeń.
+Odpowiednie nawodnienie jest jedną z podstawowych czynności pielęgnacyjnych ogrodu. Gdy właściciel dysponuje odpowiednim budżetem najlepszym rozwiązaniem będzie dla niego inwestycja w automatyczny system nawadniania. System taki składa się z zraszaczy wodnych, rur pomiędzy nimi oraz systemu sterowania. Takie rozwiązanie pozwala zaoszczędzić czas tracony na ręcznym podlewaniu ogrodu oraz zapewnia równomierne nawodnienie na całej ustalonej powierzchni. Jednym z głównych problemów koniecznych do rozwiązania podczas instalacji takiego systemu jest odpowiednie rozmieszczenie poszczególnych zraszaczy. Te najczęściej znajdują się pod ziemią oraz posiadają wynurzalną głowicę. Z tego powodu raz zainstalowany zraszacz najczęściej zostaje na swoim miejscu, aż do momentu wymiany całej instalacji wodnej. Biorąc to pod uwagę rozmieszczenie zraszaczy powinno być dobrze przemyślane już podczas etapu projektowania systemu nawadniania. Projektując taki system należy przyjąć jako cel nawodnienie całości wskazanego obszaru jak najmniejszym kosztem przy przestrzeganiu wskazanych przez właściciela ograniczeń.
 
-Proces projektowania sieci zraszaczy może być żmudny oraz długotrwały, biorąc pod uwagę różnorodność sprzętu dostępnego na rynku czy chociażby nieregularność powierzchni, która ma zostać nawodniona. Z pomocą może przyjść tutaj jedna z gałęzi matematyki oraz informatyki, która obecna jest wokół nas na każdym kroku. Mowa tutaj o optymalizacji. Czym dokładnie jest optymalizacja zostanie opisane później. W tym momencie ważne natomiast jest to, że opisany powyżej problem idealnie wpasowuje się obszar problemów, których rozwiązanie obejmują procesy optymalizacyjne. Jednym z najczęściej używanych narzędzi do rozwiązywania skomplikowanych problemów optymalizacyjnych stały się algorytmy genetyczne, opierające swoje działanie na procesach zachodzących w przyrodzie.
+Proces projektowania sieci zraszaczy może być żmudny oraz długotrwały, biorąc pod uwagę różnorodność sprzętu dostępnego na rynku czy chociażby nieregularność kształtu powierzchni, która ma zostać nawodniona. W Internecie można znaleźć mnóstwo poradników traktujących o tym jak samemu zaprojektować taki system nawadniania. Poradniki te jako główne narzędzia pracy polecają jednak kartkę papieru, ołówek oraz dużą ilość wolnego czasu, co już na wstępie może zniechęcać właścicieli ogrodów. Ewidentnie brakuje rozwiązań, które mogłyby ten proces zautomatyzować oraz ułatwić.
+ 
+Z pomocą może przyjść jedna z gałęzi matematyki oraz informatyki, która obecna jest wokół nas na każdym kroku. Mowa tutaj o optymalizacji. Czym dokładnie jest optymalizacja zostanie opisane później. W tym momencie ważne natomiast jest to, że sformułowany powyżej scenariusz idealnie wpasowuje się w obszar problemów, których rozwiązanie obejmują procesy optymalizacyjne. Jednym z najczęściej używanych narzędzi do rozwiązywania skomplikowanych problemów optymalizacyjnych stały się algorytmy genetyczne, opierające swoje działanie na procesach zachodzących w przyrodzie.
 
-Praca ta będzie skupiać się na rozwiązaniu omówionego problemu rozmieszczenia zraszaczy wodnych oraz poprowadzenia połączeń pomiędzy nimi poprzez opracowanie systemu wspomagania decyzji oraz implementację i porównanie wielokryterialnych algorytmów genetycznych rozwiązujących omówione zagadnienie.
+Praca ta będzie skupiać się na zautomatyzowaniu oraz ułatwieniu procesu projektowania systemu nawadniania ogrodu. Zostanie to zrealizowane poprzez implementację systemu wspomagania decyzji w formie aplikacji webowej, która pozwoli użytkownikowi na wczytanie planu swojego ogrodu, zaznaczenie obszaru, który ma zostać nawodniony oraz jako rezultat zwróci kilka wariantów rozmieszczenie zraszaczy wodnych oraz połączeń między nimi wraz z dokładną listą wykorzystanych elementów.
 
+Problem optymalizacyjny wynikający z zdefiniowanego problemu zostanie rozwiązany za pomocą wielokryterialnego algorytmu genetycznego. Aby wybrać najlepszy wariant w pracy zostaną porównane dwa takie algorytmy: NSGA-II oraz SPEA. Na podstawie przeprowadzonych badań wybrany zostanie algorytm lepiej nadający się do zastosowania w opracowanym systemie wspomagania decyzji.
 \section{Problem nawodnienia obszaru}
-Jednym z podstawowych problemów z jakim spotykają się właściciele ogrodów jest instalacja odpowiedniego systemu nawadniania. Mogą to zrobić sami albo zlecić zadanie firmie zajmującej się projektowaniem ogrodów i systemów nawadniania.
-Jest kilka szczególnie ważnych elementów, na które należy zwrócić uwagę projektując taki system:\\
+Jednym z podstawowych problemów z jakim spotykają się właściciele dużych oraz reprezentacyjnych ogrodów jest instalacja odpowiedniego systemu nawadniania. System taki jest potrzebny w celu utrzymania roślin znajdujących się na określonym terenie w odpowiedniej kondycji przy jednoczesnej automatyzacji całego procesu. System taki mogą zaprojektować oraz zainstalować sami albo zlecić to zadanie firmie zajmującej się takimi właśnie systemami.
+
+Jest kilka szczególnie ważnych elementów, na które należy zwrócić uwagę projektując taki system \cite{irrigation_plan}:\\
 \begin{itemize}
-	\item Odpowiedni pomiar terenu, który ma zostać nawodniony
-	\item Wzięcie pod uwagę ukształtowania terenu
-	\item Obliczenie potrzebnego ciśnienia wody
-	\item Wybór i rozmieszczenie zraszaczy
-	\item Wybór i poprowadzenie rur
-	\item Umiejscowienie zaworów\\
+	\item Odpowiedni pomiar terenu, który ma zostać nawodniony.
+	\item Wzięcie pod uwagę ukształtowania terenu.
+	\item Obliczenie potrzebnego ciśnienia wody.
+	\item Wybór i rozmieszczenie zraszaczy.
+	\item Wybór i poprowadzenie rur.
+	\item Umiejscowienie zaworów.\\
 \end{itemize}
-Wszystkie wymienione powyżej elementy znacząca wpływają na cenę, jakość oraz wydajność zaprojektowanego systemu.
+Wszystkie wymienione powyżej cechy znacząca wpływają na cenę, jakość oraz wydajność zaprojektowanego systemu.
 
-W tej pracy autor skupia się na dwóch z powyższych punktów: wyborze i rozmieszczeniu zraszaczy oraz poprowadzeniu rur i nie będzie brał pod uwagę reszty wymienionych punktów.
+W tej pracy skupiono się na dwóch z powyższych punktów: wyborze i rozmieszczeniu zraszaczy oraz poprowadzeniu rur.
 
-Odpowiednie rozmieszczenie zraszaczy jest ważne, ponieważ zapewnia równomierne nawodnienia.
+Jak zostało wspomniane we wprowadzeniu, w systemach nawadniania najczęściej korzysta się ze zraszaczy wynurzalnych, a więc znajdujących się pod ziemią. Zmiana ułożenia sieci takich zraszaczy jest skomplikowana oraz niemożliwa bez przekopywania terenu pod którym znajduje się cała instalacja. Z tego względu układ zainstalowanych zraszaczy powinien być dobrze zaplanowany oraz przemyślany.
+
+Pierwszym celem procesu projektowania powinno być takie rozmieszczenie zraszaczy, aby te były w stanie nawodnić cały wyznaczony teren przy jednoczesnym omijaniu obszarów, które nie powinny być podlane, jak na przykład budynki mieszkalne.
+
+Kolejnym etapem staje się odpowiedni dobór mocy poszczególnych zraszaczy, a więc dystansu na jaki rozrzucają wodę. Po pierwsze eliminuje to problem nadmiernego nawodnienia danego obszaru. Po drugie minimalizuje koszty całej instalacji oraz jej utrzymania. Należy tutaj pamiętać, że im większa jest zasięg danego zraszacza tym wymaga większego ciśnienia co z kolei prowadzi do większego zapotrzebowania na wodę, a więc większych kosztów. Należy tutaj dodać również, że cena samego zraszacza jest zazwyczaj uzależniona od maksymalnej mocy danego modelu. Im ta jest większa tym więcej zraszacz będzie kosztował. Poprzez optymalizację doboru mocy każdego zraszacza z sieci minimalizuje się obszary nadmierne nawodnione oraz koszt całego systemu.
+
+Kolejnym elementem jest odpowiednie poprowadzenie rur. Należy tutaj skupić się na dwóch elementach. Odpowiedniej średnicy wybranych rur oraz właściwym poprowadzeniu pomiędzy zainstalowanymi zraszaczami. Dobór średnicy odpowiada za ciśnienie wody dostarczanej do głowic. Niewystarczające ciśnienie sprawi, że zraszacz nie będzie mógł rozrzucać wody na wymaganym dystansie. Odpowiednie poprowadzenie rur z kolei pomaga zminimalizować koszty potrzebne do instalacji samych rur oraz połączeń pomiędzy nimi.
 
 \section{Przegląd literatury}
-Do tej pory problem nawodnienia danego obszaru nie był przedstawiany w literaturze w sposób zaproponowany przez autora. Istnieją jednak publikacje poruszającego problem pokrycia terenu, obejmujący również tematykę tej pracy.
+Do tej pory problem nawodnienia danego obszaru nie był przedstawiany w literaturze w sposób zaproponowany w tej pracy. Istnieją jednak publikacje poruszające bardziej ogólny problem pokrycia terenu, w który dobrze wpasowuje się problem sformułowany w tej pracy.
 
-W \cite{sensors} autorzy zajmują się problemem pokrycia danego obszaru w bezprzewodowych sieciach sensorów ze zmiennym zasięgiem. Sensor jest zdefiniowany jako okrąg o określonym zasięgu oraz współrzędnych środka. Na obszar mający zostać pokryty nakładana jest siatka składająca się z określonej liczby kwadratów. Sensor może zostać ulokowany w środku każdego kwadratu. Autorzy w swojej pracy określili trzy kryteria względem których znalezione rozwiązania są oceniane. Są to:\\
+W \cite{sensors} autorzy zajmują się problemem pokrycia danego obszaru w bezprzewodowych sieciach sensorów ze zmiennym zasięgiem. Sensor jest zdefiniowany jako okrąg o określonym zasięgu oraz współrzędnych środka. Na obszar mający zostać pokryty nakładana jest siatka składająca się z określonej liczby kwadratów. Sensor może zostać ulokowany w środku każdego takiego kwadratu. Autorzy w swojej pracy określili trzy kryteria względem których znalezione rozwiązania są oceniane. Są to:\\
 \begin{enumerate}
 	\item Stopień pokrycia terenu.
 	\item Koszt rozmieszczonych sensorów.
@@ -209,23 +220,27 @@ Jak widać problem przedstawiony w publikacji jest problemem wielokryterialnym. 
 
 W zaprezentowanych rezultatach autorzy zaczynali symulacje losowo rozmieszczając 500 sensorów. W 800. pokoleniu algorytm znalazł rozwiązanie składające się z 9 sensorów pokrywających 100\% wyznaczonego terenu oraz charakteryzujące się kosztem energetycznym na poziomie 0.576 (6-krotna poprawa względem 100. pokolenia).
 
-Przedstawione wyniki są dowodem na odpowiednie podejście autorów do wielokryterialnego problemu pokrycia obszaru. Do optymalizacji rozmieszczenia zraszaczy wodnych wykorzystano model matematyczny opisany w przedstawionej publikacji w odpowiednio dopasowanej do problemu formie oraz wzorowano się na sposobie reprezentacji osobników w wykorzystanym algorytmie genetycznym.
+Przedstawione wyniki są dowodem na odpowiednie podejście autorów do wielokryterialnego problemu pokrycia terenu. Do optymalizacji rozmieszczenia zraszaczy wodnych wykorzystano zmodyfikowany model matematyczny opisany w przedstawionej publikacji oraz wzorowano się na sposobie reprezentacji osobników w wykorzystanym algorytmie genetycznym.
+
+Na podstawie powyższej pracy zdecydowano, że do rozwiązania wielokryterialnego problemu pokrycia terenu dobrze sprawdza się wykorzystanie algorytmów genetycznych. W celu wyboru najlepszego algorytmu potrzebne były jednak badania oraz metryki definiujące jakość rozwiązań wygenerowanych przez poszczególne algorytmy.
 
 Autorzy \cite{comparison_deb} skupiają się na porównaniu kilku wielokryterialnych algorytmów genetycznych. Do porównań wybrali sześć funkcji testowych. Każda z nich charakteryzowała się tym, że sprawiała pewne trudności algorytmom genetycznym. Trudności te najczęściej skupiały się wokół problemu z osiąganiem prawdziwego frontu Pareto. Ponadto autorzy zdefiniowali trzy metryki służące do oceny znalezionych rozwiązań oraz skonstruowali ranking obrazujący jakość działania każdego z wybranych algorytmów.
 
-Kolejną pracą skupiającą się na porównaniu algorytmów genetycznych jest \cite{comparison_2}. W tej konkretnej publikacji autorzy starają się zaprojektować budynek o zerowej konsumpcji energii. Jest to budynek, który zapotrzebowanie na energię zaspokaja korzystając ze źródeł energii odnawialnej. Autorzy do porównania wybrali siedem wielokryterialnych algorytmów genetycznych oraz zdefiniowali metryki służące do ich oceny.
+Kolejną pracą skupiającą się na porównaniu algorytmów genetycznych jest \cite{comparison_2}. W tej konkretnej publikacji autorzy porównują ze sobą dwa algorytmy: NSGA-II oraz OMOPSO. W pracy zdefiniowano trzy przypadki testowe oraz pięć metryk służących do ewaluacji znalezionych przez algorytmy rozwiązań.
 
-Dwie powyższe pracy pomogły autorowi wybrać dwa algorytmy użyte do rozwiązania problemu rozmieszczenia zraszaczy wodnych oraz pomogły zdefiniować kryteria wykorzystane do oceny wybranych algorytmów.
+Na podstawie dwóch powyższych prac wybrano dwa algorytmy wykorzystane do rozwiązania problemu zdefiniowanego w pracy (NSGA-II, SPEA) oraz zdefiniowano metryki służące do porównania rozwiązań generowanych przez wybrane algorytmy.
+
+Kolejnym elementem był wybór odpowiedniego sposobu na poprowadzenie połączeń wodnych pomiędzy rozmieszczonymi zraszaczami.
 
 W pracy \cite{pipes} autor skupia się na problemie minimalizacji wielkości systemu rur wodnych miasta Agric Nsima. Jest to motywowane zwiększającą się populacją, a tym samym zapotrzebowaniem na wodę. Autor poprzez rozwiązanie przedstawionego problemu chce zredukować koszty konieczne to do funkcjonowania oraz utrzymania takiego systemu.
 
-Autor w swojej pracy sugerują, że najlepszym rozwiązaniem okazał się algorytm Prima, służący do znajdowania minimalnego drzewa rozpinającego grafu. Do poprowadzenia rur pomiędzy rozmieszczonymi zraszaczami zdecydowano na wykorzystanie proponowanego przez autora rozwiązania.
+Autor w swojej pracy sugeruje, że najlepszym rozwiązaniem okazał się algorytm Prima, służący do znajdowania minimalnego drzewa rozpinającego grafu. Do poprowadzenia rur pomiędzy rozmieszczonymi zraszaczami zdecydowano na wykorzystanie proponowanego przez autora rozwiązania.
 
 \section{Cel pracy}
 Opracowanie informatycznego systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni oraz poprowadzeniu rur pomiędzy nimi, a w szczególności zaproponowanie oraz przebadanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu.
 
 \section{Opis pracy}
-W kolejnych rozdziałach opisane będą poszczególne zagadnienia związane z realizacją celu pracy. Na samym początku sformułowany zostanie model matematyczny opisujący rozwiązywany problem. Rozdział ten zawierał będzie dokładny opis podejścia do danego zagadnienia wraz z opisem wzorów wykorzystanych do zdefiniowania funkcji celu. Następnie wyjaśnione zostaną pojęcia optymalizacji, optymalizacji jednokryterialnej oraz optymalizacji wielokryterialnej, czyli zagadnienia na których bazuje cała praca. W kolejnym rozdziale przedstawione zostaną algorytmy genetyczne, zarówno te w wersji podstawowej jak i wielokryterialnej wraz z ich wybranymi wersjami, tak aby przybliżyć czytelnikowi w jaki sposób ona działają oraz dlaczego są używane. W następnej kolejności zostanie wyjaśnione czym jest system wspomagania decyzji, jakie założenia powinien spełniać oraz jakimi funkcjonalnościami się wyróżniać. Kolejne rozdziały będą już odzwierciedleniem wykonanej pracy i dokładnym opisem przyjętego sposobu realizacji zadania. Najpierw dokładnie opisany zostanie opracowany system wspomagania decyzji. Wymienione zostaną technologie użyte do implementacji oraz przykładowy scenariusz interakcji użytkownika z system wraz z zrzutami ekranu prezentującymi poszczególne widoki aplikacji. W kolejnym rozdziale zaprezentowana zostanie porównanie ze sobą wybranych algorytmów genetycznych. Przedstawiony zostanie plan badań oraz ich rezultaty wraz z wynikającymi z nich wnioskami. Na końcu pracy znajdzie się podsumowanie oceniające przedstawione rozwiązanie oraz propozycje dalszego rozwoju opracowanego systemu oraz badań.
+W kolejnych rozdziałach opisane będą poszczególne zagadnienia związane z realizacją celu pracy. Na samym początku sformułowany zostanie model matematyczny opisujący rozwiązywany problem. Rozdział ten zawierał będzie dokładny opis podejścia do danego zagadnienia wraz z opisem wzorów matematycznych wykorzystanych do zdefiniowania poszczególnych funkcji celu. Następnie wyjaśnione zostaną pojęcia optymalizacji, optymalizacji jednokryterialnej oraz optymalizacji wielokryterialnej, czyli zagadnienia na których bazuje cała praca. W kolejnym rozdziale przedstawione zostaną algorytmy genetyczne, zarówno te w wersji podstawowej jak i wielokryterialnej wraz z ich wybranymi wersjami, tak aby przybliżyć czytelnikowi w jaki sposób ona działają oraz dlaczego są używane. Kolejne rozdziały będą już odzwierciedleniem wykonanej pracy i dokładnym opisem przyjętego sposobu realizacji zadania. Najpierw dokładnie opisany zostanie opracowany system wspomagania decyzji. Wymienione zostaną technologie użyte do implementacji oraz przykładowy scenariusz interakcji użytkownika z system wraz z zrzutami ekranu prezentującymi poszczególne widoki aplikacji. W kolejnym rozdziale zaprezentowane zostaną badania mające na celu porównanie wybranych algorytmów genetycznych. Na samym początku przedstawione zostaną cel oraz plan badań. Następnie zaprezentowane zostaną rezultaty procesu strojenia algorytmów. Kolejnym punktem będzie już prezentacja rezultatów badań oraz ich analiza wraz z podsumowaniem. Na końcu pracy znajdzie się ocena przedstawionego systemu wspomagania decyzji, argumenty za oraz przeciw używaniem algorytmów genetycznych w takich systemach oraz propozycje dalszego rozwoju systemu oraz prowadzenia badań.
 
 \chapter{Model matematyczny}
 Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy $A$. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. $A$ jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku \eqref{fig:matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
@@ -593,8 +608,7 @@ Podsumowując schemat działania algorytmu SPEA wygląda następująco:\\
 Analizując przedstawiony algorytm, łatwo zauważyć, że raz znalezione rozwiązanie optymalne w sensie Pareto nigdy nie przepadnie, ponieważ będzie przechowywane w populacji zewnętrznej. Jedynym sposobem na pozbycie się takiego rozwiązania jest znalezienie kolejnego rozwiązania optymalnego w sensie Pareto, lecz charakteryzującego się lepszą wartością zagęszczenia. Takie podejście zapewnia jakość oraz różnorodność znajdowanych osobników.
 
 Duże znaczenie dla działania algorytmu ma wielkość zewnętrznej populacji $\overline{N}$. Jeśli ta jest duża (porównywalna do $N$)  nacisk na selekcję rozwiązań z populacji zewnętrznej będzie większy, co może prowadzić do tego, że algorytm nie będzie potrafił wygenerować rozwiązań leżących na prawdziwym froncie Pareto. Gdy $\overline{N}$ będzie zbyt małe, wpływ elitaryzmu będzie niezauważalny. Ponadto może to prowadzić do sytuacji w której wiele rozwiązań z populacji nie będzie zdominowanej przez żadnego osobnika z populacji zewnętrznej. Będzie skutkować to tym, że wartość funkcji oceny dla tych osobników będzie tak sama. Proponowaną wielkością populacji zewnętrznej jest $1/4$ wielkości populacji $N$ \cite{book}.
-\section{Strojenie}
-Jak zostało opisane wcześniej działanie algorytmów genetycznych opiera się na wielu parametrach. Parametry te są ze sobą mocno  powiązane oraz znacząco wpływają na jakość symulacji. Proces wyboru odpowiednich wartości dla wspomnianych parametrów, nazywa się strojeniem.
+
 \section{Implementacja}
 W obu wybranych algorytmach (NSGA-II, SPEA) pojedynczy osobnik reprezentowany jest jako zbiór zraszaczy $S$. Maksymalna ilość zraszaczy została ustalona na poziomie $ms = 50$. Pojedynczy zraszacz jest reprezentowany jako następujący ciąg bitów:
 \begin{figure}[!htb]
@@ -627,17 +641,6 @@ Podsumowując długość chromosomu każdego osobnika z populacji wynosi:
 	L = ms(L_{p} + L_{r} + 1)
 \end{equation}
 W tym miejscu warto zauważyć, że długość chromosomu jest zawsze stała. Nieaktywne zraszacze ($b=0$) nie są w żaden sposób usuwane z reprezentacji. Takie podejście niweluje problemy pojawiające się przy użyciu reprezentacji chromosomów o zmiennej długości. Problemy te są najczęściej powiązane z trudnościami w implementacji operatorów krzyżowania oraz selekcji.
-
-Oba algorytmy zaimplementowane zostały z wykorzystaniem selekcji turniejowej, krzyżowania wielopunktowego (z losowym wyborem punktów podziału) oraz mutacji binarnej. Wskutek przeprowadzonego procesu strojenia ustalono, że algorytmy najlepiej pracują na następującym zestawie parametrów:\\
-\begin{itemize}
-	\item Wielkość populacji: 200.
-	\item Wielkość populacji zewnętrznej (SPEA) : $1/4$ wielkości populacji.
-	\item Prawdopodobieństwo krzyżowania : $0.9$.
-	\item Prawdopodobieństwo mutacji : $0.006$.
-	\item Wielkość turnieju: 2.
-	\item Punkty podziału chromosomu dla krzyżowania: 2.
-\end{itemize}
-
 \chapter{Rozwiązanie problemu}
 \section{System wspomagania decyzji}
 System wspomagania decyzji został zaimplementowany w formie aplikacji webowej. Została ona wykonana przy użyciu następujących technologii:\\
@@ -722,6 +725,8 @@ Wybierając widok listy zakupów użytkownik zobaczy listę rozmieszczonych zras
 	\label{fig:gui_8}
 \end{figure}
 \section{Porównanie algorytmów genetycznych}
+\subsection{Cel badań}
+Celem badań jest sprawdzenie w jakim stopniu wybrane algorytmy genetyczne sprawdzą się w kontekście sformułowanego w pracy problemu oraz porównanie tych algorytmów ze sobą korzystając z zdefiniowanych w późniejszym podrozdziale przypadków testowych. Ponadto założono również jak cel ocenę przydatności wybranych algorytmów w opracowanym systemie wspomagania decyzji biorąc pod uwagę jakość generowanych rozwiązań oraz złożoność czasową.
 \subsection{Plan badań}
 Złożoność oceny algorytmów służących do optymalizacji wielokryterialnej jest znacznie większa niż tej dla algorytmów rozwiązujących problemy obejmujące jedno kryterium \cite{comparison_deb}. Wynika to z samej definicji rozwiązania problemu wielokryterialnego, która wyjaśniona została wcześniej. Oceniając rozwiązanie takiego problemu należy wziąć pod uwagę następujące składowe:\\
 \begin{itemize}
@@ -771,7 +776,56 @@ Funkcje, których wartości przedstawione zostały na wykresach wyglądają nast
 	\end{split}
 \end{equation}
 Dokładny opis przedstawionych funkcji został zaprezentowany w rozdziale poświęconym modelowi matematycznemu.
-\subsection{Rezultaty badań}
+\subsection{Strojenie algorytmów}
+Jak zostało opisane wcześniej działanie algorytmów genetycznych opiera się na wielu parametrach. Parametry te są ze sobą mocno powiązane oraz znacząco wpływają na jakość symulacji. Proces doboru odpowiednich wartości dla wspomnianych parametrów, nazywa się strojeniem.
+
+Przed przystąpieniem do badań konieczne jest odpowiednie nastrojenie wybranych algorytmów. Zostało to wykonane za pomocą metody iteracyjnej, działającej według następującego schematu:\\
+\begin{enumerate}
+	\item Ustaw wartości wszystkich parametrów na domyślne \eqref{default_params}.
+	\item Wybierz pierwszy parametr mający zostać nastrojony oraz ustaw jego wartość na pierwszą z wybranych wartości testowych.
+	\item Uruchom symulację oraz zapamiętaj wyniki.
+	\item Jeśli używana wartość była ostatnią ze zbioru testowego porównaj zapamiętane rezultaty oraz wybierz wartość parametru dla której algorytm generował najlepsze rozwiązania. Jeśli w wybranym przedziale pozostały wartości wymagające sprawdzenie, wybierz kolejną wartość oraz przejdź do punktu 3.
+	\item Wybierz kolejny parametr wymagający strojenia.\\
+\end{enumerate}
+
+Rozwiązania znalezione przez algorytmy były porównywane za pomocą metryki zaproponowanej w [REF]. Pozwala ona porównać ze sobą dwa zbiory rozwiązań poprzez pokazanie w jakim stopniu rozwiązania z jednego zbioru są dominowane przez rozwiązania ze zbioru drugiego. Metryka jest zdefiniowana w następujący sposób:
+\begin{equation}
+	C(X^{'}, X^{''}) = \dfrac{|\{a^{''} \in X^{''}; \exists a^{'} \in X^{'}: a^{'} \preceq a^{''}\}|}{|X^{''}|}
+\end{equation}
+,gdzie $X^{'}, X^{''}$ są dwoma zbiorami biorącymi udział w porównaniu; $\preceq$ jest operatorem dominacji. $a^{'} \preceq a^{''}$ oznacza, że rozwiązanie $a^{'}$ ze zbioru $X^{'}$ dominuje rozwiązanie $a^{''}$ ze zbioru $X^{''}$.\\
+\begin{table}[]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Parametr}} & \textbf{Wartość domyślna} & \textbf{Wartości testowe}                    \\ \hline
+Prawdopodobieństwo krzyżowania          & 0.9                       & 0.1, 0.2 ... 1.0                             \\ \hline
+Prawdopodobieństwo mutacji              & 0.05                      & 0.005, 0.01, 0.02, ... 0.1, 0.2 ... 0.5 \\ \hline
+Wielkość turnieju                       & 2                         & 1,2,3,4,5                                    \\ \hline
+Wielkość populacji - N                  & 100                       & 100, 200, 300, 400, 500                      \\ \hline
+Wielkość populacji zewn. (SPEA)         & 1/4 N                     & 1 N, 1/2 N, 1/3 N ... 1/6 N                  \\ \hline
+\end{tabular}
+\caption{Domyślne oraz testowe wartości parametrów dla wybranych algorytmów genetycznych.}
+\label{default_params}
+\end{table}
+Strojenie było wykonywane na drugim przypadku testowym przy generacji 500 pokoleń. Najlepsze wartości parametrów zostały przedstawione w tabeli \eqref{best_params}. Przy użyciu takich właśnie wartości przeprowadzono dalsze badania.
+
+\begin{table}[]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\multicolumn{1}{|c|}{\multirow{2}{*}{\textbf{Parametr}}} & \multicolumn{2}{c|}{\textbf{Wartość}} \\ \cline{2-3} 
+\multicolumn{1}{|c|}{}                                   & NSGA-II            & SPEA             \\ \hline
+Prawdopodobieństwo krzyżowania                           & 0.8                & 0.9              \\ \hline
+Prawdopodobieństwo mutacji                               & 0.01               & 0.01             \\ \hline
+Wielkość turnieju                                        & 2                  & -                \\ \hline
+Wielkość populacji - N                                   & 200                & 200              \\ \hline
+Wielkość populacji zewn.                                 & -                  & 1/2 N            \\ \hline
+\end{tabular}
+\caption{Wybrane poprzez strojenie najlepsze wartości parametrów.}
+\label{best_params}
+\end{table}
+
+\subsection{Badania}
 \subsubsection{Pierwszy przypadek testowy - obszar mały}
 Dla pierwszego, a więc najprostszego przypadku testowego \eqref{fig:small_area} algorytmy uruchamiane były w celu ewaluacji 1000 pokoleń. W trakcie symulacji zebrano również wyniki reprezentujące pokolenie 100 oraz 500, co zostało zobrazowane na wykresach \eqref{fig:small_front}.
 \begin{figure}[!htb]
@@ -819,8 +873,13 @@ Podsumowując, z pierwszym przypadkiem testowym oba algorytmy poradziły sobie d
 Z drugiej strony algorytm SPEA znalazł więcej rozwiązań znajdujących się na froncie Pareto co określa metryka $ER$. Ponadto rozwiązania znalezione przez SPEA charakteryzują się większą równomiernością rozkładu, choć może to być spowodowane mniejszą liczbą rozwiązań branych pod uwagę.
 
 \subsubsection{Drugi przypadek testowy - obszar średni}
-W celu zbadania działania wybranych algorytmów dla drugiego przypadku testowego [REF] wygenerowano 2000 generacji. Ponadto odnotowano wyniki z 100, 500 oraz 1000 pokolenia.
-
+W celu zbadania działania wybranych algorytmów dla drugiego przypadku testowego \eqref{fig:medium_area} wygenerowano 2000 generacji. Ponadto odnotowano wyniki z 100, 500 oraz 1000 pokolenia.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{medium_area}}
+	\centering
+	\caption{Drugi przypadek testowy - obszar średni.}
+	\label{fig:medium_area}
+\end{figure}
 Podobnie jak w poprzednim przypadku algorytmy bardzo szybko znalazły rozwiązania leżące na froncie Pareto oraz charakteryzujące się małą wartością funkcji $F_{2}$ \eqref{fig:medium_front}.
 \begin{figure*}\centering
 \subfloat[100 generacji\label{fig:medium_pareto_100}]
@@ -854,10 +913,15 @@ Analizując przedstawione wykresy można łatwo zauważyć, że algorytm NSGA-II
 \end{figure*}
 Powyżej opisane obserwacje znajdują swoje odzwierciedlenie w wartościach metryk \eqref{fig:medium_metrics}. NSGA-II przez cały czas trwania symulacji znajdował rozwiązania charakteryzujące się lepszą wartością metryk $GD$ oraz $SP$. Co ciekawe SPEA wygenerował dłuższy front rozwiązań, co jednak nie przekłada się na całościową ocenę algorytmu.
 
-Podsumowując, z drugim przypadkiem testowym zdecydowanie lepiej poradził sobie algorytm NSGA-II, co dobrze widoczne jest na wykresach \eqref{fig:medium_front}.
+Podsumowując, z drugim przypadkiem testowym zdecydowanie lepiej poradził sobie algorytm NSGA-II, co dobrze widoczne jest na przedstawionych wykresach.
 \subsubsection{Trzeci przypadek testowy - obszar duży}
-Dla trzeciego przypadku testowego [REF] algorytmy uruchomione zostały z ograniczeniem 5000 pokoleń. Ponadto, podobnie jak w poprzednich przypadkach, przeanalizowano dane wygenerowane również przy 100, 1000 oraz 2000 pokoleniu.
-
+Dla trzeciego przypadku testowego \eqref{fig:big_area} algorytmy uruchomione zostały z ograniczeniem 5000 pokoleń. Ponadto, podobnie jak w poprzednich przypadkach, przeanalizowano dane wygenerowane również przy 100, 1000 oraz 2000 pokoleniu.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{big_area}}
+	\centering
+	\caption{Trzeci przypadek testowy - obszar duży.}
+	\label{fig:big_area}
+\end{figure}
 Jak widać na przedstawionych wykresach  \eqref{fig:big_front} złożoność problemu wzrosła, co widać po zdecydowanie większym koszcie zraszaczy ($F_{2}$) potrzebnym do zminimalizowania obszaru nienawodnionego ($F_{1}$).
 \begin{figure*}\centering
 \subfloat[100 generacji\label{fig:big_pareto_100}]
@@ -957,7 +1021,29 @@ Dodatkową symulację przeprowadzona na trzecim przypadku testowym. Jak się oka
 
 Podsumowując, lepszym wyborem przy rozwiązywaniu zdefiniowanego w pracy problemu jest algorytm NSGA-II co zostało udowodnione poprzez rezultaty badań oraz powyższe podsumowanie.
 \chapter{Podsumowanie}
+Celem pracy było opracowanie systemu wspomagającego podejmowanie decyzji w rozmieszczeniu zraszaczy wodnych oraz połączeń między nimi na zadanej powierzchni oraz wybór i porównanie wielokryterialnych algorytmów genetycznych w kontekście zdefiniowanego problemu.
 
+Powyższe cele zostały zrealizowane. Jako rezultat pracy powstał system wspomagania decyzji w formie aplikacji webowej znacznie ułatwiający proces projektowania systemu nawadniania ogrodu. Użytkownik poprzez zaimplementowaną aplikację może w prosty sposób zdefiniować obszar mający zostać nawodniony oraz otrzymać kilka wariantów rozwiązania w czytelnej i przejrzystej formie.
+
+Ponadto wybrano oraz porównano ze sobą dwa wielokryterialne algorytmy genetyczne. Do badań wykorzystano trzy przypadki testowe oraz zdefiniowano cztery metryki pomagające w ocenie wygenerowanych przez algorytmy rozwiązań. Z przeprowadzonych badań wynika, że dla problemów reprezentowanych przez stosunkowo małe obszary równie dobrze spisują się oba algorytmy. Biorąc jednak pod uwagę ich złożoność czasową, lepszą opcją w przypadku takich problemów może okazać się algorytm SPEA, który charakteryzuje się szybszym działaniem. Dla trudniejszych przypadków testowych zdecydowanie lepiej wypada algorytm NSGA-II, którego rozwiązania cechują się lepszymi wartościami dla wszystkich zdefiniowanych metryk.
+
+W opracowanym systemie wspomagania decyzji zdecydowano się na wykorzystanie algorytmu NSGA-II, biorąc pod uwagę wyniki przeprowadzonych badań, zarówno pod względem liczby iteracji jak i złożoności czasowej.
+
+Rozmieszczenie rur pomiędzy zraszaczami nie wchodziło w zakres pracy wybranych algorytmów genetycznych. Schemat połączeń był generowany dla każdego znalezionego rozwiązania za pomocą algorytmu Prima znajdującego minimalne drzewo rozpinające grafu.
+
+Podsumowując wszystkie założone cele pracy zostały zrealizowane.\\
+
+W kolejnych pracach zajmujących się podobnymi zagadnieniami autorzy powinni skupić się porównaniu algorytmów genetycznych z innymi metodami służącymi do optymalizacji wielokryterialnej. Szczególnie w kontekście systemów wspomagania decyzji. Jak zostało przedstawione w badaniach wybrane algorytmy dobrze radzą sobie z rozmieszczeniem zraszaczy, aczkolwiek charakteryzują się dużą złożonością czasową - dla trzeciego przypadku testowego algorytm NGSA-II osiągnął front Pareto po godzinie pracy. Dla użytkownika może to okazać się czasem za długim. 
+
+Jeśli natomiast wybrane w pracy algorytmy genetyczne w porównaniu z innymi metodami wypadną zdecydowanie lepiej, warto byłoby zastanowić się nad porównaniem NSGA-II oraz SPEA z innymi algorytmami genetycznymi, które być może będą cechować się znajdowaniem lepszych lub równie dobrych rozwiązań oraz mniejszą złożonością czasową.
+
+Ze względu na długi czas oczekiwania na rezultaty być może warto by zastanowić się nad zmianą formy prezentacji wyników. W obecnie opracowanym systemie wyniki prezentowane są bezpośrednio na stronie, a więc użytkownik zmuszony jest na nie czekać. Warto by zastanowić się czy lepszym rozwiązaniem nie byłoby chociażby wysyłanie pliku z wynikami w formacie PDF na adres e-mail podany przez użytkownika. Takie rozwiązanie w jakimś stopniu zwalnia użytkownika z konieczności przebywania na stronie aż do zwrócenia przez serwer rezultatów. Aczkolwiek plik PDF nie zapewnia żadnej formy interaktywności, która w takich systemach powinna być obecna.
+
+Rozwiązaniem łączącym oba podejścia może być wysyłanie na maila użytkownika odnośnika do strony zawierającej wygenerowane rozwiązania.
+
+Kolejnym elementem wartym modyfikacji jest zdefiniowanie bardziej dokładnego modelu matematycznego. W tym momencie brane są pod uwagę jedynie zraszacze dookolne co nakłada dodatkowe ograniczenia na znalezione rozwiązania. Przykładem jest chociażby fakt, że dany obszar nie może zostać w 100\% nawodniony bez naruszenia ograniczeń mówiących o nie podlewaniu obszaru poza wyznaczonym przez użytkownika. Problem ten może zostać zlikwidowany poprzez dodanie dodatkowych cech do rozmieszczonych zraszaczy, takich jak kąt rozrzutu wody oraz kierunek rozrzutu.
+
+Ostatnim elementem wartym dokładniejszego przeanalizowania jest rozmieszczenie rur pomiędzy zraszaczami. W tej pracy wykorzystano prosty algorytm Prima, aby rozwiązać ten problem. Kolejne publikację skupiające się na podobnych problemach powinny zastosować dokładniejsze podejście. Po pierwsze pod uwagę należy wziąć ciśnienie wody, a co za tym idzie średnicę rur. Po drugie do całościowego kosztu wygenerowanego rozwiązania należy doliczyć połączenia pomiędzy zraszaczami oraz dodatkowe elementy potrzebne do instalacji tych połączeń, jak np. rozgałęźniki, kolanka itp.
 %\bibliographystyle{apalike}%Used BibTeX style is unsrt
 
 \bibliographystyle{iisthesis}
