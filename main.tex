@@ -20,6 +20,7 @@
 \usepackage{lscape}
 \usepackage{subfig}
 \usepackage{multirow}
+\usepackage{float}
 
 \hypersetup{
     colorlinks,
@@ -159,10 +160,10 @@ nodes near coords align={vertical},
 \abstractSH{Niniejsza praca miała na celu opracowanie systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni oraz wybór i porównanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu.}
 
 \abstractPL{
-Celem niniejszej pracy było rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych na zadanej powierzchni poprzez opracowanie systemu wspomagania podejmowania decyzji, a w szczególności wybór oraz porównanie algorytmów wielokryterialnych w kontekście wybranego problemu. Jako cele procesu optymalizacji wybrano minimalizację obszaru nienawodnionego oraz minimalizacje kosztu zraszaczy, przy jednoczesnym uwzględnieniu minimalizacji nawodnienia obszaru poza wskazanym terenem oraz minimalizację obszarów nawodnionych nadmiernie. Praca została podzielona na kilka części. Pierwszą z nich stanowi wprowadzenie w tematykę problemu, dokładniejszy opis rozwiązywanego problemu, przegląd literatura oraz definicja celu pracy. Kolejny rozdział jest opisem opracowanego modelu matematycznego, na którym swoje działanie opierają zaimplementowane algorytmy. W następnym rozdziale zdefiniowane są pojęcie optymalizacji oraz różnice pomiędzy optymalizacją jednokryterialną i wielokryterialną. W kolejnym rozdziale dokładnie opisany został schemat działania algorytmu genetycznego. Dodatkowo przedstawiono dwa algorytmy wybrane do rozwiązania omawianego problemu - NSGA-II oraz SPEA. Następna część pracy stanowi opis rezultatów. Najpierw przedstawiono opracowany system wspomagania decyzji, następnie porównano ze sobą wybrane algorytmy genetyczne oraz podsumowane różnice pomiędzy nimi. Na końcu pracy znajduje się podsumowanie, w którym umieszczono ocenę wykonanej pracy oraz dalsze możliwości rozwoju i badań.
+Celem niniejszej pracy było rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych na zadanej powierzchni poprzez opracowanie systemu wspomagania podejmowania decyzji, a w szczególności wybór oraz porównanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu. Jako cele procesu optymalizacji wybrano minimalizację obszaru nienawodnionego oraz minimalizacje kosztu zraszaczy, przy jednoczesnym uwzględnieniu minimalizacji nawodnienia obszaru poza wskazanym terenem oraz minimalizacji obszarów nawodnionych nadmiernie. Praca została podzielona na kilka części. Pierwszą z nich stanowi wprowadzenie w tematykę problemu, dokładniejszy opis rozwiązywanego problemu, przegląd literatura oraz definicja celu pracy. Kolejny rozdział jest opisem opracowanego modelu matematycznego, na którym swoje działanie opierają zaimplementowane algorytmy. W następnym rozdziale zdefiniowane są pojęcie optymalizacji oraz różnice pomiędzy optymalizacją jednokryterialną i wielokryterialną. W kolejnym rozdziale dokładnie opisany został schemat działania algorytmu genetycznego. Dodatkowo przedstawiono dwa algorytmy wybrane do rozwiązania omawianego problemu - NSGA-II oraz SPEA. Następna część pracy stanowi opis rezultatów. Najpierw przedstawiono opracowany system wspomagania decyzji, następnie porównano ze sobą wybrane algorytmy genetyczne oraz podsumowane różnice pomiędzy nimi. Na końcu pracy znajduje się podsumowanie, w którym umieszczono ocenę wykonanej pracy oraz dalsze możliwości rozwoju i badań.
 }
 \abstractEN{
-The purpose of this thesis was solution of the multicriteria water sprinklers deployment problem on a given area. It was done by designing a decision support system and especially by selection and comparison of multicriteria genetic algorithms in the context of defined problem. As the purpose of optimization process the following objectives were defined: minimization of the not irrigated area and minimization of the chosen sprinklers' total cost, with the simultaneous minimization of the irrigation of the area placed out of bounds of selected region and minimzation of over irrigated area. The thesis was divied into several parts. First of them is and introduction to the chosen problem. Moreover it contains precise description of the problem, review of the literature and the definition of purpose. Next chapter describes developed mathematical model, that chosen algorithms are based on. Next chapter presents the definition of optimization and shows differences between single criteria optimization and multicriteria optimization. Next one is a precise description of genetic algorithms. Moreover it shows two algorithms chosen for solving defined problem - NSGA-II and SPEA. Next part of this thesis is a reflection of work that has been done. At first it show designed decision support system. Then it shows the results of comparison made between chosen algorithms and summary of the their differences. At the end is a summary, where critical evaluation and further possibilites for development and analysis are placed.
+The purpose of this thesis was solution of the multicriteria water sprinklers deployment problem on a given area. It was done by designing a decision support system and especially by selection and comparison of multicriteria genetic algorithms in the context of defined problem. As the purpose of optimization process the following objectives were defined: minimization of the not irrigated area and minimization of the chosen sprinklers' total cost, with the simultaneous minimization of the irrigation of the area placed out of bounds of selected region and minimzation of over irrigated area. The thesis was divied into several parts. First of them is and introduction to the chosen problem. Moreover it contains precise description of the problem, review of the literature and the definition of purpose. Next chapter describes developed mathematical model, that chosen algorithms are based on. Next chapter presents the definition of optimization and shows differences between single criteria optimization and multicriteria optimization. Next one is a precise description of genetic algorithms. Moreover it shows two algorithms chosen for solving defined problem - NSGA-II and SPEA. Next part of this thesis is a reflection of work that has been done. At first it shows designed decision support system. Then it presents the results of comparison made between chosen algorithms and summary of the their differences. At the end is a summary, where critical evaluation and further possibilites for development and analysis are placed.
 }
 
 \maketitle
@@ -176,9 +177,9 @@ The purpose of this thesis was solution of the multicriteria water sprinklers de
 \section{Wprowadzenie}
 Odpowiednie nawodnienie jest jedną z podstawowych czynności pielęgnacyjnych ogrodu. Gdy właściciel dysponuje odpowiednim budżetem najlepszym rozwiązaniem będzie dla niego inwestycja w automatyczny system nawadniania. System taki składa się z zraszaczy wodnych, rur pomiędzy nimi oraz systemu sterowania. Takie rozwiązanie pozwala zaoszczędzić czas tracony na ręcznym podlewaniu ogrodu oraz zapewnia równomierne nawodnienie na całej ustalonej powierzchni. Jednym z głównych problemów koniecznych do rozwiązania podczas instalacji takiego systemu jest odpowiednie rozmieszczenie poszczególnych zraszaczy. Te najczęściej znajdują się pod ziemią oraz posiadają wynurzalną głowicę. Z tego powodu raz zainstalowany zraszacz najczęściej zostaje na swoim miejscu, aż do momentu wymiany całej instalacji wodnej. Biorąc to pod uwagę rozmieszczenie zraszaczy powinno być dobrze przemyślane już podczas etapu projektowania systemu nawadniania. Projektując taki system należy przyjąć jako cel nawodnienie całości wskazanego obszaru jak najmniejszym kosztem przy przestrzeganiu wskazanych przez właściciela ograniczeń.
 
-Proces projektowania sieci zraszaczy może być żmudny oraz długotrwały, biorąc pod uwagę różnorodność sprzętu dostępnego na rynku czy chociażby nieregularność kształtu powierzchni, która ma zostać nawodniona. W Internecie można znaleźć mnóstwo poradników traktujących o tym jak samemu zaprojektować taki system nawadniania. Poradniki te jako główne narzędzia pracy polecają jednak kartkę papieru, ołówek oraz dużą ilość wolnego czasu, co już na wstępie może zniechęcać właścicieli ogrodów. Ewidentnie brakuje rozwiązań, które mogłyby ten proces zautomatyzować oraz ułatwić.
+Proces projektowania sieci zraszaczy może być żmudny oraz długotrwały, biorąc pod uwagę różnorodność sprzętu dostępnego na rynku czy chociażby nieregularność powierzchni, która ma zostać nawodniona. W Internecie można znaleźć mnóstwo poradników traktujących o tym jak samemu zaprojektować taki system nawadniania. Poradniki te jako główne narzędzia pracy polecają jednak kartkę papieru, ołówek oraz dużą ilość wolnego czasu, co już na wstępie może zniechęcać właścicieli ogrodów. Ewidentnie brakuje rozwiązań, które mogłyby ten proces zautomatyzować oraz ułatwić.
  
-Z pomocą może przyjść jedna z gałęzi matematyki oraz informatyki, która obecna jest wokół nas na każdym kroku. Mowa tutaj o optymalizacji. Czym dokładnie jest optymalizacja zostanie opisane później. W tym momencie ważne natomiast jest to, że sformułowany powyżej scenariusz idealnie wpasowuje się w obszar problemów, których rozwiązanie obejmują procesy optymalizacyjne. Jednym z najczęściej używanych narzędzi do rozwiązywania skomplikowanych problemów optymalizacyjnych stały się algorytmy genetyczne, opierające swoje działanie na procesach zachodzących w przyrodzie.
+Z pomocą może przyjść jedna z gałęzi matematyki oraz informatyki, która obecna jest wokół nas na każdym kroku. Mowa tutaj o optymalizacji. Czym dokładnie jest optymalizacja zostanie opisane później. W tym momencie ważne natomiast jest to, że sformułowany powyżej scenariusz idealnie wpasowuje się w obszar problemów, których rozwiązania obejmują procesy optymalizacyjne. Jednym z najczęściej używanych narzędzi do rozwiązywania skomplikowanych problemów optymalizacyjnych stały się algorytmy genetyczne, opierające swoje działanie na procesach zachodzących w przyrodzie.
 
 Praca ta będzie skupiać się na zautomatyzowaniu oraz ułatwieniu procesu projektowania systemu nawadniania ogrodu. Zostanie to zrealizowane poprzez implementację systemu wspomagania decyzji w formie aplikacji webowej, która pozwoli użytkownikowi na wczytanie planu swojego ogrodu, zaznaczenie obszaru, który ma zostać nawodniony oraz jako rezultat zwróci kilka wariantów rozmieszczenie zraszaczy wodnych oraz połączeń między nimi wraz z dokładną listą wykorzystanych elementów.
 
@@ -203,7 +204,7 @@ Jak zostało wspomniane we wprowadzeniu, w systemach nawadniania najczęściej k
 
 Pierwszym celem procesu projektowania powinno być takie rozmieszczenie zraszaczy, aby te były w stanie nawodnić cały wyznaczony teren przy jednoczesnym omijaniu obszarów, które nie powinny być podlane, jak na przykład budynki mieszkalne.
 
-Kolejnym etapem staje się odpowiedni dobór mocy poszczególnych zraszaczy, a więc dystansu na jaki rozrzucają wodę. Po pierwsze eliminuje to problem nadmiernego nawodnienia danego obszaru. Po drugie minimalizuje koszty całej instalacji oraz jej utrzymania. Należy tutaj pamiętać, że im większy jest zasięg danego zraszacza tym wymaga większego ciśnienia co z kolei prowadzi do większego zapotrzebowania na wodę, a więc większych kosztów. Należy tutaj dodać również, że cena samego zraszacza jest zazwyczaj uzależniona od maksymalnej mocy danego modelu. Im ta jest większa tym więcej zraszacz będzie kosztował. Poprzez optymalizację doboru mocy każdego zraszacza z sieci minimalizuje się obszary nadmierne nawodnione oraz koszt całego systemu.
+Kolejnym etapem staje się odpowiedni dobór mocy poszczególnych zraszaczy, a więc dystansu na jaki rozrzucają wodę. Po pierwsze eliminuje to problem nadmiernego nawodnienia danego obszaru. Po drugie minimalizuje koszty całej instalacji oraz jej utrzymania. Należy tutaj pamiętać, że im większy jest zasięg danego zraszacza tym wymaga większego ciśnienia co z kolei prowadzi do większego zapotrzebowania na wodę, a więc większych kosztów. Należy tutaj dodać również, że cena samego zraszacza jest zazwyczaj uzależniona od maksymalnej mocy danego modelu. Im ta jest większa tym więcej dany zraszacz będzie kosztował. Poprzez optymalizację doboru mocy każdego zraszacza z sieci minimalizuje się obszary nadmierne nawodnione oraz koszt całego systemu.
 
 Kolejnym elementem jest odpowiednie poprowadzenie rur. Należy tutaj skupić się na dwóch elementach. Odpowiedniej średnicy wybranych rur oraz właściwym poprowadzeniu pomiędzy zainstalowanymi zraszaczami. Dobór średnicy odpowiada za ciśnienie wody dostarczanej do głowic. Niewystarczające ciśnienie sprawi, że zraszacz nie będzie mógł rozrzucać wody na wymaganym dystansie. Odpowiednie poprowadzenie rur z kolei pomaga zminimalizować koszty potrzebne do instalacji samych rur oraz połączeń pomiędzy nimi.
 
@@ -222,9 +223,9 @@ W zaprezentowanych rezultatach autorzy zaczynali symulacje losowo rozmieszczają
 
 Przedstawione wyniki są dowodem na odpowiednie podejście autorów do wielokryterialnego problemu pokrycia terenu. Do optymalizacji rozmieszczenia zraszaczy wodnych wykorzystano zmodyfikowany model matematyczny opisany w przedstawionej publikacji oraz wzorowano się na sposobie reprezentacji osobników w wykorzystanym algorytmie genetycznym.
 
-Na podstawie powyższej pracy zdecydowano, że do rozwiązania wielokryterialnego problemu pokrycia terenu dobrze sprawdza się wykorzystanie algorytmów genetycznych. W celu wyboru najlepszego algorytmu potrzebne były jednak badania oraz metryki definiujące jakość rozwiązań wygenerowanych przez poszczególne algorytmy.
+Również na podstawie powyższej pracy zdecydowano, że do rozwiązania wielokryterialnego problemu pokrycia terenu dobrze sprawdza się wykorzystanie algorytmów genetycznych. W celu wyboru najlepszego algorytmu potrzebne były jednak badania oraz metryki definiujące jakość rozwiązań wygenerowanych przez poszczególne algorytmy.
 
-Autorzy \cite{comparison_deb} skupiają się na porównaniu kilku wielokryterialnych algorytmów genetycznych. Do porównań wybrali sześć funkcji testowych. Każda z nich charakteryzowała się tym, że sprawiała pewne trudności algorytmom genetycznym. Trudności te najczęściej skupiały się wokół problemu z osiąganiem prawdziwego frontu Pareto. Ponadto autorzy zdefiniowali trzy metryki służące do oceny znalezionych rozwiązań oraz skonstruowali ranking obrazujący jakość działania każdego z wybranych algorytmów.
+Autorzy \cite{comparison_deb} skupiają się na porównaniu kilku wielokryterialnych algorytmów genetycznych. Do porównań wybrali sześć funkcji testowych. Ponadto autorzy zdefiniowali trzy metryki służące do oceny znalezionych rozwiązań oraz skonstruowali ranking obrazujący jakość działania każdego z wybranych algorytmów.
 
 Kolejną pracą skupiającą się na porównaniu algorytmów genetycznych jest \cite{comparison_2}. W tej konkretnej publikacji autorzy porównują ze sobą dwa algorytmy: NSGA-II oraz OMOPSO. W pracy zdefiniowano trzy przypadki testowe oraz pięć metryk służących do ewaluacji znalezionych przez algorytmy rozwiązań.
 
@@ -237,12 +238,12 @@ W pracy \cite{pipes} autor skupia się na problemie minimalizacji wielkości sys
 Autor w swojej pracy sugeruje, że najlepszym rozwiązaniem okazał się algorytm Prima, służący do znajdowania minimalnego drzewa rozpinającego grafu. Do poprowadzenia rur pomiędzy rozmieszczonymi zraszaczami zdecydowano na wykorzystanie proponowanego przez autora rozwiązania.
 
 \section{Cel pracy}
-Opracowanie informatycznego systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni oraz poprowadzeniu rur pomiędzy nimi, a w szczególności zaproponowanie oraz przebadanie wielokryterialnych algorytmów genetycznych w kontekście następujących kryteriów:\\
+Celem pracy jest opracowanie informatycznego systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych oraz połączeń pomiędzy nimi zadanej powierzchni, a w szczególności zaproponowanie oraz przebadanie wielokryterialnych algorytmów genetycznych w kontekście następujących kryteriów:\\
 \begin{enumerate}
 	\item Minimalizacja obszaru nienawodnionego.
-	\item Minimalizacja kosztu zraszaczy wodnych\\
+	\item Minimalizacja kosztu wykorzystanych zraszaczy wodnych\\
 \end{enumerate}
-, przy zdefiniowanych ograniczeniach wymuszających minimalizację nawodnienia obszaru znajdującego się poza zaznaczonym terenem oraz minimalizację wielkości obszarów nawodnionych nadmiernie.
+, przy zdefiniowanych ograniczeniach wymuszających minimalizację nawodnienia obszaru znajdującego się poza wyznaczonym terenem oraz minimalizację wielkości obszarów nawodnionych nadmiernie.
 
 \section{Opis pracy}
 W kolejnych rozdziałach opisane będą poszczególne zagadnienia związane z realizacją celu pracy. Na samym początku sformułowany zostanie model matematyczny opisujący rozwiązywany problem. Rozdział ten zawierał będzie dokładny opis podejścia do danego zagadnienia wraz z opisem wzorów matematycznych wykorzystanych do zdefiniowania poszczególnych funkcji celu. Następnie wyjaśnione zostaną pojęcia optymalizacji, optymalizacji jednokryterialnej oraz optymalizacji wielokryterialnej, czyli zagadnienia na których bazuje cała praca. W kolejnym rozdziale przedstawione zostaną algorytmy genetyczne, zarówno te w wersji podstawowej jak i wielokryterialnej wraz z ich wybranymi wersjami, tak aby przybliżyć czytelnikowi w jaki sposób ona działają oraz dlaczego są używane. Kolejne rozdziały będą już odzwierciedleniem wykonanej pracy i dokładnym opisem przyjętego sposobu realizacji zadania. Najpierw dokładnie opisany zostanie opracowany system wspomagania decyzji. Wymienione zostaną technologie użyte do implementacji oraz przykładowy scenariusz interakcji użytkownika z systemem wraz z zrzutami ekranu prezentującymi poszczególne widoki aplikacji. W kolejnym rozdziale zaprezentowane zostaną badania mające na celu porównanie wybranych algorytmów genetycznych. Na samym początku przedstawione zostaną cel oraz plan badań. Następnie zaprezentowane zostaną rezultaty procesu strojenia algorytmów. Kolejnym punktem będzie już prezentacja rezultatów badań oraz ich analiza wraz z podsumowaniem. Na końcu pracy znajdzie się ocena przedstawionego systemu wspomagania decyzji, argumenty za oraz przeciw używaniem algorytmów genetycznych w takich systemach oraz propozycje dalszego rozwoju systemu oraz prowadzenia badań.
@@ -253,7 +254,7 @@ Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma 
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{mandf}}
 	\centering
-	\caption{blah}
+	\caption{Teren $P$ mający zostać podlany oraz macierz $M$.}
 	\label{fig:matrix_m}
 \end{figure}
 Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się wewnątrz $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz konkretny model $t_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$.
@@ -279,7 +280,8 @@ Generalnie poprzez wielkość obszaru nienawodnionego rozumie się jako różnic
 \end{equation}
 , gdzie $F_{0}$ jest dodatkową funkcją pomagającą zobrazować podejście do problemu. Im wartość funkcji $F_{0}$ jest mniejsza tym obszar nienawodniony jest mniejszy, a więc rozwiązanie jest lepsze. $F_{0} = $ jest rozwiązaniem idealnym z perspektywy kryterium nawodnienia.
 
-Na podstawie funkcji obrazującej wielkość obszaru nienawodnionego \eqref{eq:simple_f1} sformułowano bardziej szczegółową funkcję biorącą pod uwagę ograniczenia, o których mowa była wcześniej: minimalizację nawodnienia obszaru znajdującego się poza wyznaczonym terenem \eqref{eq:constraint_out_of_bounds} oraz minimalizację wielkości obszarów nawodnionych nadmiernie \eqref{eq:constraint_overrirr}. Wpływ ograniczeń został wprowadzony w formie funkcji kary sumującej stopień ich naruszenia\eqref{eq:constraint_sum}.
+
+Na podstawie funkcji obrazującej wielkość obszaru nienawodnionego \eqref{eq:simple_f1} sformułowano bardziej szczegółową funkcję biorącą pod uwagę stopień naruszenia ograniczeń. Zostały one zdefiniowane w celu minimalizacji nawodnienia obszaru znajdującego się poza wyznaczonym terenem \eqref{eq:constraint_out_of_bounds} oraz minimalizacji wielkości obszarów nawodnionych nadmiernie \eqref{eq:constraint_overrirr}. Wpływ ograniczeń został wprowadzony w formie funkcji kary sumującej stopień ich naruszenia \eqref{eq:constraint_sum}.
 
 \begin{equation}\label{eq:constraint_out_of_bounds}
 	\omega_{1}(S) = \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n,S) \cdot \beta}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}
@@ -301,7 +303,7 @@ Na podstawie funkcji obrazującej wielkość obszaru nienawodnionego \eqref{eq:s
 \end{equation}
 , gdzie $J$ jest zbiorem wszystkich zdefiniowanych ograniczeń.\\
 
-Po uwzględnieniu przedstawionych ograniczeń funkcja oceniająca stopień nawodnienia terenu wygląda w sposób przedstawiony na równaniu \eqref{eq:f_one}.
+Po uwzględnieniu zdefiniowanych ograniczeń funkcja oceniająca wielkość obszaru nienawodnionego wygląda w sposób przedstawiony na równaniu \eqref{eq:f_one}.
 \begin{equation}\label{eq:f_one}
 F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) + \Omega(S)
 \end{equation}
@@ -312,7 +314,7 @@ Jak zostało wspomniane wcześniej, każdy rozmieszczony zraszacz charakteryzowa
 \end{equation}\\
 
 Podsumowując celem zadania jest rozwiązanie problemu optymalizacyjnego sformułowanego w następujący sposób:\\\\
-Dla danych $M, P$ oraz z uwzględnieniem zdefiniowanych ograniczeń \eqref{eq:constraint_out_of_bounds}, \eqref{eq:constraint_overrirr} znajdź wektor $S^{*}$ minimalizujący wielkość obszaru nienawodnionego oraz minimalizujący koszt danego rozwiązania \eqref{eq:final_model}.
+Dla danych $M, P, ms$ oraz z uwzględnieniem zdefiniowanych ograniczeń \eqref{eq:constraint_out_of_bounds}, \eqref{eq:constraint_overrirr} znajdź wektor $S^{*}$ minimalizujący wielkość obszaru nienawodnionego oraz minimalizujący koszt danego rozwiązania \eqref{eq:final_model}.
 \begin{equation}\label{eq:final_model}
 	\begin{split}
 		min \text{  }&  F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) + \Omega(S)\\
@@ -368,7 +370,7 @@ Przedstawiona powyżej definicja frontu Pareto może zostać wykorzystana w dwó
 	\label{fig:fronts_ex}
 \end{figure}
 \subsubsection{Znajdowanie rozwiązań niezdominowanych}
-Kolejnym ważnym zagadnieniem jest proces znajdowania rozwiązań niezdominowanych w danej grupie rozwiązań\cite{book}. Proces ten jest wykorzystywany w większości metod służących do optymalizacji wielokryterialnej, m.in. w wielokryterialnych algorytmach genetycznych opisanych w kolejnym rozdziale.
+Kolejnym ważnym zagadnieniem jest proces znajdowania rozwiązań niezdominowanych w danej grupie rozwiązań \cite{book}. Proces ten jest wykorzystywany w większości metod służących do optymalizacji wielokryterialnej, m.in. w wielokryterialnych algorytmach genetycznych opisanych w kolejnym rozdziale.
 
 Istnieje wiele sposobów na posortowanie grupy ze względu na kryterium dominacji. Najprostszym z nich jest podejście iteracyjne. Polega ono na porównaniu danego rozwiązania $i$, z każdym innym rozwiązaniem. Jeśli rozwiązanie $i$ jest zdominowane przez jakiekolwiek inne rozwiązanie, znaczy to, że nie może zostać dodane do zbioru rozwiązań niezdominowanych. Generalnie dla danego zbioru rozwiązań $S$ o rozmiarze $N$, algorytm iteracyjny może zostać opisany następującymi krokami:\\
 
@@ -379,7 +381,7 @@ Istnieje wiele sposobów na posortowanie grupy ze względu na kryterium dominacj
 	\item Jeśli $j < N$, zwiększ licznik $j$ oraz przejdź do punktu 2. Jeśli $j = N$, dodaj rozwiązanie $i$ do zbioru rozwiązań niezdominowanych.
 	\item Jeśli $i < N$, zwiększ licznik $i$ oraz przejdź do punktu 2. W innym wypadku $P'$ jest końcowym zbiorem rozwiązań niezdominowanych.\\
 \end{enumerate}
-Przedstawiony powyżej algorytm jest prosty ale też cechuje się dużą złożonością obliczeniową. Łatwo zauważyć, że złożoność punktu 3. w najgorszym przypadku wynosi $O(MN)$. Z racji tego, że punkt 4. rekursywnie wywołuje punkt 2, wymaga on złożoności obliczeniowej $O(MN^{2})$. Warto zauważyć, że jest to najgorszy możliwy przypadek, ponieważ w drugim kroku nie zawsze konieczne jest wykonanie wszystkich ($N-1$) porównań\cite{book}.
+Przedstawiony powyżej algorytm jest prosty ale też cechuje się dużą złożonością obliczeniową. Łatwo zauważyć, że złożoność punktu 3. w najgorszym przypadku wynosi $O(MN)$. Z racji tego, że punkt 4. rekursywnie wywołuje punkt 2, wymaga on złożoności obliczeniowej $O(MN^{2})$. Warto zauważyć, że jest to najgorszy możliwy przypadek, ponieważ w drugim kroku nie zawsze konieczne jest wykonanie wszystkich ($N-1$) porównań \cite{book}.
 
 Lepszym rozwiązaniem jest zastosowanie efektywnej metody opracowanej przez Kunga wraz z innymi autorami (Kung et al.'s Efficient Method). Jak zostało wykazane metoda ta cechuje się złożonością obliczeniową $O(N(\log N)^{M-2})$ dla ponad trzech kryteriów oceny oraz $O(N\log N)$ dla dwóch i trzech kryteriów oceny \cite{kung}.
 
@@ -416,26 +418,26 @@ Kod został napisany w języku Python 2.7. Argumentem funkcji ($P$) jest posorto
 Ze względu na najlepszą złożoność obliczeniową metoda opisana powyżej została zaimplementowana w wybranych algorytmach genetycznych.
 
 \subsubsection{Sortowanie rozwiązań niezdominowanych}
-Większość z metod służących do rozwiązywania problemów wielokryterialnych wykorzystuje koncept znajdowania zbioru rozwiązań niezdominowanych. Istnieją również algorytmy, w tym opisywany później NSGA-II, które wymagają podziału całej populacji na kolejne niezdominowane grupy (fronty)\cite{book}. W takim przypadku populacja jest przechowywana jako zbiór frontów ułożonych w kolejności od najlepszego (front pierwszy) do najgorszego.
+Większość z metod służących do rozwiązywania problemów wielokryterialnych wykorzystuje koncept znajdowania zbioru rozwiązań niezdominowanych. Istnieją również algorytmy, w tym opisywany później NSGA-II, które wymagają podziału całej populacji na kolejne niezdominowane grupy (fronty) \cite{book}. W takim przypadku populacja jest przechowywana jako zbiór frontów ułożonych w kolejności od najlepszego (front pierwszy) do najgorszego.
 
-Istnieje prosta procedura służąca do dzielenia całej populacji na poszczególne fronty\cite{nsga}. Wykorzystuje ona metody opisane w poprzedniej sekcji. Po znalezieniu pierwszego frontu, rozwiązania należącego do niego stają się tymczasowo ignorowane. Następnie procedura jest powtarzana, w celu znalezienia kolejnego frontu. Ponownie rozwiązania leżące na danym froncie są dodawane do grupy rozwiązań ignorowanych. Proces jest powtarzany, dopóki każde rozwiązanie z populacji nie jest przyporządkowane do odpowiedniego frontu.
+Istnieje prosta procedura służąca do dzielenia całej populacji na poszczególne fronty \cite{nsga}. Wykorzystuje ona metody opisane w poprzedniej sekcji. Po znalezieniu pierwszego frontu, rozwiązania należącego do niego stają się tymczasowo ignorowane. Następnie procedura jest powtarzana, w celu znalezienia kolejnego frontu. Ponownie rozwiązania leżące na danym froncie są dodawane do grupy rozwiązań ignorowanych. Proces jest powtarzany, dopóki każde rozwiązanie z populacji nie jest przyporządkowane do odpowiedniego frontu.
 
 \subsubsection{Cele optymalizacji wielokryterialnej}
-Jak zostało wspomniane wcześniej rezultatem procesu optymalizacji wielokryterialnej, nie jest jedno rozwiązanie, lecz grupa rozwiązań. Grupę taką ocenia się z perspektywy dwóch kryteriów\cite{book}. Po pierwsze grupa ta powinna znajdować się jak najbliższej prawdziwego frontu Pareto. Rozwiązanie idealne odwzorowuje sytuację kiedy każde znalezione rozwiązanie jest optymalne w sensie Pareto. Po drugie znaleziona grupa powinna cechować się różnorodnością. Jest to ważne z perspektywy zachowania takiej samej wagi dla każdego ustalonego kryterium. Warto tutaj wspomnieć, że proces optymalizacji wielokryterialnej nie jest odpowiedzialny za wybór jednego konkretnego rozwiązania, które będzie najlepsze dla konkretnego użytkownika. Wynikiem takiej optymalizacji ma być natomiast zbiór równie dobrych rozwiązań, z których użytkownik będzie mógł wybrać najbardziej dla siebie odpowiednie. Im większa różnorodność rozwiązań tym więcej opcji do wyboru ma użytkownik.
+Jak zostało wspomniane wcześniej rezultatem procesu optymalizacji wielokryterialnej, nie jest jedno rozwiązanie, lecz grupa rozwiązań. Grupę taką ocenia się z perspektywy dwóch kryteriów \cite{book}. Po pierwsze grupa ta powinna znajdować się jak najbliższej prawdziwego frontu Pareto. Rozwiązanie idealne odwzorowuje sytuację kiedy każde znalezione rozwiązanie jest optymalne w sensie Pareto. Po drugie znaleziona grupa powinna cechować się różnorodnością. Jest to ważne z perspektywy zachowania takiej samej wagi dla każdego ustalonego kryterium. Warto tutaj wspomnieć, że proces optymalizacji wielokryterialnej nie jest odpowiedzialny za wybór jednego konkretnego rozwiązania, które będzie najlepsze dla konkretnego użytkownika. Wynikiem takiej optymalizacji ma być natomiast zbiór równie dobrych rozwiązań, z których użytkownik będzie mógł wybrać najbardziej dla siebie odpowiednie. Im większa różnorodność rozwiązań tym więcej opcji do wyboru ma użytkownik.
 
-Oba wymienione kryteria są tak samo ważne, dlatego algorytmy służące do optymalizacji wielokryterialnej powinny skupiać się na zaspokojeniu obu tych kryteriów w takim samym stopniu\cite{book}.
+Oba wymienione kryteria są tak samo ważne, dlatego algorytmy służące do optymalizacji wielokryterialnej powinny skupiać się na zaspokojeniu obu tych kryteriów w takim samym stopniu \cite{book}.
 
 \chapter{Algorytmy genetyczne}
 Problem rozmieszczenia zraszaczy opisany na wstępie pracy został rozwiązany przy użyciu algorytmów genetycznych. Są to algorytmy, których działanie oparte jest na tych samych zasadach na których odbywa się proces ewolucji zachodzący w naturze \cite{ga_book}. W tym rozdziale przedstawiony zostanie opis ogólny algorytmu genetycznego, jego powiązanie z procesami zachodzącymi w przyrodzie, schemat działania oraz dokładny opis wykorzystywanych operatorów: krzyżowania, selekcji oraz mutacji. Następnie przedstawiony zostanie koncept wielokryterialnych algorytmów genetycznych oraz opisane zostaną dwa algorytmy wykorzystane do rozwiązania przedstawionego wcześniej problemu: NSGA-II oraz SPEA. Następnie opisana zostanie konkretna implementacja zastosowana w celu rozwiązania problemu nawodnienia.
 
 \section{Opis ogólny}
-Algorytmy genetyczne są procedurami wykorzystywanymi do rozwiązywania problemów optymalizacyjnych, opartymi o genetykę oraz selekcję naturalną. Cały proces działania takiego algorytmu można porównywać do procesu ewolucji występującego w przyrodzie\cite{ga_book}. Obserwując taki proces można zauważyć, że najlepiej przystosowane osobniki mają największe szanse na reprodukcję, a więc przekazanie swojego DNA kolejnym pokoleniom. Dzieje się tak dlatego, że z punktu widzenia biologii najlepiej przystosowane osobniki to te najbardziej atrakcyjne dla potencjalnych partnerów oraz w przypadku zwierząt stadnych, te dominujące całą resztę, a więc mające pierwszeństwo jeśli chodzi o wybór partnerów, reprodukcję czy chociażby pożywianie się. Generalizując natura dąży do tego, aby do puli z której utworzone ma zostać kolejne pokolenie danej populacji trafiały jak najlepsze geny. Gdyby działo się inaczej żaden gatunek nie przetrwałby więcej niż kilkudziesięciu pokoleń.
+Algorytmy genetyczne są procedurami wykorzystywanymi do rozwiązywania problemów optymalizacyjnych, opartymi o genetykę oraz selekcję naturalną. Cały proces działania takiego algorytmu można porównywać do procesu ewolucji występującego w przyrodzie \cite{ga_book}. Obserwując taki proces można zauważyć, że najlepiej przystosowane osobniki mają największe szanse na reprodukcję, a więc przekazanie swojego DNA kolejnym pokoleniom. Dzieje się tak dlatego, że z punktu widzenia biologii najlepiej przystosowane osobniki to te najbardziej atrakcyjne dla potencjalnych partnerów oraz w przypadku zwierząt stadnych, te dominujące całą resztę, a więc mające pierwszeństwo jeśli chodzi o wybór partnerów, reprodukcję czy chociażby pożywianie się. Generalizując natura dąży do tego, aby do puli z której utworzone ma zostać kolejne pokolenie danej populacji trafiały jak najlepsze geny. Gdyby działo się inaczej żaden gatunek nie przetrwałby więcej niż kilkudziesięciu pokoleń.
 
 Jak zostało wspomniane największe szanse na potomstwo mają osobniki najlepsze patrząc z perspektywy szansy na przetrwanie. Potomstwo par takich osobników powstaje na skutek procesu nazywanego krzyżowaniem. Krzyżowanie polega na łączeniu genów jednego osobnika z drugim, tworząc w ten sposób potomka, charakteryzującego się cechami zarówno pierwszego jak i drugiego rodzica. Oczywiście im lepiej rodzice danego osobnika byli przystosowani, tym większa szansa, że również i on będzie stał wysoko w hierarchii.
 
 Kolejnym istotnym elementem w procesie ewolucji jest mutacja. Mutacja jest losowym procesem polegającym na zmianie fragmentu kodu DNA. Poprzez taką zmianę osobnik staje się jeszcze lepiej lub gorzej przystosowany. W pierwszym przypadku jego szanse na reprodukcję wzrastają, więc jest większe prawdopodobieństwo, że zmiana wprowadzona przez mutację zostanie przekazana dalej. W drugim przypadku linia osobników ze zmienionym DNA prawdopodobnie wygaśnie zdecydowanie szybciej niż w przypadku pierwszym.
 
-Podsumowując, proces ewolucji złożony jest z trzech elementów: selekcji, krzyżowania oraz mutacji\cite{ga_book}. Na tych samych operacjach opiera się działanie algorytmu genetycznego. W kontekście algorytmu są one nazywane operatorami genetycznymi. Na rysunku \eqref{fig:ga_sequence} przedstawiony został ogólny schemat działania takiego algorytmu.
+Podsumowując, proces ewolucji złożony jest z trzech elementów: selekcji, krzyżowania oraz mutacji \cite{ga_book}. Na tych samych operacjach opiera się działanie algorytmu genetycznego. W kontekście algorytmu są one nazywane operatorami genetycznymi. Na rysunku \eqref{fig:ga_sequence} przedstawiony został ogólny schemat działania takiego algorytmu.
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{ga_sequence}}
 	\centering
@@ -446,9 +448,9 @@ Podsumowując, proces ewolucji złożony jest z trzech elementów: selekcji, krz
 Punktem startowym jest utworzenie losowej populacji osobników. Następnie każdy osobnik jest oceniany przez pryzmat ustalonego kryterium. Na podstawie oceny przeprowadzany jest proces selekcji, czyli wyboru najlepszych osobników, które wykorzystane zostaną do reprodukcji. Podczas procesu reprodukcji generowane są nowe osobniki tworzące kolejne pokolenie. Każdy nowy osobnik jest wynikiem krzyżowania, czyli łączenia chromosomu dwóch rodziców w jeden. Chromosom z punktu widzenia biologii jest formą organizacji materiału genetycznego. Z punktu widzenia algorytmu będzie to zestaw parametrów charakteryzujących danego osobnika, który zostanie opisany później. Następnie chromosomy nowych osobników mogą ulec mutacji, czyli losowej zmianie pojedynczych genów. Gdy zostanie utworzona odpowiednia liczba nowych osobników, czyli powstanie nowe pokolenie, cały proces zaczyna się od początku, dopóki nie osiągnięte zostanie zdefiniowane kryterium końcowe.\\\\
 W powyższym opisie pojawiło się kilka pojęć wartych wyjaśnienia.
 \subsubsection{Populacja}
-Populacja jest grupą o ustalonym rozmiarze. Elementami grupy są pojedyncze osobniki. Jedną z przewag algorytmów genetycznych nad tradycyjnymi technikami optymalizacyjnymi jest właśnie operowanie nie na jednym konkretnym rozwiązaniu, lecz na całej grupie. Duża różnorodność osobników w połączeniu z odpowiednim użyciem operatorów genetycznych pozwala uniknąć problemu utknięcia na optimum lokalnym.
+Populacja jest grupą o ustalonym rozmiarze. Elementami grupy są pojedyncze osobniki. Jedną z przewag algorytmów genetycznych nad tradycyjnymi technikami optymalizacyjnymi jest właśnie operowanie nie na jednym konkretnym rozwiązaniu, lecz na całej grupie. Duża różnorodność osobników w połączeniu z odpowiednim użyciem operatorów genetycznych pozwala uniknąć problemu ,,utknięcia'' na optimum lokalnym.
 \subsubsection{Chromosom}
-Chromosom, jak zostało już wspomniane, jest sposobem reprezentacji właściwości cechujących danego osobnika. Chromosom można zdefiniować na dwa sposoby: za pomocą ciągu binarnego lub wartości rzeczywistych. Ciąg binarny jest ciągiem wartości $0$ lub $1$ ułożonych w taki sposób aby odpowiednio zakodować przekazywaną informację. W ramach przykładu załóżmy, że mamy dany cylinder o średnicy $d = 10 cm$ oraz wysokości $h = 14 cm$ \cite{book}. Rysunek \eqref{fig:cylinder} pokazuje przykładowy sposób reprezentacji takiego cylindra w formie ciągu binarnego. 
+Chromosom, jak zostało już wspomniane, jest sposobem reprezentacji właściwości cechujących danego osobnika. Chromosom można zdefiniować na dwa sposoby: za pomocą ciągu binarnego lub wartości rzeczywistych. Ciąg binarny jest ciągiem wartości $0$ lub $1$ ułożonych w taki sposób aby odpowiednio zakodować przekazywaną informację. W ramach przykładu załóżmy, że mamy dany cylinder o średnicy $d = 10\text{ }cm$ oraz wysokości $h = 14\text{ }cm$ \cite{book}. Rysunek \eqref{fig:cylinder} pokazuje przykładowy sposób reprezentacji takiego cylindra w formie ciągu binarnego. 
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{cylinder}}
 	\centering
@@ -472,11 +474,11 @@ Kolejnym etapem działania algorytmu genetycznego jest reprodukcja inaczej zwana
 \begin{enumerate}
 	\item Zidentyfikowanie dobrych (ocenionych powyżej średniej) osobników.
 	\item Utworzenie kopii dobrych osobników.
-	\item Eliminacja osobników gorszych, tak aby kopie dobrych mogły zostać dodane do populacji.\cite{book}\\
+	\item Eliminację osobników gorszych, tak aby kopie dobrych mogły zostać dodane do populacji.\cite{book}\\
 \end{enumerate}
 Powyższe zadania mogą zostać osiągnięte przy użyciu kilku metod. Najpopularniejszymi z nich są: metoda turniejowa, metoda ruletki oraz metoda rankingu.
 
-Metoda turniejowa polega na rozgrywaniu turniejów pomiędzy kilkoma osobnikami wybranymi losowo z populacji \cite{tournament}. Zwycięzca każdego turnieju, jako rodzic, przechodzi do etapu krzyżowania, który zostanie opisany później\eqref{fig:tournament}. Rozmiar pojedynczego turnieju znacząco wpływa na przebieg procesu selekcji. Im jest większy, tym mniejsza szansa, że słabsze osobniki przejdą do kolejnego etapu. Wbrew pozorom takie zachowanie nie jest pożądane ze względu na potrzebę zachowania różnorodności populacji. Im rozmiar jest większy tym większa szansa, że do kolejnego etapu dostanie się zbyt dużo słabszych osobników, co również nie jest dobrym rozwiązaniem. Jeśli rozmiar turnieju $S = 1$ selekcja staje się równoważna losowemu wyborowi osobnika. Najczęściej stosuje się turnieje o rozmiarze 2. Metoda turniejowa jest jedną z najczęściej wybieranych metod selekcji. Jest prosta w implementacji oraz pozwala na łatwe manipulowanie rozmiarem turnieju, co z kolei wpływa na szybkość zbliżania się znalezionych rozwiązań do rozwiązań optymalnych. Ponadto jak zostało udowodnione selekcja turniejowa zawsze zapewnia lepszą lub taką samą szybkość zbliżania się do rozwiązań optymalnych jak inne metody selekcji oraz mniejszą lub taką samą złożoność obliczeniową \cite{book}. Z wymienionych powyżej powodów to właśnie metoda turniejowa została zaimplementowana w wybranych algorytmach.
+Metoda turniejowa polega na rozgrywaniu turniejów pomiędzy kilkoma osobnikami wybranymi losowo z populacji \cite{tournament}. Zwycięzca każdego turnieju, jako rodzic, przechodzi do etapu krzyżowania, który zostanie opisany później \eqref{fig:tournament}. Rozmiar pojedynczego turnieju znacząco wpływa na przebieg procesu selekcji. Im jest większy, tym mniejsza szansa, że słabsze osobniki przejdą do kolejnego etapu. Wbrew pozorom takie zachowanie nie jest pożądane ze względu na potrzebę zachowania różnorodności populacji. Im rozmiar jest większy tym większa szansa, że do kolejnego etapu dostanie się zbyt dużo słabszych osobników, co również nie jest dobrym rozwiązaniem. Jeśli rozmiar turnieju $S = 1$ selekcja staje się równoważna losowemu wyborowi osobnika. Najczęściej stosuje się turnieje o rozmiarze 2. Metoda turniejowa jest jedną z najczęściej wybieranych metod selekcji. Jest prosta w implementacji oraz pozwala na łatwe manipulowanie rozmiarem turnieju, co z kolei wpływa na szybkość zbliżania się znalezionych rozwiązań do rozwiązań optymalnych. Ponadto jak zostało udowodnione selekcja turniejowa zawsze zapewnia lepszą lub taką samą szybkość zbliżania się do rozwiązań optymalnych jak inne metody selekcji oraz mniejszą lub taką samą złożoność obliczeniową \cite{book}. Z wymienionych powyżej powodów to właśnie metoda turniejowa została zaimplementowana w wybranych algorytmach.
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{tournament}}
 	\centering
@@ -484,7 +486,7 @@ Metoda turniejowa polega na rozgrywaniu turniejów pomiędzy kilkoma osobnikami 
 	\label{fig:tournament}
 \end{figure}
 
-Kolejną popularną metody selekcji jest metoda proporcjonalna\cite{book}. W metodzie tej wprowadzone zostaje pojęcie puli rozrodczej. Jest to pula spośród której wybierane są osobniki wykorzystywane później do krzyżowania. Wypełnienie puli rozrodczej kopiami osobników wykonywane jest procesie selekcji. Liczba kopii danego osobnika w puli jest proporcjonalna do jego wartości dopasowania. Jeśli średnia wartość dopasowania dla całej populacji wynosi $f_{avg}$, dany osobnik $s_{i}$ będzie posiadał $f_{i}/f_{avg}$ kopii w puli rozrodczej. Metoda proporcjonalna często nazywana jest również metodą ruletki, ponieważ właśnie za pomocą koła ruletki można zobrazować sobie jej działanie. Wspomniane koło jest podzielone na $N$ części, gdzie $N$ jest wielkością populacji. Każdy wycinek koła odpowiada jednemu osobnikowi z populacji. Wielkość danego wycinka jest proporcjonalna do wartości dopasowania osobnika. Wynika z tego, że wycinki powiązane z lepszymi osobnikami będą zajmować większą część koła. Jak można zauważyć na rysunku \eqref{fig:roulette} osobnik o numerze 6 jest najlepszy na tle całej populacji, natomiast osobnik o numerze 2 jest osobnikiem najgorszym. Wybór osobników do puli rozrodczej odbywa się poprzez kręcenie kołem. Czynność ta powtarzana jest $N$ razy. Po zatrzymaniu wybierany jest osobnik na którego wycinku zatrzymał się wskaźnik. Osobniki z najlepszą wartością dopasowania mają największe szanse na trafienie do puli rozrodczej.
+Kolejną popularną metody selekcji jest metoda proporcjonalna \cite{book}. W metodzie tej wprowadzone zostaje pojęcie puli rozrodczej. Jest to pula spośród której wybierane są osobniki wykorzystywane później do krzyżowania. Wypełnienie puli rozrodczej kopiami osobników wykonywane jest procesie selekcji. Liczba kopii danego osobnika w puli jest proporcjonalna do jego wartości dopasowania. Jeśli średnia wartość dopasowania dla całej populacji wynosi $f_{avg}$, dany osobnik $s_{i}$ będzie posiadał $f_{i}/f_{avg}$ kopii w puli rozrodczej. Metoda proporcjonalna często nazywana jest również metodą ruletki, ponieważ właśnie za pomocą koła ruletki można zobrazować sobie jej działanie. Wspomniane koło jest podzielone na $N$ części, gdzie $N$ jest wielkością populacji. Każdy wycinek koła odpowiada jednemu osobnikowi z populacji. Wielkość danego wycinka jest proporcjonalna do wartości dopasowania osobnika. Wynika z tego, że wycinki powiązane z lepszymi osobnikami będą zajmować większą część koła. Jak można zauważyć na rysunku \eqref{fig:roulette} osobnik o numerze 6 jest najlepszy na tle całej populacji, natomiast osobnik o numerze 2 jest osobnikiem najgorszym. Wybór osobników do puli rozrodczej odbywa się poprzez kręcenie kołem. Czynność ta powtarzana jest $N$ razy. Po zatrzymaniu wybierany jest osobnik na którego wycinku zatrzymał się wskaźnik. Osobniki z najlepszą wartością dopasowania mają największe szanse na trafienie do puli rozrodczej.
 
 Wadami metody proporcjonalnej jest duża złożoność obliczeniowa oraz problemy ze skalowaniem \cite{book}. Załóżmy, że jeden osobnik jest znacząco lepszy od reszty. Wtedy powiązany z nim wycinek będzie zajmował niemal całe koło, a co za tym idzie prawdopodobieństwo wyboru takiego osobnika będzie zbliżone do 1. W konsekwencji pula rozrodcza będzie w większości zapełniona kopiami jednego osobnika, co prowadzi do braku zróżnicowania. Z drugiej strony jeśli wszystkie osobniki mają bardzo zbliżone wartości dopasowania, każdy z nich ma również podobne prawdopodobieństwo wyboru do puli. Prowadzi to do sytuacji, kiedy każdy osobnik ma dokładnie jedną kopię w puli rozrodczej. Taki proces selekcji nie wnosi żadnej wartości i równie dobrze mógłby zostać pominięty. 
 \begin{figure}[!htb]
@@ -497,7 +499,7 @@ Wadami metody proporcjonalnej jest duża złożoność obliczeniowa oraz problem
 Opisanych powyżej problemów ze skalowaniem można uniknąć korzystając z metody rankingowej \cite{book}. Polega ona na posortowaniu osobników z populacji ze względu na ich wartość dopasowania. W ten sposób najgorszemu osobnikowi zostaje przypisane pierwsze miejsce w tworzonym rankingu. Osobnik najlepszy znajdzie się wtedy na $N$-tym miejscu. Po takim przygotowaniu na posortowanej populacji zostaje użyty operator selekcji proporcjonalnej. Na tym etapie przygotowanie koła ruletki nie opiera się już na wartości dopasowania poszczególnych osobników, lecz na ich pozycji w rankingu. Pozwala to na pozbycie się opisanych wcześniej problemów.
 
 \subsubsection{Krzyżowanie}
-Po wyborze osobników mających zostać rodzicami następuje czas na skorzystanie z operatora krzyżowania. Tutaj należy zwrócić uwagę na to, że opisany wcześniej proces reprodukcji nie tworzy żadnych nowych osobników. Dzieje się to dopiero w trakcie procesu krzyżowania. Jak wskazuje nazwa, krzyżowanie polega na łączeniu dwóch osobników w celu utworzenia ich potomstwa \cite{ga_book}. Dzieje się to na poziomie zdefiniowanych wcześniej chromosomów. Najprostszą i najlepiej ilustrującą ideę krzyżowania metodą jest metoda jednopunktowa. Polega ona na losowym wybraniu punktu względem którego nastąpi podział chromosomu na dwie części. Potomstwo powstaje na skutek wymiany pomiędzy rodzicami części chromosomu znajdującej się po prawej stronie od wybranego punktu podziału. Proces ten został przedstawiony na rysunku \eqref{fig:one_point_cross}. Po lewej stronie znajdują się chromosomy pary rodziców. Punkt podziału został losowo ustalony na $d=4$, co symbolizuje pionowa przerywana linia. Po prawie stronie znajduje się potomstwo - wynik zastosowania operatora krzyżowania. Jak widać chromosom każdego nowego osobnika powstał na skutek złożenia chromosomów rodziców.
+Po wyborze osobników mających zostać rodzicami następuje czas na skorzystanie z operatora krzyżowania. Tutaj należy zwrócić uwagę na to, że opisany wcześniej proces reprodukcji nie tworzy żadnych nowych osobników. Dzieje się to dopiero w trakcie procesu krzyżowania. Jak wskazuje nazwa, krzyżowanie polega na łączeniu dwóch osobników w celu utworzenia ich potomstwa \cite{ga_book}. Dzieje się to na poziomie zdefiniowanych wcześniej chromosomów. Najprostszą i najlepiej ilustrującą ideę krzyżowania metodą jest metoda jednopunktowa. Polega ona na losowym wybraniu punktu względem którego nastąpi podział chromosomu na dwie części. Potomstwo powstaje na skutek wymiany pomiędzy rodzicami części chromosomu znajdującej się po prawej stronie od wybranego punktu podziału. Proces ten został przedstawiony na rysunku \eqref{fig:one_point_cross}. Po lewej stronie znajdują się chromosomy pary rodziców. Punkt podziału został losowo ustalony na $d=4$, co symbolizuje pionowa przerywana linia. Po prawej stronie znajduje się potomstwo - wynik zastosowania operatora krzyżowania. Jak widać chromosom każdego nowego osobnika powstał na skutek złożenia chromosomów rodziców.
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.34]{one_point_cross}}
 	\centering
@@ -543,33 +545,33 @@ W kolejnych podrozdziałach opisane zostaną dwa algorytmy spełniające powyżs
 NSGA-II jest drugą wersją zaproponowanego w 2000 roku algorytmu NSGA (Elitist Non-Dominated Sorting Genetic Algorithm). Jego działanie opiera się na dwóch konceptach: elitaryzmie oraz strategii zachowania różnorodności w populacji \cite{nsga}. 
 
 \subsubsection{Elitaryzm}
-Elitaryzm jest dodatkowym operatorem używanym w algorytmach genetycznych. Jego rolą jest zwiększenie szansy, że najlepsze rozwiązania z danego pokolenia (elita) zostaną bezpośrednio przeniesione do pokolenia następnego. Istnieje wiele sposobów na zdefiniowanie operatora elitaryzmu. W przypadku problemów jednokryterialnych przykładem może być porównywanie potomków utworzonych w procesie krzyżowania z ich rodzicami oraz zachowanie dwóch najlepszych osobników. W globalnego punktu widzenia elitaryzm może być wprowadzony poprzez łączenie rodziców oraz potomków w jedną populację, na której używane są później operatory genetyczne. W ten sposób rodzice również mają szanse na rywalizację ze swoim potomstwem.
+Elitaryzm jest dodatkowym operatorem używanym w algorytmach genetycznych. Jego rolą jest zwiększenie szansy, że najlepsze rozwiązania z danego pokolenia (elita) zostaną bezpośrednio przeniesione do pokolenia następnego. Istnieje wiele sposobów na zdefiniowanie operatora elitaryzmu. W przypadku problemów jednokryterialnych przykładem może być porównywanie potomków utworzonych w procesie krzyżowania z ich rodzicami oraz zachowanie dwóch najlepszych osobników. Z globalnego punktu widzenia elitaryzm może być wprowadzony poprzez łączenie rodziców oraz potomków w jedną populację, na której używane są później operatory genetyczne. W ten sposób rodzice dostają szanse na rywalizację ze swoim potomstwem.
 
-Celem elitaryzmu jest zapewnienie, że wartość przystosowania najlepszego osobnika w danym pokoleniu nie jest gorsza od jego odpowiednika z poprzedniego pokolenia. Operator elitaryzmu, że najlepsze rozwiązania znalezione na początku symulacji nie zostaną zgubione. Ponadto ich obecność w kolejnych populacjach zwiększa szanse na utworzenie równie dobrego potomstwa. 
+Celem elitaryzmu jest zapewnienie, że wartość przystosowania najlepszego osobnika w danym pokoleniu nie jest gorsza od jego odpowiednika z poprzedniego pokolenia. Operator elitaryzmu gwarantuje, że najlepsze rozwiązania znalezione na początku symulacji nie zostaną zgubione. Ponadto ich obecność w kolejnych populacjach zwiększa szanse na utworzenie lepszego potomstwa. 
 
-Podsumowując, odpowiednio użyty elitaryzm zapewnia lepsze działanie algorytmów genetycznych. Należy jednak zwrócić uwagę na to jaki procent najlepszych osobników można nazwać elitą. Jest to określane przez zmienną $\alpha$. Jeśli procent ten jest duży, prawdopodobne jest, że w następnych pokoleniach populacja zacznie skupiać się wokół najlepszych osobników, prowadząc do zmniejszenia różnorodności. Jeśli procent będzie za mały wpływ elitaryzmu może zostać nadmiernie zredukowany nie wprowadzając żadnego pozytywnego wpływu. Wartości pomiędzy $\alpha = 1$, a $\alpha = 0.1N$, gdzie $N$ jest wielkością populacji, są najbardziej popularne \cite{book}.\\
+Podsumowując, odpowiednio użyty elitaryzm zapewnia lepsze działanie algorytmów genetycznych. Należy jednak zwrócić uwagę na to jaki procent najlepszych osobników można nazwać elitą. Jest to określane przez zmienną $\alpha$. Jeśli procent ten jest duży, prawdopodobne jest, że w następnych pokoleniach populacja zacznie skupiać się wokół najlepszych osobników, prowadząc do zmniejszenia różnorodności. Jeśli procent będzie za mały wpływ elitaryzmu może zostać nadmiernie zredukowany nie wprowadzając żadnego pozytywnego efektu.\\
 
-W NSGA-II początkowym krokiem jest połączenie populacji rodziców $P_{t}$ z populacją potomstwa $Q_{t}$ \cite{nsga}. Wskutek tego powstaje grupa $R_{t}$ o rozmiarze $2N$, gdzie $N$ jest rozmiarem populacji. Jest to grupa, na której będzie pracował algorytm. Następnym krokiem jest poddanie $R_{t}$ sortowaniu rozwiązań niezdominowanych, które zostało opisane w rozdziale \ref{blah}. Następnie tworzona zostaje nowa populacja $P_{t+1}$ o rozmiarze $N$. Dzieje się to poprzez wypełnianie nowej populacji osobnikami należącymi do danego frontu grupy $R_{t}$, zaczynając od frontu najlepszego, czyli pierwszego. Proces ten jest kontynuowany aż do momentu kiedy w nowej populacji nie ma już miejsca na kolejne osobniki. Warto zwrócić uwagę, że osobniki przenoszone są z grupy o rozmiarze $2N$ do grupy o rozmiarze $N$. Przez to nie wszystkie fronty mogą zostać przeniesione. Fronty, które nie mieszczą się w nowej populacji są po prostu usuwane. Inaczej sytuacja wygląda, gdy dany front może zmieścić się tylko częściowo. Zostało to przedstawione na rysunku \eqref{fig:nsga2_fronts}. Wtedy na danym froncie stosowane jest sortowanie oparte o lokalną wartość zagęszczenia, która zdefiniowana zostanie później. Następnie do nowej populacji zostaje przeniesionych $n$ brakujących osobników, które podczas sortowania zostały uznane za najlepsze.
+W NSGA-II początkowym krokiem jest połączenie populacji rodziców $P_{t}$ z populacją potomstwa $Q_{t}$ \cite{nsga}. Wskutek tego powstaje grupa $R_{t}$ o rozmiarze $2N$, gdzie $N$ jest rozmiarem populacji. Jest to grupa, na której będzie pracował algorytm. Następnym krokiem jest poddanie $R_{t}$ sortowaniu rozwiązań niezdominowanych, które zostało opisane w rozdziale poświęconym optymalizacji wielokryterialnej. Następnie tworzona zostaje nowa populacja $P_{t+1}$ o rozmiarze $N$. Dzieje się to poprzez wypełnianie nowej populacji osobnikami należącymi do danego frontu grupy $R_{t}$, zaczynając od frontu najlepszego, czyli pierwszego. Proces ten jest kontynuowany aż do momentu kiedy w nowej populacji nie ma już miejsca na kolejne osobniki. Warto zwrócić uwagę, że osobniki przenoszone są z grupy o rozmiarze $2N$ do grupy o rozmiarze $N$. Przez to nie wszystkie fronty mogą zostać w całości wykorzystane. Fronty, które nie mieszczą się w nowej populacji są po prostu usuwane. Inaczej wygląda sytuacja, gdy dany front może zmieścić się tylko częściowo. Zostało to przedstawione na rysunku \eqref{fig:nsga2_fronts}. W takiej sytuacji na danym froncie stosowane jest sortowanie oparte o lokalną wartość zagęszczenia, która zdefiniowana zostanie później. Następnie do nowej populacji zostaje przeniesionych $n$ brakujących osobników, które podczas sortowania zostały uznane za najlepsze.
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{nsga2_fronts}}
 	\centering
-	\caption{Uproszczony schemat działania algorytmu NSGA-II.\\1.Sortowanie rozwiązań niezdominowanych.\\2.Sortowanie w oparciu o lokalna wartość zagęszczenia.}
+	\caption{Uproszczony schemat działania algorytmu NSGA-II.\\1.Sortowanie rozwiązań niezdominowanych.\\2.Sortowanie w oparciu o lokalną wartość zagęszczenia.}
 	\label{fig:nsga2_fronts}
 \end{figure}
 
 Na nowej populacji $P_{t+1}$ stosowany jest następnie zmodyfikowany operator selekcji \cite{nsga}. Użycie takie operatora zakłada, że każdy osobnik charakteryzuje się dwoma cechami:\\
 \begin{enumerate}
 	\item Numerem frontu, na którym się znajduje.
-	\item Lokalną wartością zagęszczenia, która opisana zostanie później.\\
+	\item Lokalną wartością zagęszczenia.\\
 \end{enumerate}
 Bazując na tych dwóch cechach, osobnik $i$ jest lepszy od osobnika $j$, jeśli:\\
 \begin{enumerate}
 	\item Osobnik $i$ znajduje się na lepszym froncie niż osobnik. $j$
 	\item Osobnik $i$ znajduje się na tym samym froncie co osobnik $j$ ale charakteryzuje się mniejszą lokalną wartością zagęszczenia.\\
 \end{enumerate}
-Pierwszy warunek jest odzwierciedleniem konceptu dominacji. Osobnik leżący na lepszym froncie dominuje osobnika znajdującego się na froncie gorszym. Drugi warunek został wprowadzony, aby rozstrzygać, który z osobników jest bardziej wartościowy jeśli oba leżą na tym samym froncie. Jak zostało wyjaśnione wcześniej rozwiązując wielokryterialne problemy optymalizacyjne należy skupić się nie tylko na jakości rozwiązań ale również ich różnorodności. Różnorodność danego rozwiązania na tle całości populacji jest definiowana za pomocą metryki określającej zagęszczenie opisanej w \cite{book}. 
+Pierwszy warunek jest odzwierciedleniem koncepcji dominacji. Osobnik leżący na lepszym froncie dominuje osobnika znajdującego się na froncie gorszym. Drugi warunek został wprowadzony, aby rozstrzygać, który z osobników jest bardziej wartościowy jeśli oba leżą na tym samym froncie. Jak zostało wyjaśnione wcześniej rozwiązując wielokryterialne problemy optymalizacyjne należy skupić się nie tylko na jakości rozwiązań ale również na ich różnorodności. Różnorodność danego rozwiązania na tle całości populacji jest definiowana za pomocą metryki określającej zagęszczenie opisanej w \cite{book}. 
 
-Polega ona na obliczeniu średniego dystansu pomiędzy dwoma najbliższymi sąsiadami danego osobnika, znajdującymi się po jego przeciwnych stronach. Zostało to zilustrowane na rysunku \eqref{fig:nsga2_cd}. Takie obliczenia są przeprowadzane $m$ razy dla każdego osobnika, gdzie $m$ jest liczbą zdefiniowanych kryteriów. Następnie wyniki otrzymane dla każdego kryterium są agregowane do jednej wartości $d_{i}$. Generalnie algorytm obliczający zagęszczenie populacji można przedstawić następująco:\\
+Polega ona na obliczeniu średniego dystansu pomiędzy dwoma najbliższymi sąsiadami danego osobnika, znajdującymi się po jego przeciwnych stronach. Zostało to zilustrowane na rysunku \eqref{fig:nsga2_cd}. Takie obliczenia są przeprowadzane $m$ razy dla każdego osobnika, gdzie $m$ jest liczbą zdefiniowanych kryteriów. Następnie wyniki otrzymane dla każdego kryterium są agregowane do jednej wartości $d_{i}$. Generalnie algorytm obliczający zagęszczenie można przedstawić następująco:\\
 \begin{enumerate}
 	\item Dla każdego osobnika z populacji przypisz $d_{i} = 0$ oraz zdefiniuj $l$ jako liczbę osobników.
 	\item Dla każdego kryterium $m$, posortuj populację względem wartości funkcji oceny danego kryterium $f_{m}$, tworząc wektor $I^{m}$
@@ -603,12 +605,12 @@ Kiedy populacja zewnętrzna zostanie zaktualizowana, następuje proces ewaluacji
 \begin{equation}\label{eq:str_ep}
 	S_{i} = \dfrac{n_{i}}{N + 1}
 \end{equation}
-, gdzie $n_{i}$ określa liczbę osobników populacji, która jest zdominowana przez osobnika $i$. Jak łatwo zauważyć, osobnik dominujący więcej rozwiązań będzie charakteryzował się wyższą wartością funkcji $S_{i}$.\\\\
+, gdzie $n_{i}$ określa liczbę osobników populacji, która jest zdominowana przez osobnika $i$. Jak łatwo zauważyć, osobnik dominujący więcej rozwiązań będzie charakteryzował się większą wartością funkcji $S_{i}$.\\\\
 Osobniki z populacji $P_{i}$ ocenianie są przy użyciu następującej funkcji:
 \begin{equation}\label{eq:str_p}
 	F_{j} = 1 + \sum_{i \in \overline{P_{t}} \wedge i \preceq j} S_{i}
 \end{equation}
-Liczba $1$ zostaje dodana to po to, aby zapewnić, że wartość oceny każdego rozwiązania będzie większa od siły osobników znajdujących się w populacji zewnętrznej. Ponadto dodawana jest suma siły każdego osobnika, przez którego danego rozwiązanie $j$ jest słabo zdominowane. W tym miejscu warto zauważyć, że im mniejsza jest wartość funkcji oceny $F_{j}$, tym lepszy jest dany osobnik. Przykład procesu ewaluacji został przedstawiony na rysunku \eqref{fig:spea_eval}. Osobniki zaznaczone na czerwone należą do populacji zewnętrznej. Jak łatwo zauważyć w procesie reprodukcji faworyzowane będą osobniki charakteryzujące się mniejszą wartością funkcji oceny, a więc te z populacji zewnętrznej.
+Liczba $1$ zostaje dodana po to, aby zapewnić, że wartość oceny każdego rozwiązania będzie większa od siły osobników znajdujących się w populacji zewnętrznej. Ponadto dodawana jest suma siły każdego osobnika, przez którego danego rozwiązanie $j$ jest zdominowane. W tym miejscu warto zauważyć, że im mniejsza jest wartość funkcji oceny $F_{j}$, tym lepszy jest dany osobnik. Przykład procesu ewaluacji został przedstawiony na rysunku \eqref{fig:spea_eval}. Osobniki zaznaczone na czerwone należą do populacji zewnętrznej. Jak łatwo zauważyć w procesie reprodukcji faworyzowane będą osobniki charakteryzujące się mniejszą wartością funkcji oceny, a więc te z populacji zewnętrznej.
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.7]{spea_eval}}
 	\centering
@@ -622,14 +624,14 @@ Podsumowując schemat działania algorytmu SPEA wygląda następująco:\\
 	\item Zastosuj sortowanie niezdominowanych rozwiązań na populacji $P_{t}$ w celu znalezienia rozwiązań niezdominowanych.
 	\item Skopiuj znalezione rozwiązania do populacji zewnętrznej $\overline{P_{t}}$.
 	\item Z populacji zewnętrznej usuń rozwiązania zdominowane.
-	\item Jeśli rozmiar populacji zewnętrznej jest większy niż $N$, zastosuj sortowanie w oparciu o wartość zagęszczenia oraz zredukuj rozmiar populacji zewnętrznej do $N$ pozbywając się najgorszych osobników.
-	\item Oceń wszystkie rozwiązania korzystając z opisanych wzorów (\ref{eq:str_ep}, \ref{eq:str_p}).
+	\item Jeśli rozmiar populacji zewnętrznej jest większy niż $\overline{N}$, zastosuj sortowanie w oparciu o wartość zagęszczenia oraz zredukuj rozmiar populacji zewnętrznej do ustalonej wartości $\overline{N}$ pozbywając się najgorszych osobników.
+	\item Oceń wszystkie rozwiązania korzystając z opisanych wzorów \eqref{eq:str_ep}, \eqref{eq:str_p}.
 	\item Utwórz nową populacje korzystając z operatorów selekcji, krzyżowania oraz mutacji.\\
 \end{enumerate}
 
 Analizując przedstawiony algorytm, łatwo zauważyć, że raz znalezione rozwiązanie optymalne w sensie Pareto nigdy nie przepadnie, ponieważ będzie przechowywane w populacji zewnętrznej. Jedynym sposobem na pozbycie się takiego rozwiązania jest znalezienie kolejnego rozwiązania optymalnego w sensie Pareto, lecz charakteryzującego się lepszą wartością zagęszczenia. Takie podejście zapewnia jakość oraz różnorodność znajdowanych osobników.
 
-Duże znaczenie dla działania algorytmu ma wielkość zewnętrznej populacji $\overline{N}$. Jeśli ta jest duża (porównywalna do $N$)  nacisk na selekcję rozwiązań z populacji zewnętrznej będzie większy, co może prowadzić do tego, że algorytm nie będzie potrafił wygenerować rozwiązań leżących na prawdziwym froncie Pareto. Gdy $\overline{N}$ będzie zbyt małe, wpływ elitaryzmu będzie niezauważalny. Ponadto może to prowadzić do sytuacji w której wiele rozwiązań z populacji nie będzie zdominowanej przez żadnego osobnika z populacji zewnętrznej. Będzie skutkować to tym, że wartość funkcji oceny dla tych osobników będzie tak sama. Proponowaną wielkością populacji zewnętrznej jest $1/4$ wielkości populacji $N$ \cite{book}.
+Duże znaczenie dla działania algorytmu ma wielkość zewnętrznej populacji $\overline{N}$. Jeśli ta jest duża (porównywalna do $N$)  nacisk na selekcję rozwiązań z populacji zewnętrznej będzie większy, co może prowadzić do tego, że algorytm nie będzie potrafił wygenerować rozwiązań leżących na prawdziwym froncie Pareto. Gdy $\overline{N}$ będzie zbyt małe, wpływ elitaryzmu będzie niezauważalny. Ponadto może to prowadzić do sytuacji w której wiele rozwiązań z populacji nie będzie zdominowanych przez żadnego osobnika z populacji zewnętrznej. Będzie skutkować to tym, że wartość funkcji oceny dla tych osobników będzie tak sama. Proponowaną wielkością populacji zewnętrznej jest $1/4$ wielkości populacji $N$ \cite{book}.
 
 \section{Implementacja}
 W obu wybranych algorytmach (NSGA-II, SPEA) pojedynczy osobnik reprezentowany jest jako zbiór zraszaczy $S$. Maksymalna ilość zraszaczy została ustalona na poziomie $ms = 50$. Pojedynczy zraszacz jest reprezentowany jako następujący ciąg bitów:
@@ -748,13 +750,13 @@ Wybierając widok listy zakupów użytkownik zobaczy listę rozmieszczonych zras
 \end{figure}
 \section{Porównanie algorytmów genetycznych}
 \subsection{Cel badań}
-Celem badań jest sprawdzenie w jakim stopniu wybrane algorytmy genetyczne sprawdzą się w kontekście sformułowanego w pracy problemu oraz porównanie tych algorytmów ze sobą korzystając z zdefiniowanych w późniejszym podrozdziale przypadków testowych. Ponadto założono również jak cel ocenę przydatności wybranych algorytmów w opracowanym systemie wspomagania decyzji biorąc pod uwagę jakość generowanych rozwiązań oraz złożoność czasową.
+Celem badań było sprawdzenie w jakim stopniu wybrane algorytmy genetyczne sprawdzą się w kontekście sformułowanego w pracy problemu oraz porównanie tych algorytmów ze sobą korzystając z zdefiniowanych w późniejszym podrozdziale przypadków testowych. Ponadto założono również jak cel ocenę przydatności wybranych algorytmów w opracowanym systemie wspomagania decyzji biorąc pod uwagę jakość generowanych rozwiązań oraz złożoność czasową.
 \subsection{Plan badań}
 Złożoność oceny algorytmów służących do optymalizacji wielokryterialnej jest znacznie większa niż tej dla algorytmów rozwiązujących problemy obejmujące jedno kryterium \cite{comparison_deb}. Wynika to z samej definicji rozwiązania problemu wielokryterialnego, która wyjaśniona została wcześniej. Oceniając rozwiązanie takiego problemu należy wziąć pod uwagę następujące składowe:\\
 \begin{itemize}
 	\item Dystans znalezionego niezdominowanego zbioru rozwiązań od prawdziwego zbioru Pareto.
 	\item Równomierny rozkład znalezionych rozwiązań.
-	\item Długość przedziału pokrytego przez znalezione rozwiązania.
+	\item Długość znalezionego frontu rozwiązań.
 	\item Czas wykonania algorytmu \cite{comparison_2}.\\
 \end{itemize}
 Na potrzeby analizy i oceny dwóch zaproponowanych algorytmów wybrane zostały cztery metryki \cite{comparison_deb}\cite{comparison_2}:\\
@@ -777,27 +779,19 @@ Na potrzeby analizy i oceny dwóch zaproponowanych algorytmów wybrane zostały 
 		GD = \dfrac{\sqrt{\sum_{i=1}^{n} d_{i}^{2}}}{n}
 	\end{equation}
 	, gdzie $n$ oznacza liczbę znalezionych niezdominowanych rozwiązań; $d_{i}$ jest dystansem Euklidesowym pomiędzy danym rozwiązaniem, a najbliższym rozwiązaniem należącym do prawdziwego frontu Pareto. Wartość $DG = 0$ oznacza, że wszystkie znalezione rozwiązania leżą na prawdziwym froncie Pareto.\\
-	\item \textit{Długość frontu (FE):} metoda wskazująca jak duży obszar jest pokryty przez znalezione niezdominowane rozwiązania.
+	\item \textit{Długość frontu (FE):} metoda wskazująca jak długi front został wygenerowany przez daną symulację.
 	\begin{equation}	
 		FE = \sqrt{\sum_{k=1}^{K} \max_{i, j \neq i} |f_{i}^{k} - f_{j}^{k}|}
 	\end{equation}
 	, gdzie $K$ oznacza liczbę funkcji celu; $f_{i}^{k}$ jest wartością $i$-tego rozwiązania z perspektywy kryterium $k$.\\
 \end{enumerate}
-Aby skorzystać z powyższych metryk konieczne jest znalezienie prawdziwego frontu Pareto. Na potrzeby badań został on wygenerowany poprzez wybranie niezdominowanych rozwiązań ze skumulowanej puli rozwiązań powstałej na skutek uruchomienia każdego algorytmu 20 razy z wykorzystaniem 10 tysięcy generacji. Rezultaty każdej symulacji były dodawane do puli po czym zredukowane do rozwiązań niezdominowanych.
+Aby skorzystać z powyższych metryk konieczne było znalezienie prawdziwego frontu Pareto. Na potrzeby badań został on wygenerowany poprzez wybranie niezdominowanych rozwiązań ze skumulowanej puli rozwiązań powstałej na skutek uruchomienia każdego algorytmu 20 razy z wykorzystaniem 30 tysięcy pokoleń. Rezultaty każdej symulacji były dodawane do puli po czym zredukowane do rozwiązań niezdominowanych.
 
-Do badań przygotowane zostały trzy przypadki testowe, a więc trzy różne obszary, które mają zostać nawodnione. Zostały one dobrane pod względem wielkości oraz kształtu, tak aby jak najlepiej zobrazować wpływ ograniczeń na działanie algorytmów.
+Do badań przygotowane zostały trzy przypadki testowe, a więc trzy różne obszary, które miały zostać nawodnione. Zostały one dobrane pod względem wielkości oraz kształtu, tak aby jak najlepiej zobrazować wpływ ograniczeń na działanie algorytmów.
 
-W kolejnym podrozdziale zilustrowane i opisane zostaną rezultaty przeprowadzonych badań. Dla danego przypadku testowego każdy algorytm uruchamiany był dziesięć razy, tworząc pulę rozwiązań, z której wybierany były rozwiązania niezdominowane zilustrowane na wykresach. Algorytmy uruchamiane były z ustawieniami opisanymi w podrozdziale mówiącym o implementacji algorytmów genetycznych.
+W kolejnym podrozdziale zaprezentowany zostanie proces oraz rezultaty strojenia wybranych algorytmów. Następie opisane zostaną przeprowadzone badania. Dla każdego przypadku testowego każdy algorytm uruchamiany był dziesięć razy, tworząc pulę rozwiązań, z której wybierany były rozwiązania niezdominowane zilustrowane na wykresach.
 
-Funkcje, których wartości przedstawione zostały na wykresach wyglądają następująco:
-\begin{equation}
-	\begin{split}
-		&F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) \\ +& 
-		\dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)} \\ +& \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}\\\\
-		&F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
-	\end{split}
-\end{equation}
-Dokładny opis przedstawionych funkcji został zaprezentowany w rozdziale poświęconym modelowi matematycznemu.
+Funkcje, których wartości przedstawione zostały na wykresach zaprezentowane i omówione zostały w rozdziale poświęconym modelowi matematycznemu.
 \subsection{Strojenie algorytmów}
 Jak zostało opisane wcześniej działanie algorytmów genetycznych opiera się na wielu parametrach. Parametry te są ze sobą mocno powiązane oraz znacząco wpływają na jakość symulacji. Proces doboru odpowiednich wartości dla wspomnianych parametrów, nazywa się strojeniem.
 
@@ -809,29 +803,29 @@ Przed przystąpieniem do badań konieczne jest odpowiednie nastrojenie wybranych
 	\item Jeśli używana wartość była ostatnią ze zbioru testowego porównaj zapamiętane rezultaty oraz wybierz wartość parametru dla której algorytm generował najlepsze rozwiązania. Jeśli w wybranym przedziale pozostały wartości wymagające sprawdzenie, wybierz kolejną wartość oraz przejdź do punktu 3.
 	\item Wybierz kolejny parametr wymagający strojenia.\\
 \end{enumerate}
-
-Rozwiązania znalezione przez algorytmy były porównywane za pomocą metryki zaproponowanej w [REF]. Pozwala ona porównać ze sobą dwa zbiory rozwiązań poprzez pokazanie w jakim stopniu rozwiązania z jednego zbioru są dominowane przez rozwiązania ze zbioru drugiego. Metryka jest zdefiniowana w następujący sposób:
-\begin{equation}
-	C(X^{'}, X^{''}) = \dfrac{|\{a^{''} \in X^{''}; \exists a^{'} \in X^{'}: a^{'} \preceq a^{''}\}|}{|X^{''}|}
-\end{equation}
-,gdzie $X^{'}, X^{''}$ są dwoma zbiorami biorącymi udział w porównaniu; $\preceq$ jest operatorem dominacji. $a^{'} \preceq a^{''}$ oznacza, że rozwiązanie $a^{'}$ ze zbioru $X^{'}$ dominuje rozwiązanie $a^{''}$ ze zbioru $X^{''}$.\\
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|c|c|}
 \hline
 \multicolumn{1}{|c|}{\textbf{Parametr}} & \textbf{Wartość domyślna} & \textbf{Wartości testowe}                    \\ \hline
-Prawdopodobieństwo krzyżowania          & 0.9                       & 0.1, 0.2 ... 1.0                             \\ \hline
-Prawdopodobieństwo mutacji              & 0.05                      & 0.005, 0.01, 0.02, ... 0.1, 0.2 ... 0.5 \\ \hline
-Wielkość turnieju                       & 2                         & 1,2,3,4,5                                    \\ \hline
+Prawdopodobieństwo krzyżowania          & 0.9                       & 0.1, 0.2...1.0                             \\ \hline
+Prawdopodobieństwo mutacji              & 0.05                      & 0.01, 0.02,...0.1, 0.2...0.5 \\ \hline
+Wielkość turnieju                       & 2                         & 1, 2, 3, 4, 5                                    \\ \hline
 Wielkość populacji - N                  & 100                       & 100, 200, 300, 400, 500                      \\ \hline
-Wielkość populacji zewn. (SPEA)         & 1/4 N                     & 1 N, 1/2 N, 1/3 N ... 1/6 N                  \\ \hline
+Wielkość populacji zewn. (SPEA)         & 1/4 N                     & 1 N, 1/2 N, 1/3 N...1/6 N                  \\ \hline
 \end{tabular}
 \caption{Domyślne oraz testowe wartości parametrów dla wybranych algorytmów genetycznych.}
 \label{default_params}
 \end{table}
+Rozwiązania znalezione przez algorytmy były porównywane ze sobą za pomocą metryki zaproponowanej w \cite{tuning}. Pozwala ona porównać ze sobą dwa zbiory rozwiązań poprzez pokazanie w jakim stopniu rozwiązania z jednego zbioru są dominowane przez rozwiązania ze zbioru drugiego. Metryka jest zdefiniowana w następujący sposób:
+\begin{equation}
+	C(X^{'}, X^{''}) = \dfrac{|\{a^{''} \in X^{''}; \exists a^{'} \in X^{'}: a^{'} \preceq a^{''}\}|}{|X^{''}|}
+\end{equation}
+,gdzie $X^{'}, X^{''}$ są dwoma zbiorami biorącymi udział w porównaniu; $\preceq$ jest operatorem dominacji. $a^{'} \preceq a^{''}$ oznacza, że rozwiązanie $a^{'}$ ze zbioru $X^{'}$ dominuje rozwiązanie $a^{''}$ ze zbioru $X^{''}$.\\
+
 Strojenie było wykonywane na drugim przypadku testowym przy generacji 500 pokoleń. Najlepsze wartości parametrów zostały przedstawione w tabeli \eqref{best_params}. Przy użyciu takich właśnie wartości przeprowadzono dalsze badania.
 
-\begin{table}[]
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|c|c|}
 \hline
@@ -839,7 +833,7 @@ Strojenie było wykonywane na drugim przypadku testowym przy generacji 500 pokol
 \multicolumn{1}{|c|}{}                                   & NSGA-II            & SPEA             \\ \hline
 Prawdopodobieństwo krzyżowania                           & 0.8                & 0.9              \\ \hline
 Prawdopodobieństwo mutacji                               & 0.01               & 0.01             \\ \hline
-Wielkość turnieju                                        & 2                  & -                \\ \hline
+Wielkość turnieju                                        & 2                  & 2                \\ \hline
 Wielkość populacji - N                                   & 200                & 200              \\ \hline
 Wielkość populacji zewn.                                 & -                  & 1/2 N            \\ \hline
 \end{tabular}
@@ -850,12 +844,13 @@ Wielkość populacji zewn.                                 & -                  
 \subsection{Badania}
 \subsubsection{Pierwszy przypadek testowy - obszar mały}
 Dla pierwszego, a więc najprostszego przypadku testowego \eqref{fig:small_area} algorytmy uruchamiane były w celu ewaluacji 1000 pokoleń. W trakcie symulacji zebrano również wyniki reprezentujące pokolenie 100 oraz 500, co zostało zobrazowane na wykresach \eqref{fig:small_front}.
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{small_area}}
+\begin{figure}[H]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.4]{small_area}}
 	\centering
 	\caption{Pierwszy przypadek testowy - obszar mały.}
 	\label{fig:small_area}
 \end{figure}
+Analizując przedstawione wykresy można zauważyć, że oba algorytmy bardzo szybko osiągają front Pareto dla niskich wartości funkcji $F_{2}$. Dzieje się tak dlatego, że w tych przypadkach wykorzystywana jest mała liczba zraszaczy co znacząco zmniejsza złożoność problemu. Razem ze wzrostem wartości funkcji $F_{2}$ zwiększa się dystans pomiędzy znalezionymi rozwiązaniami, a tymi leżącymi na froncie Pareto, co dobrze widać na wykresie pokazującym wyniki po ewaluacji 100 pokoleń (\ref{fig:small_front}a). Obrazują to również wartości metryki $GD$ przedstawione w tabeli (\ref{fig:small_metrics}c). Warto tutaj zauważyć, że na tym etapie algorytm SPEA jest ponad trzy razy gorszy od NSGA-II jeśli chodzi o odległość znalezionych rozwiązań od rozwiązań optymalnych. \newpage
 \begin{figure*}\centering
 \subfloat[100 generacji\label{fig:small_pareto_100}]
         {\includegraphics[width=0.5\textwidth]{small_pareto_100}}
@@ -868,7 +863,11 @@ Dla pierwszego, a więc najprostszego przypadku testowego \eqref{fig:small_area}
 \caption{Rozwiązania niezdominowane otrzymane dla pierwszego przypadku testowego.}
     \label{fig:small_front}
 \end{figure*}
-Analizując przedstawione wykresy można zauważyć, że oba algorytmy bardzo szybko osiągają front Pareto dla niskich wartości funkcji $F_{2}$. Dzieje się tak dlatego, że w tych przypadkach wykorzystywana jest mała liczba zraszaczy co znacząco zmniejsza złożoność problemu. Razem ze wzrostem wartości funkcji $F_{2}$ zwiększa się dystans pomiędzy znalezionymi rozwiązaniami, a tymi leżącymi na froncie Pareto, co dobrze widać na wykresie pokazującym wyniki po ewaluacji 100 pokoleń (\ref{fig:small_front}a). Obrazują to również wartości metryki $GD$ przedstawione w tabeli (\ref{fig:small_metrics}c). Warto tutaj zauważyć, że na tym etapie algorytm SPEA jest ponad trzy razy gorszy od NSGA-II jeśli chodzi o odległość znalezionych rozwiązań od rozwiązań optymalnych.
+Wraz z generowaniem nowych pokoleń znalezione rozwiązania niezdominowane coraz bardziej zbliżają się do frontu Pareto.
+
+Obserwując wyniki symulacji oraz wartości metryk można zauważyć, że w pokoleniu 500. NSGA-II prezentuje się lepiej niemal we wszystkich aspektach: znalezione przez niego rozwiązania charakteryzują się mniejszym współczynnikiem błędu, wyznaczają dłuższy front oraz znajdują się bliżej frontu Pareto. Sytuacja wygląda inaczej jeśli chodzi o równomierność rozkładu ($SP$). W tym aspekcie lepiej wypadł algorytm SPEA.
+
+Rozwiązania z 1000. generacji znajdują się zdecydowanie najbliżej rozwiązań optymalnych. Ciekawą obserwacją jest to, że w ostatnim pokoleniu wartość metryki $GD$ dla algorytmu SPEA jest gorsza niż wartość tej samej metryki dla algorytmu NSGA-II w pokoleniu 500. SPEA prezentuje się jednak lepiej, jeśli chodzi o wartość metryki definiującej współczynnik błędu - w porównaniu do liczby wszystkich rozwiązań niezdominowanych algorytm SPEA znalazł więcej rozwiązań leżących na froncie Pareto. W porównaniu do pokolenia 500. algorytm NSGA-II znacząco powiększył swoją przewagę, jeśli chodzi o długość wygenerowanego frontu.\newpage
 \begin{figure*}\centering
 \subfloat[Współczynnik błędu (ER)\label{fig:er_small}]
         {\includegraphics[width=0.5\textwidth]{er_small}}
@@ -884,25 +883,17 @@ Analizując przedstawione wykresy można zauważyć, że oba algorytmy bardzo sz
 \caption{Wartość metryk charakteryzujących wyniki symulacji dla pierwszego przypadku testowego.}
     \label{fig:small_metrics}
 \end{figure*}
-Wraz z generowaniem nowych pokoleń znalezione rozwiązania niezdominowane coraz bardziej zbliżają się do frontu Pareto.
+Podsumowując, z pierwszym przypadkiem testowym oba algorytmy poradziły sobie dobrze. NSGA-II znalazł więcej rozwiązań niezdominowanych. Co więcej rozwiązania te znajdowały się bliżej frontu Pareto niż rozwiązania znalezione przez algorytm SPEA. Poza tym NSGA-II wygenerował znacząco dłuższy front.
 
-Obserwując wyniki symulacji oraz wartości metryk można zauważyć, że w pokoleniu 500 NSGA-II prezentuje się lepiej niemal we wszystkich aspektach: znalezione przez niego rozwiązania charakteryzują się mniejszym współczynnikiem błędu, wyznaczają dłuższy front oraz znajdują się bliżej frontu Pareto. Sytuacja wygląda inaczej jeśli chodzi o równomierność rozkładu ($SP$). W tym aspekcie lepiej wypadł algorytm SPEA.
-
-Rozwiązania z 1000. generacji znajdują się zdecydowanie najbliżej rozwiązań optymalnych. Ciekawą obserwacją jest to, że wartość metryki $GD$ dla algorytmu SPEA w ostatnim pokoleniu jest gorsza niż algorytmu NSGA-II dla pokolenia 500. SPEA prezentuje się jednak lepiej, jeśli chodzi o wartość metryki definiującej współczynnik błędu - w porównaniu do liczby wszystkich rozwiązań niezdominowanych algorytm SPEA znalazł więcej rozwiązań leżących na froncie Pareto. W porównaniu do pokolenia 500. algorytm NSGA-II znacząco powiększył swoją przewagę, jeśli chodzi o długość wygenerowanego frontu.
-
-Podsumowując, z pierwszym przypadkiem testowym oba algorytmy poradziły sobie dobrze. NSGA-II znalazł więcej rozwiązań niezdominowanych. Co więcej rozwiązania te znajdują się bliżej frontu Pareto niż rozwiązania znalezione przez algorytm SPEA. Poza tym NSGA-II wygenerował znacząco dłuższy front.
-
-Z drugiej strony algorytm SPEA znalazł więcej rozwiązań znajdujących się na froncie Pareto co określa metryka $ER$. Ponadto rozwiązania znalezione przez SPEA charakteryzują się większą równomiernością rozkładu, choć może to być spowodowane mniejszą liczbą rozwiązań branych pod uwagę.
-
+Z drugiej strony algorytm SPEA znalazł więcej rozwiązań znajdujących się na froncie Pareto co określa metryka $ER$. Ponadto rozwiązania znalezione przez SPEA charakteryzowały się większą równomiernością rozkładu.\newpage
 \subsubsection{Drugi przypadek testowy - obszar średni}
 W celu zbadania działania wybranych algorytmów dla drugiego przypadku testowego \eqref{fig:medium_area} wygenerowano 2000 generacji. Ponadto odnotowano wyniki z 100, 500 oraz 1000 pokolenia.
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{medium_area}}
+\begin{figure}[H]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.4]{medium_area}}
 	\centering
 	\caption{Drugi przypadek testowy - obszar średni.}
 	\label{fig:medium_area}
 \end{figure}
-Podobnie jak w poprzednim przypadku algorytmy bardzo szybko znalazły rozwiązania leżące na froncie Pareto oraz charakteryzujące się małą wartością funkcji $F_{2}$ \eqref{fig:medium_front}.
 \begin{figure*}\centering
 \subfloat[100 generacji\label{fig:medium_pareto_100}]
         {\includegraphics[width=0.5\textwidth]{medium_pareto_100}}
@@ -917,7 +908,12 @@ Podobnie jak w poprzednim przypadku algorytmy bardzo szybko znalazły rozwiązan
 \caption{Rozwiązania niezdominowane otrzymane dla drugiego przypadku testowego.}
     \label{fig:medium_front}
 \end{figure*}
-Analizując przedstawione wykresy można łatwo zauważyć, że algorytm NSGA-II w każdym z przedstawionych pokoleń wygenerował rozwiązania lepsze od tych znalezionych przez SPEA. Jest to dobrze widoczne na wykresie prezentującym wyniku po 500. pokoleniu. Dla dużych wartości funkcji $F_{2}$, gdzie front Pareto jeszcze nie został osiągnięty, żadne rozwiązanie znalezione przez NSGA-II nie jest zdominowane przez którekolwiek rozwiązanie wygenerowane przez SPEA. Taka sytuacja utrzymuje się, aż do końca symulacji.
+Podobnie jak w poprzednim przypadku algorytmy bardzo szybko znalazły rozwiązania leżące na froncie Pareto oraz charakteryzujące się małą wartością funkcji $F_{2}$ \eqref{fig:medium_front}.
+
+Analizując przedstawione wykresy można łatwo zauważyć, że algorytm NSGA-II w każdym z przedstawionych pokoleń wygenerował rozwiązania lepsze od tych znalezionych przez SPEA.
+
+Jest to najlepiej widoczne na wykresie prezentującym wyniku po 500. pokoleniu. Dla dużych wartości funkcji $F_{2}$, gdzie front Pareto jeszcze nie został osiągnięty, żadne rozwiązanie znalezione przez NSGA-II nie jest zdominowane przez jakiekolwiek rozwiązanie wygenerowane przez SPEA. Taka sytuacja utrzymała się, aż do końca symulacji.
+Powyżej opisane obserwacje znajdują swoje odzwierciedlenie w wartościach metryk \eqref{fig:medium_metrics}. NSGA-II przez cały czas trwania symulacji znajdował rozwiązania charakteryzujące się lepszą wartością metryk $GD$ oraz $SP$. Co ciekawe SPEA wygenerował dłuższy front rozwiązań, co jednak nie przekłada się na całościową ocenę algorytmu.
 \begin{figure*}\centering
 \subfloat[Współczynnik błędu (ER)\label{fig:er_medium}]
         {\includegraphics[width=0.5\textwidth]{er_medium}}
@@ -933,18 +929,16 @@ Analizując przedstawione wykresy można łatwo zauważyć, że algorytm NSGA-II
 \caption{Wartość metryk charakteryzujących wyniki symulacji dla drugiego przypadku testowego.}
     \label{fig:medium_metrics}
 \end{figure*}
-Powyżej opisane obserwacje znajdują swoje odzwierciedlenie w wartościach metryk \eqref{fig:medium_metrics}. NSGA-II przez cały czas trwania symulacji znajdował rozwiązania charakteryzujące się lepszą wartością metryk $GD$ oraz $SP$. Co ciekawe SPEA wygenerował dłuższy front rozwiązań, co jednak nie przekłada się na całościową ocenę algorytmu.
 
-Podsumowując, z drugim przypadkiem testowym zdecydowanie lepiej poradził sobie algorytm NSGA-II, co dobrze widoczne jest na przedstawionych wykresach.
+Podsumowując, z drugim przypadkiem testowym zdecydowanie lepiej poradził sobie algorytm NSGA-II.\newpage
 \subsubsection{Trzeci przypadek testowy - obszar duży}
 Dla trzeciego przypadku testowego \eqref{fig:big_area} algorytmy uruchomione zostały z ograniczeniem 5000 pokoleń. Ponadto, podobnie jak w poprzednich przypadkach, przeanalizowano dane wygenerowane również przy 100, 1000 oraz 2000 pokoleniu.
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{big_area}}
+\begin{figure}[H]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.4]{big_area}}
 	\centering
 	\caption{Trzeci przypadek testowy - obszar duży.}
 	\label{fig:big_area}
 \end{figure}
-Jak widać na przedstawionych wykresach  \eqref{fig:big_front} złożoność problemu wzrosła, co widać po zdecydowanie większym koszcie zraszaczy ($F_{2}$) potrzebnym do zminimalizowania obszaru nienawodnionego ($F_{1}$).
 \begin{figure*}\centering
 \subfloat[100 generacji\label{fig:big_pareto_100}]
         {\includegraphics[width=0.5\textwidth]{big_pareto_100}}
@@ -959,9 +953,9 @@ Jak widać na przedstawionych wykresach  \eqref{fig:big_front} złożoność pro
 \caption{Rozwiązania niezdominowane otrzymane dla trzeciego przypadku testowego.}
     \label{fig:big_front}
 \end{figure*}
-Podobnie jak w dwóch poprzednich przypadkach algorytmu nie miały problemu ze znalezieniem rozwiązań optymalnych wykorzystujących małą liczbę zraszaczy. Nie mniej jednak już od 100. pokolenia można zauważyć przewagę algorytmu NSGA-II \eqref{fig:big_metrics}, który znalazł rozwiązania charakteryzujące się lepszymi wartościami dla wszystkich zdefiniowanych metryk.
+Jak widać na przedstawionych wykresach  \eqref{fig:big_front} złożoność problemu wzrosła, co widać po zdecydowanie większym koszcie zraszaczy ($F_{2}$) potrzebnym do zminimalizowania obszaru nienawodnionego ($F_{1}$).
 
-W kolejnych pokoleniach sytuacja zmienia się jedynie dla metryki oceniającej długość wygenerowanego frontu. W tym przypadku lepiej wypada algorytm SPEA.
+Podobnie jak w dwóch poprzednich przypadkach algorytmy nie miały problemu ze znalezieniem rozwiązań optymalnych wykorzystujących małą liczbę zraszaczy. Nie mniej jednak już od 100. pokolenia można zauważyć przewagę algorytmu NSGA-II \eqref{fig:big_metrics}, który znalazł rozwiązania charakteryzujące się lepszymi wartościami dla wszystkich zdefiniowanych metryk.
 \begin{figure*}\centering
 \subfloat[Współczynnik błędu (ER)\label{fig:er_big}]
         {\includegraphics[width=0.5\textwidth]{er_big}}
@@ -977,11 +971,13 @@ W kolejnych pokoleniach sytuacja zmienia się jedynie dla metryki oceniającej d
 \caption{Wartość metryk charakteryzujących wyniki symulacji dla trzeciego przypadku testowego.}
     \label{fig:big_metrics}
 \end{figure*}
-Podsumowując algorytm NSGA-II wypadł lepiej od algorytmu SPEA, podobnie jak w drugim przypadku testowym. Patrząc na wykresy \eqref{fig:big_front} łatwo zauważyć zdecydowaną przewagą, na którą składają się rozwiązania znajdujące się bliżej frontu Pareto, mniejszy współczynnik błędu ($ER$) oraz lepsza równomierność rozkładu znalezionych rozwiązań. Algorytm SPEA charakteryzuje się jedynie generacją dłuższego frontu, co nie ma większego znaczenia w kontekście wyboru lepszego algorytmu.
+W kolejnych pokoleniach sytuacja zmienia się jedynie dla metryki oceniającej długość wygenerowanego frontu. W tym przypadku lepiej wypada algorytm SPEA.
+
+Podsumowując, podobnie jak w drugim przypadku testowym, algorytm NSGA-II wypadł lepiej od algorytmu SPEA. Patrząc na wykresy \eqref{fig:big_front} łatwo zauważyć zdecydowaną przewagę, na którą składają się rozwiązania znajdujące się bliżej frontu Pareto, mniejszy współczynnik błędu ($ER$) oraz lepsza równomierność rozkładu znalezionych rozwiązań. Algorytm SPEA charakteryzuje się jedynie generacją dłuższego frontu, co nie ma większego znaczenia w kontekście wyboru lepszego algorytmu.
 
 \subsubsection{Czas działania}
 Poza oceną algorytmów przy wykorzystaniu opisanych wcześniej metryk zdecydowano się również na sprawdzenie złożoności czasowej. Rezultaty zostały przedstawione na wykresie \eqref{fig:time}. Badanie wykonano na drugim przypadku testowym (obszar średni) dla 5000 generacji. Jak widać algorytm SPEA zakończył symulację niemal o połowę szybciej w porównaniu do NSGA-II. Z tego względu zdecydowano się rozszerzyć proces badawczy o dodatkową symulację sprawdzającą jakość zastosowanych algorytmów w zależności od czasu.
-\begin{figure}[!htb]
+\begin{figure}[H]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{time}}
 	\centering
 	\caption{Czasy potrzebne do wykonania symulacji}
@@ -1031,9 +1027,9 @@ Po analizie rezultatów przeprowadzonych badań jednoznacznie okazało się, że
 
 Pierwszy przypadek testowy reprezentował najprostszy scenariusz. Algorytmy miały za zadanie rozwiązać problem optymalizacyjny na małym obszarze roboczym, przez co złożoność problemu była zdecydowanie mniejsza w porównaniu do kolejnych przypadków. Oba algorytmy w stosunkowo krótkim czasie znalazły rozwiązania leżące na froncie Pareto lub w jego bliskim sąsiedztwie. Rozwiązania znalezione przez NSGA-II cechowały się lepszą jakością ogólną, równomiernością rozkładu oraz rozciągały się na dłuższym froncie. Rozwiązania algorytmu SPEA charakteryzowały się natomiast mniejszym współczynnikiem błędu. Jak widać algorytm NSGA-II okazał się lepszy w kontekście trzech metryk na cztery. Należy tutaj jednak zwrócić uwagę, że różnice pomiędzy algorytmami dla małego obszaru nie były tak znaczące jak w pozostałych przypadkach. Co więcej jak wykazało badanie złożoności czasowej algorytm SPEA potrzebuje niemal o połowę czasu mniej na ewaluację 1000 generacji. Biorąc to pod uwagę, dla problemów opartych na małym obszarze kiedy algorytmy nie mają problemów ze znalezieniem dobrych rozwiązań, lepszym wyborem może okazać się algorytm SPEA, właśnie ze względu na czas działania oraz porównywalną do NSGA-II jakość znalezionych rozwiązań.
 
-Dla drugiego przypadku testowego został wybrany obszar mający reprezentować scenariusz o średnim stopniu trudności. Jak widać po załączonych wykresach oraz tabelach wraz ze wzrostem złożoności problemu rośnie przewaga algorytmu NSGA-II. Rozwiązania znajdowane w poszczególnych pokoleniach przez NSGA-II znajdowały się zdecydowanie bliżej frontu Pareto oraz cechowały się lepszą równomiernością rozkładu. Co prawda SPEA wygenerował rozwiązania rozciągające się na dłuższym froncie, a więc w praktyce zapewniające większą różnorodność. Należy jednak zwrócić tutaj uwagę, że jedynie rozwiązania znalezione dla małych wartości funkcji $F_{2}$ są równie dobre co odpowiedniki znalezione przez NSGA-II. Dla większych wartości $F_{2}$ (> 800), wszystkie rozwiązania SPEA są zdominowane przez rozwiązania NSGA-II.
+Dla drugiego przypadku testowego został wybrany obszar mający reprezentować scenariusz o średnim stopniu trudności. Jak widać po załączonych wykresach oraz tabelach wraz ze wzrostem złożoności problemu rośnie przewaga algorytmu NSGA-II. Rozwiązania znajdowane w poszczególnych pokoleniach przez NSGA-II znajdowały się zdecydowanie bliżej frontu Pareto oraz cechowały się lepszą równomiernością rozkładu. Co prawda SPEA wygenerował rozwiązania rozciągające się na dłuższym froncie, a więc w praktyce zapewniające większą różnorodność. Należy jednak zwrócić tutaj uwagę, że jedynie rozwiązania znalezione dla małych wartości funkcji $F_{2}$ są równie dobre co odpowiedniki znalezione przez NSGA-II. Dla większych wartości $F_{2}$ ($> 800$), wszystkie rozwiązania SPEA są zdominowane przez rozwiązania NSGA-II.
 
-Ostatnim przypadek testowy był reprezentowany przez największy obszar. W tym przypadku żadnemu algorytmowi przez 5000 generacji nie udało się znaleźć rozwiązań rozciągających się na całej długości frontu Pareto. Podobnie jak w poprzednim przypadku dłuższy front wygenerował algorytm SPEA. Nie przekłada się to jednak na ogólną jakość rozwiązań. NSGA-II znalazł rozwiązania cechujące się lepszym wartościami dla wszystkich pozostałych metryk.
+Ostatni przypadek testowy był reprezentowany przez największy obszar. W tym przypadku żadnemu algorytmowi przez 5000 generacji nie udało się znaleźć rozwiązań rozciągających się na całej długości frontu Pareto. Podobnie jak w poprzednim przypadku dłuższy front wygenerował algorytm SPEA. Nie przekłada się to jednak na ogólną jakość rozwiązań. NSGA-II znalazł rozwiązania cechujące się lepszym wartościami dla wszystkich pozostałych metryk.
 
 Po porównaniu algorytmów w kontekście różnych przypadków testowych zdecydowano się dodatkowo na zbadanie ich złożoności czasowej. Badanie wykonano dla drugiego przypadku testowego. Jednoznacznym zwycięzcą porównania okazał się algorytm SPEA, który zakończył ewaluację 5000 pokoleń w czasie o połowę krótszym od algorytmu NSGA-II.
 
@@ -1047,9 +1043,9 @@ Celem pracy było opracowanie systemu wspomagającego podejmowanie decyzji w roz
 
 Powyższe cele zostały zrealizowane. Jako rezultat pracy powstał system wspomagania decyzji w formie aplikacji webowej znacznie ułatwiający proces projektowania systemu nawadniania ogrodu. Użytkownik poprzez zaimplementowaną aplikację może w prosty sposób zdefiniować obszar mający zostać nawodniony oraz otrzymać kilka wariantów rozwiązania w czytelnej i przejrzystej formie.
 
-Ponadto wybrano oraz porównano ze sobą dwa wielokryterialne algorytmy genetyczne. Do badań wykorzystano trzy przypadki testowe oraz zdefiniowano cztery metryki pomagające w ocenie wygenerowanych przez algorytmy rozwiązań. Z przeprowadzonych badań wynika, że dla problemów reprezentowanych przez stosunkowo małe obszary równie dobrze spisują się oba algorytmy. Biorąc jednak pod uwagę ich złożoność czasową, lepszą opcją w przypadku takich problemów może okazać się algorytm SPEA, który charakteryzuje się szybszym działaniem. Dla trudniejszych przypadków testowych zdecydowanie lepiej wypada algorytm NSGA-II, którego rozwiązania cechują się lepszymi wartościami dla wszystkich zdefiniowanych metryk.
+Ponadto wybrano oraz porównano ze sobą dwa wielokryterialne algorytmy genetyczne. Do badań wykorzystano trzy przypadki testowe oraz zdefiniowano cztery metryki pomagające w ocenie wygenerowanych przez algorytmy rozwiązań. Z przeprowadzonych badań wynika, że dla problemów reprezentowanych przez stosunkowo małe obszary równie dobrze spisują się oba algorytmy. Biorąc jednak pod uwagę ich złożoność czasową, lepszą opcją w przypadku takich problemów może okazać się algorytm SPEA, który charakteryzuje się szybszym działaniem. W trudniejszych przypadków testowych zdecydowanie lepiej wypada algorytm NSGA-II, którego rozwiązania cechują się lepszymi wartościami dla wszystkich zdefiniowanych metryk.
 
-W opracowanym systemie wspomagania decyzji zdecydowano się na wykorzystanie algorytmu NSGA-II, biorąc pod uwagę wyniki przeprowadzonych badań, zarówno pod względem liczby iteracji jak i złożoności czasowej.
+biorąc pod uwagę wyniki przeprowadzonych badań w opracowanym systemie wspomagania decyzji zdecydowano się na wykorzystanie algorytmu NSGA-II.
 
 Rozmieszczenie rur pomiędzy zraszaczami nie wchodziło w zakres pracy wybranych algorytmów genetycznych. Schemat połączeń był generowany dla każdego znalezionego rozwiązania za pomocą algorytmu Prima znajdującego minimalne drzewo rozpinające grafu.
 
@@ -1063,7 +1059,7 @@ Ze względu na długi czas oczekiwania na rezultaty być może warto by zastanow
 
 Rozwiązaniem łączącym oba podejścia może być wysyłanie na maila użytkownika odnośnika do strony zawierającej wygenerowane rozwiązania.
 
-Kolejnym elementem wartym modyfikacji jest zdefiniowanie bardziej dokładnego modelu matematycznego. W tym momencie brane są pod uwagę jedynie zraszacze dookolne co nakłada dodatkowe ograniczenia na znalezione rozwiązania. Przykładem jest chociażby fakt, że dany obszar nie może zostać w 100\% nawodniony bez naruszenia ograniczeń mówiących o nie podlewaniu obszaru poza wyznaczonym przez użytkownika. Problem ten może zostać zlikwidowany poprzez dodanie dodatkowych cech do rozmieszczonych zraszaczy, takich jak kąt rozrzutu wody oraz kierunek rozrzutu.
+Kolejnym elementem wartym modyfikacji jest zdefiniowanie bardziej dokładnego modelu matematycznego. W tym momencie brane są pod uwagę jedynie zraszacze dookolne co nakłada dodatkowe ograniczenia na znalezione rozwiązania. Przykładem jest chociażby fakt, że dany obszar nie może zostać w 100\% nawodniony bez naruszenia ograniczeń mówiących o nie podlewaniu obszaru poza tym wyznaczonym przez użytkownika. Problem ten może zostać zlikwidowany poprzez dodanie dodatkowych cech do rozmieszczonych zraszaczy, takich jak kąt rozrzutu wody oraz kierunek rozrzutu.
 
 Ostatnim elementem wartym dokładniejszego przeanalizowania jest rozmieszczenie rur pomiędzy zraszaczami. W tej pracy wykorzystano prosty algorytm Prima, aby rozwiązać ten problem. Kolejne publikację skupiające się na podobnych problemach powinny zastosować dokładniejsze podejście. Po pierwsze pod uwagę należy wziąć ciśnienie wody, a co za tym idzie średnicę rur. Po drugie do całościowego kosztu wygenerowanego rozwiązania należy doliczyć połączenia pomiędzy zraszaczami oraz dodatkowe elementy potrzebne do instalacji tych połączeń, jak np. rozgałęźniki, kolanka itp.
 %\bibliographystyle{apalike}%Used BibTeX style is unsrt
