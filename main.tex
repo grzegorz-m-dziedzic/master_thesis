@@ -159,10 +159,10 @@ nodes near coords align={vertical},
 \abstractSH{Niniejsza praca miała na celu opracowanie systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni oraz wybór i porównanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu.}
 
 \abstractPL{
-Celem niniejszej pracy było rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych na zadanej powierzchni poprzez opracowanie systemu wspomagania podejmowania decyzji, a w szczególności wybór oraz porównanie algorytmów wielokryterialnych w kontekście wybranego problemu. Praca została podzielona na kilka części. Pierwszą z nich stanowi wprowadzenie w tematykę problemu, dokładniejszy opis rozwiązywanego problemu, przegląd literatura oraz definicja celu pracy. Kolejny rozdział jest opisem opracowanego modelu matematycznego, na którym swoje działanie opierają zaimplementowane algorytmy. W następnym rozdziale zdefiniowane są pojęcie optymalizacji oraz różnice pomiędzy optymalizacją jednokryterialną i wielokryterialną. W kolejnym rozdziale dokładnie opisany został schemat działania algorytmu genetycznego. Dodatkowo przedstawiono dwa algorytmy wybrane do rozwiązania omawianego problemu - NSGA-II oraz SPEA. Następna część pracy stanowi opis rezultatów. Najpierw przedstawiono opracowany system wspomagania decyzji, następnie porównano ze sobą wybrane algorytmy genetyczne oraz podsumowane różnice pomiędzy nimi. Na końcu pracy znajduje się podsumowanie, w którym umieszczono ocenę wykonanej pracy oraz dalsze możliwości rozwoju i badań.
+Celem niniejszej pracy było rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych na zadanej powierzchni poprzez opracowanie systemu wspomagania podejmowania decyzji, a w szczególności wybór oraz porównanie algorytmów wielokryterialnych w kontekście wybranego problemu. Jako cele procesu optymalizacji wybrano minimalizację obszaru nienawodnionego oraz minimalizacje kosztu zraszaczy, przy jednoczesnym uwzględnieniu minimalizacji nawodnienia obszaru poza wskazanym terenem oraz minimalizację obszarów nawodnionych nadmiernie. Praca została podzielona na kilka części. Pierwszą z nich stanowi wprowadzenie w tematykę problemu, dokładniejszy opis rozwiązywanego problemu, przegląd literatura oraz definicja celu pracy. Kolejny rozdział jest opisem opracowanego modelu matematycznego, na którym swoje działanie opierają zaimplementowane algorytmy. W następnym rozdziale zdefiniowane są pojęcie optymalizacji oraz różnice pomiędzy optymalizacją jednokryterialną i wielokryterialną. W kolejnym rozdziale dokładnie opisany został schemat działania algorytmu genetycznego. Dodatkowo przedstawiono dwa algorytmy wybrane do rozwiązania omawianego problemu - NSGA-II oraz SPEA. Następna część pracy stanowi opis rezultatów. Najpierw przedstawiono opracowany system wspomagania decyzji, następnie porównano ze sobą wybrane algorytmy genetyczne oraz podsumowane różnice pomiędzy nimi. Na końcu pracy znajduje się podsumowanie, w którym umieszczono ocenę wykonanej pracy oraz dalsze możliwości rozwoju i badań.
 }
 \abstractEN{
-The purpose of this thesis was solution of the multicriteria water sprinklers deployment problem on a given area. It was done by designing a decision support system and especially by selection and comparison of multicriteria genetic algorithms in the context of defined problem. The thesis was divied into several parts. First of them is and introduction to the chosen problem. Moreover it contains precise description of the problem, review of the literature and the definition of purpose. Next chapter describes developed mathematical model, that chosen algorithms are based on. Next chapter presents the definition of optimization and shows differences between single criteria optimization and multicriteria optimization. Next one is a precise description of genetic algorithms. Moreover it shows two algorithms chosen for solving defined problem - NSGA-II and SPEA. Next part of this thesis is a reflection of work that has been done. At first it show designed decision support system. Then it shows the results of comparison made between chosen algorithms and summary of the their differences. At the end is a summary, where critical evaluation and further possibilites for development and analysis are placed.
+The purpose of this thesis was solution of the multicriteria water sprinklers deployment problem on a given area. It was done by designing a decision support system and especially by selection and comparison of multicriteria genetic algorithms in the context of defined problem. As the purpose of optimization process the following objectives were defined: minimization of the not irrigated area and minimization of the chosen sprinklers' total cost, with the simultaneous minimization of the irrigation of the area placed out of bounds of selected region and minimzation of over irrigated area. The thesis was divied into several parts. First of them is and introduction to the chosen problem. Moreover it contains precise description of the problem, review of the literature and the definition of purpose. Next chapter describes developed mathematical model, that chosen algorithms are based on. Next chapter presents the definition of optimization and shows differences between single criteria optimization and multicriteria optimization. Next one is a precise description of genetic algorithms. Moreover it shows two algorithms chosen for solving defined problem - NSGA-II and SPEA. Next part of this thesis is a reflection of work that has been done. At first it show designed decision support system. Then it shows the results of comparison made between chosen algorithms and summary of the their differences. At the end is a summary, where critical evaluation and further possibilites for development and analysis are placed.
 }
 
 \maketitle
@@ -203,12 +203,12 @@ Jak zostało wspomniane we wprowadzeniu, w systemach nawadniania najczęściej k
 
 Pierwszym celem procesu projektowania powinno być takie rozmieszczenie zraszaczy, aby te były w stanie nawodnić cały wyznaczony teren przy jednoczesnym omijaniu obszarów, które nie powinny być podlane, jak na przykład budynki mieszkalne.
 
-Kolejnym etapem staje się odpowiedni dobór mocy poszczególnych zraszaczy, a więc dystansu na jaki rozrzucają wodę. Po pierwsze eliminuje to problem nadmiernego nawodnienia danego obszaru. Po drugie minimalizuje koszty całej instalacji oraz jej utrzymania. Należy tutaj pamiętać, że im większa jest zasięg danego zraszacza tym wymaga większego ciśnienia co z kolei prowadzi do większego zapotrzebowania na wodę, a więc większych kosztów. Należy tutaj dodać również, że cena samego zraszacza jest zazwyczaj uzależniona od maksymalnej mocy danego modelu. Im ta jest większa tym więcej zraszacz będzie kosztował. Poprzez optymalizację doboru mocy każdego zraszacza z sieci minimalizuje się obszary nadmierne nawodnione oraz koszt całego systemu.
+Kolejnym etapem staje się odpowiedni dobór mocy poszczególnych zraszaczy, a więc dystansu na jaki rozrzucają wodę. Po pierwsze eliminuje to problem nadmiernego nawodnienia danego obszaru. Po drugie minimalizuje koszty całej instalacji oraz jej utrzymania. Należy tutaj pamiętać, że im większy jest zasięg danego zraszacza tym wymaga większego ciśnienia co z kolei prowadzi do większego zapotrzebowania na wodę, a więc większych kosztów. Należy tutaj dodać również, że cena samego zraszacza jest zazwyczaj uzależniona od maksymalnej mocy danego modelu. Im ta jest większa tym więcej zraszacz będzie kosztował. Poprzez optymalizację doboru mocy każdego zraszacza z sieci minimalizuje się obszary nadmierne nawodnione oraz koszt całego systemu.
 
 Kolejnym elementem jest odpowiednie poprowadzenie rur. Należy tutaj skupić się na dwóch elementach. Odpowiedniej średnicy wybranych rur oraz właściwym poprowadzeniu pomiędzy zainstalowanymi zraszaczami. Dobór średnicy odpowiada za ciśnienie wody dostarczanej do głowic. Niewystarczające ciśnienie sprawi, że zraszacz nie będzie mógł rozrzucać wody na wymaganym dystansie. Odpowiednie poprowadzenie rur z kolei pomaga zminimalizować koszty potrzebne do instalacji samych rur oraz połączeń pomiędzy nimi.
 
 \section{Przegląd literatury}
-Do tej pory problem nawodnienia danego obszaru nie był przedstawiany w literaturze w sposób zaproponowany w tej pracy. Istnieją jednak publikacje poruszające bardziej ogólny problem pokrycia terenu, w który dobrze wpasowuje się problem sformułowany w tej pracy.
+Do tej pory problem nawodnienia danego obszaru nie był przedstawiany w literaturze w sposób zaproponowany w tej pracy. Istnieją jednak publikacje poruszające bardziej ogólny problem pokrycia terenu, w który dobrze wpasowuje się sformułowany problem.
 
 W \cite{sensors} autorzy zajmują się problemem pokrycia danego obszaru w bezprzewodowych sieciach sensorów ze zmiennym zasięgiem. Sensor jest zdefiniowany jako okrąg o określonym zasięgu oraz współrzędnych środka. Na obszar mający zostać pokryty nakładana jest siatka składająca się z określonej liczby kwadratów. Sensor może zostać ulokowany w środku każdego takiego kwadratu. Autorzy w swojej pracy określili trzy kryteria względem których znalezione rozwiązania są oceniane. Są to:\\
 \begin{enumerate}
@@ -232,18 +232,23 @@ Na podstawie dwóch powyższych prac wybrano dwa algorytmy wykorzystane do rozwi
 
 Kolejnym elementem był wybór odpowiedniego sposobu na poprowadzenie połączeń wodnych pomiędzy rozmieszczonymi zraszaczami.
 
-W pracy \cite{pipes} autor skupia się na problemie minimalizacji wielkości systemu rur wodnych miasta Agric Nsima. Jest to motywowane zwiększającą się populacją, a tym samym zapotrzebowaniem na wodę. Autor poprzez rozwiązanie przedstawionego problemu chce zredukować koszty konieczne to do funkcjonowania oraz utrzymania takiego systemu.
+W pracy \cite{pipes} autor skupia się na problemie minimalizacji wielkości systemu rur wodnych miasta Agric Nsima. Jest to motywowane zwiększającą się populacją, a tym samym zapotrzebowaniem na wodę. Autor poprzez rozwiązanie przedstawionego problemu chce zredukować koszty konieczne do funkcjonowania oraz utrzymania takiego systemu.
 
 Autor w swojej pracy sugeruje, że najlepszym rozwiązaniem okazał się algorytm Prima, służący do znajdowania minimalnego drzewa rozpinającego grafu. Do poprowadzenia rur pomiędzy rozmieszczonymi zraszaczami zdecydowano na wykorzystanie proponowanego przez autora rozwiązania.
 
 \section{Cel pracy}
-Opracowanie informatycznego systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni oraz poprowadzeniu rur pomiędzy nimi, a w szczególności zaproponowanie oraz przebadanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu.
+Opracowanie informatycznego systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni oraz poprowadzeniu rur pomiędzy nimi, a w szczególności zaproponowanie oraz przebadanie wielokryterialnych algorytmów genetycznych w kontekście następujących kryteriów:\\
+\begin{enumerate}
+	\item Minimalizacja obszaru nienawodnionego.
+	\item Minimalizacja kosztu zraszaczy wodnych\\
+\end{enumerate}
+, przy zdefiniowanych ograniczeniach wymuszających minimalizację nawodnienia obszaru znajdującego się poza zaznaczonym terenem oraz minimalizację wielkości obszarów nawodnionych nadmiernie.
 
 \section{Opis pracy}
-W kolejnych rozdziałach opisane będą poszczególne zagadnienia związane z realizacją celu pracy. Na samym początku sformułowany zostanie model matematyczny opisujący rozwiązywany problem. Rozdział ten zawierał będzie dokładny opis podejścia do danego zagadnienia wraz z opisem wzorów matematycznych wykorzystanych do zdefiniowania poszczególnych funkcji celu. Następnie wyjaśnione zostaną pojęcia optymalizacji, optymalizacji jednokryterialnej oraz optymalizacji wielokryterialnej, czyli zagadnienia na których bazuje cała praca. W kolejnym rozdziale przedstawione zostaną algorytmy genetyczne, zarówno te w wersji podstawowej jak i wielokryterialnej wraz z ich wybranymi wersjami, tak aby przybliżyć czytelnikowi w jaki sposób ona działają oraz dlaczego są używane. Kolejne rozdziały będą już odzwierciedleniem wykonanej pracy i dokładnym opisem przyjętego sposobu realizacji zadania. Najpierw dokładnie opisany zostanie opracowany system wspomagania decyzji. Wymienione zostaną technologie użyte do implementacji oraz przykładowy scenariusz interakcji użytkownika z system wraz z zrzutami ekranu prezentującymi poszczególne widoki aplikacji. W kolejnym rozdziale zaprezentowane zostaną badania mające na celu porównanie wybranych algorytmów genetycznych. Na samym początku przedstawione zostaną cel oraz plan badań. Następnie zaprezentowane zostaną rezultaty procesu strojenia algorytmów. Kolejnym punktem będzie już prezentacja rezultatów badań oraz ich analiza wraz z podsumowaniem. Na końcu pracy znajdzie się ocena przedstawionego systemu wspomagania decyzji, argumenty za oraz przeciw używaniem algorytmów genetycznych w takich systemach oraz propozycje dalszego rozwoju systemu oraz prowadzenia badań.
+W kolejnych rozdziałach opisane będą poszczególne zagadnienia związane z realizacją celu pracy. Na samym początku sformułowany zostanie model matematyczny opisujący rozwiązywany problem. Rozdział ten zawierał będzie dokładny opis podejścia do danego zagadnienia wraz z opisem wzorów matematycznych wykorzystanych do zdefiniowania poszczególnych funkcji celu. Następnie wyjaśnione zostaną pojęcia optymalizacji, optymalizacji jednokryterialnej oraz optymalizacji wielokryterialnej, czyli zagadnienia na których bazuje cała praca. W kolejnym rozdziale przedstawione zostaną algorytmy genetyczne, zarówno te w wersji podstawowej jak i wielokryterialnej wraz z ich wybranymi wersjami, tak aby przybliżyć czytelnikowi w jaki sposób ona działają oraz dlaczego są używane. Kolejne rozdziały będą już odzwierciedleniem wykonanej pracy i dokładnym opisem przyjętego sposobu realizacji zadania. Najpierw dokładnie opisany zostanie opracowany system wspomagania decyzji. Wymienione zostaną technologie użyte do implementacji oraz przykładowy scenariusz interakcji użytkownika z systemem wraz z zrzutami ekranu prezentującymi poszczególne widoki aplikacji. W kolejnym rozdziale zaprezentowane zostaną badania mające na celu porównanie wybranych algorytmów genetycznych. Na samym początku przedstawione zostaną cel oraz plan badań. Następnie zaprezentowane zostaną rezultaty procesu strojenia algorytmów. Kolejnym punktem będzie już prezentacja rezultatów badań oraz ich analiza wraz z podsumowaniem. Na końcu pracy znajdzie się ocena przedstawionego systemu wspomagania decyzji, argumenty za oraz przeciw używaniem algorytmów genetycznych w takich systemach oraz propozycje dalszego rozwoju systemu oraz prowadzenia badań.
 
 \chapter{Model matematyczny}
-Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy $A$. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. $A$ jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku \eqref{fig:matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
+Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. $A$ jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku \eqref{fig:matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
 
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{mandf}}
@@ -251,52 +256,66 @@ Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma 
 	\caption{blah}
 	\label{fig:matrix_m}
 \end{figure}
-Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się wewnątrz $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz konkretny model $t_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$.\\
-Kwadrat o współrzędnych $(x,y)$ jest nawodniony jeśli znajduje się w zasięgu zraszacza. Jest to wyrażone następującą funkcją:
-\begin{equation}
+Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się wewnątrz $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz konkretny model $t_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$.
+
+Kwadrat o współrzędnych $(x,y)$ jest nawodniony jeśli znajduje się w zasięgu zraszacza. Jest to wyrażone funkcją \eqref{eq:irrigated}.
+\begin{equation}\label{eq:irrigated}
 	is\_irr(x, y, s_{i}) = \begin{cases}
 							1,& \text{jeśli } (x - x_{i})^{2} + (y - y_{i})^2 \leq r_{i}^{2}\\
 							0,& w.p.p
 						  \end{cases}
 \end{equation}
 , gdzie $x$ oraz $y$ oznaczają współrzędne środka kwadratu; $s_{i}$ jest konkretnym zraszaczem; $x_{i}, y_{i}$ oznaczają współrzędne zraszacza $s_{i}$; $r_{i}$ jest liczba wyrażającą zasięg zraszacza.\\\\
-Załóżmy, że $S$ jest zbiorem wszystkich rozmieszczonych zraszaczy. Wtedy dany kwadrat jest nawodniony jeśli znajduje się w zasięgu przynajmniej jednego zraszacza ze zbioru $S$:
-\begin{equation}
+Załóżmy, że $S$ jest zbiorem wszystkich rozmieszczonych zraszaczy. Wtedy dany kwadrat jest nawodniony jeśli znajduje się w zasięgu przynajmniej jednego zraszacza ze zbioru $S$ \eqref{eq:irrigated_total}.
+\begin{equation}\label{eq:irrigated_total}
 	irr(x, y, S) = \begin{cases}
 				   	1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 0 \\
 				   	0,& w.p.p			   	
 				   \end{cases}
 \end{equation}
-Generalnie poprzez stopień nawodnienia danego obszaru rozumie się różnicę pomiędzy liczbą wszystkich elementów macierzy $M$ należących do $P$, a liczbą nawodnionych elementów tej macierzy należących do $P$:
+Generalnie poprzez wielkość obszaru nienawodnionego rozumie się jako różnicę pomiędzy liczbą wszystkich elementów macierzy $M$ należących do $P$, a liczbą nawodnionych elementów tej macierzy należących do $P$ \eqref{eq:simple_f1}.
 \begin{equation}\label{eq:simple_f1}
 	F_{0}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S))
 \end{equation}
-Im wartość funkcji $F_{0}$ jest mniejsza tym mniej jest obszarów nienawodnionych, a więc rozwiązanie jest lepsze. $F_{0} = $ jest rozwiązaniem idealnym z perspektywy kryterium nawodnienia.\\\\
-Jak zostało wspomniane w poprzednich rozdziałach zaimplementowane algorytmy oceniają stopień nawodnienia obszaru na dwa sposoby w zależności od tego czy wybrana jest opcja minimalizacji nawodnienia poza wskazanym obszarem. Jeśli minimalizacja jest wyłączona do obliczeń używana jest prosta funkcja opisana powyżej \eqref{eq:simple_f1}. Bardziej szczegółowe rozwinięcie funkcji przewiduje wprowadzenie kary za naruszenie ograniczeń:
+, gdzie $F_{0}$ jest dodatkową funkcją pomagającą zobrazować podejście do problemu. Im wartość funkcji $F_{0}$ jest mniejsza tym obszar nienawodniony jest mniejszy, a więc rozwiązanie jest lepsze. $F_{0} = $ jest rozwiązaniem idealnym z perspektywy kryterium nawodnienia.
 
-\begin{equation}
-\begin{split}
-	F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) \\ + 
-	\alpha \cdot \bigg{[}\dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)} \\ + \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}\bigg{]}
-\end{split}
+Na podstawie funkcji obrazującej wielkość obszaru nienawodnionego \eqref{eq:simple_f1} sformułowano bardziej szczegółową funkcję biorącą pod uwagę ograniczenia, o których mowa była wcześniej: minimalizację nawodnienia obszaru znajdującego się poza wyznaczonym terenem \eqref{eq:constraint_out_of_bounds} oraz minimalizację wielkości obszarów nawodnionych nadmiernie \eqref{eq:constraint_overrirr}. Wpływ ograniczeń został wprowadzony w formie funkcji kary sumującej stopień ich naruszenia\eqref{eq:constraint_sum}.
+
+\begin{equation}\label{eq:constraint_out_of_bounds}
+	\omega_{1}(S) = \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n,S) \cdot \beta}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}
 \end{equation}
-, gdzie $\alpha$ jest zmienną określającą to czy na funkcję celu wpływa minimalizacja nawodnienia poza wskazanym obszarem. Zmienna $\alpha$ może przyjmować wartość 0 lub 1. Jeśli $\alpha=1$ minimalizacja jest brana pod uwagę; $ovrirr(m,n,S)$ jest funkcją mówiącą czy dany obszar został nadmiernie nawodniony \eqref{eq:is_overirrigated_func}.
+, gdzie $\beta$ jest współczynnikiem mówiącym o mocy danego ograniczenia. Domyślnie $\beta=100$.\\
+\begin{equation}\label{eq:constraint_overrirr}
+	\omega_{2}(S) = \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n,S) \cdot \beta}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}
+\end{equation}
+, gdzie $ovrirr(m,n,S)$ jest funkcją mówiącą czy dany obszar został nadmiernie nawodniony \eqref{eq:is_overirrigated_func}.\\
 \begin{equation}\label{eq:is_overirrigated_func}
 	ovrirr(x,y,S) = \begin{cases}
 				1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 1 \\
 				0,& w.p.p
 			   \end{cases}
 \end{equation}
-\\Jak zostało wspomniane wcześniej, każdy rozmieszczony zraszacz charakteryzowany jest przez konkretny model. Załóżmy, że $C(t_{i})$ jest funkcją zwracającą cenę rynkową dla danego modelu $t_i$. Wtedy całkowity koszt konkretnego rozwiązania wynosi:
-\begin{equation}
+
+\begin{equation}\label{eq:constraint_sum}
+	\Omega(S) = \sum_{j = 1}^{J} \omega_{j}(S)
+\end{equation}
+, gdzie $J$ jest zbiorem wszystkich zdefiniowanych ograniczeń.\\
+
+Po uwzględnieniu przedstawionych ograniczeń funkcja oceniająca stopień nawodnienia terenu wygląda w sposób przedstawiony na równaniu \eqref{eq:f_one}.
+\begin{equation}\label{eq:f_one}
+F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) + \Omega(S)
+\end{equation}
+
+Jak zostało wspomniane wcześniej, każdy rozmieszczony zraszacz charakteryzowany jest przez konkretny model. Załóżmy, że $C(t_{i})$ jest funkcją zwracającą cenę rynkową dla danego modelu $t_i$. Wtedy całkowity koszt konkretnego rozwiązania jest zdefiniowany poprzez równanie \eqref{eq:f_two}.
+\begin{equation}\label{eq:f_two}
 	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
 \end{equation}\\
-Podsumowując celem zadania jest rozwiązanie następującego problemu optymalizacyjnego:
 
-\begin{equation}
+Podsumowując celem zadania jest rozwiązanie problemu optymalizacyjnego sformułowanego w następujący sposób:\\\\
+Dla danych $M, P$ oraz z uwzględnieniem zdefiniowanych ograniczeń \eqref{eq:constraint_out_of_bounds}, \eqref{eq:constraint_overrirr} znajdź wektor $S^{*}$ minimalizujący wielkość obszaru nienawodnionego oraz minimalizujący koszt danego rozwiązania \eqref{eq:final_model}.
+\begin{equation}\label{eq:final_model}
 	\begin{split}
-		min \text{  } & 	F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) \\ +& 
-		\alpha \cdot \bigg{[}\dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} (1 - p(m,n)) \cdot irr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)} \\ +& \dfrac{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot ovrirr(m,n,S) \cdot 100}{\sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)}\bigg{]}\\\\
+		min \text{  }&  F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) + \Omega(S)\\
 		min \text{  }&	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
 	\end{split}
 \end{equation}
@@ -328,7 +347,7 @@ Jednym z głównych pojęć, na których opiera się optymalizacja wielokryteria
 	\item Dla każdego kryterium $m \in M$ rozwiązanie $A$ nie jest gorsze od $B$.
 	\item Przynajmniej dla jednego kryterium $m \in M$ rozwiązanie $A$ jest lepsze od $B$ \cite{book}.\\
 \end{enumerate}
-Korzystając z przykładu opisanego wcześniej przykładu hoteli, możemy zauważyć, że rozwiązanie $F$ jest zdominowane przez rozwiązanie $D$. Jest tak dlatego, że rozwiązanie $D$ jest pod względem każdego kryterium lepsze od rozwiązania $F$, a więc spełnione są wymienione powyżej warunki. Nie można tego samego powiedzieć, gdy do porównania użyjemy hotelu $A$ oraz $B$. Rozwiązanie $A$ nie spełnia pierwszego warunku - hotel jest położony dalej od morza.
+Korzystając z opisanego wcześniej przykładu hoteli, możemy zauważyć, że rozwiązanie $F$ jest zdominowane przez rozwiązanie $D$. Jest tak dlatego, że rozwiązanie $D$ jest pod względem każdego kryterium lepsze od rozwiązania $F$, a więc spełnione są wymienione powyżej warunki. Nie można tego samego powiedzieć, gdy do porównania użyjemy hotelu $A$ oraz $B$. Rozwiązanie $A$ nie spełnia pierwszego warunku - hotel jest położony dalej od morza.
 
 \subsubsection{Optimum Pareto}
 Rozwiązanie jest rozwiązaniem optymalnym w sensie Pareto, jeśli nie da się poprawić danego rozwiązania pod względem jednego kryterium, nie pogarszając jednocześnie oceny rozwiązania, patrząc z perspektywy pozostałych kryteriów \cite{wiki_pareto}. Spójrzmy na hotel $C$ z wykorzystywanego wcześniej przykładu oraz załóżmy, że jest to rozwiązanie optymalne w sensie Pareto. W takiej sytuacji nie da obniżyć się ceny za pobyt w hotelu bez zmiany jego lokalizacji, oddalającej go od plaży. Sytuacja wygląda identycznie w drugą stronę. Nie da się zmienić położenia hotelu na bliższe morzu, bez zwiększenia ceny za noc. Optimum Pareto jest więc kompromisem pomiędzy pomiędzy uwzględnianymi kryteriami.
@@ -407,11 +426,13 @@ Jak zostało wspomniane wcześniej rezultatem procesu optymalizacji wielokryteri
 Oba wymienione kryteria są tak samo ważne, dlatego algorytmy służące do optymalizacji wielokryterialnej powinny skupiać się na zaspokojeniu obu tych kryteriów w takim samym stopniu\cite{book}.
 
 \chapter{Algorytmy genetyczne}
-Problem rozmieszczenia zraszaczy opisany na wstępie pracy został rozwiązany przy użyciu algorytmów genetycznych. Są to algorytmy, których działanie oparte jest na tych samych zasadach na których odbywa się proces ewolucji zachodzący w naturze \cite{ga_book}. W tym rozdziale przedstawiony zostanie opis ogólny algorytmu genetycznego, jego powiązanie z procesami zachodzącymi w przyrodzie, schemat działania oraz dokładny opis wykorzystywanych operatorów: krzyżowania, selekcji oraz mutacji. Następnie przedstawiony zostanie koncept wielokryterialnych algorytmów genetycznych oraz opisane zostaną dwa algorytmy wykorzystane do rozwiązania przedstawionego wcześniej problemu: NSGA-II oraz SPEA. Kolejny podrozdział będzie skupiał się na procesie strojenia algorytmów. Następnie opisana zostanie konkretna implementacja zastosowana w celu rozwiązania problemu nawodnienia.
+Problem rozmieszczenia zraszaczy opisany na wstępie pracy został rozwiązany przy użyciu algorytmów genetycznych. Są to algorytmy, których działanie oparte jest na tych samych zasadach na których odbywa się proces ewolucji zachodzący w naturze \cite{ga_book}. W tym rozdziale przedstawiony zostanie opis ogólny algorytmu genetycznego, jego powiązanie z procesami zachodzącymi w przyrodzie, schemat działania oraz dokładny opis wykorzystywanych operatorów: krzyżowania, selekcji oraz mutacji. Następnie przedstawiony zostanie koncept wielokryterialnych algorytmów genetycznych oraz opisane zostaną dwa algorytmy wykorzystane do rozwiązania przedstawionego wcześniej problemu: NSGA-II oraz SPEA. Następnie opisana zostanie konkretna implementacja zastosowana w celu rozwiązania problemu nawodnienia.
 
 \section{Opis ogólny}
-Algorytmy genetyczne są procedurami wykorzystywanymi do rozwiązywania problemów optymalizacyjnych, opartymi o genetykę oraz selekcję naturalną. Cały proces działania takiego algorytmu można porównywać do procesu ewolucji występującego w przyrodzie\cite{ga_book}. Obserwując taki proces można zauważyć, że najlepiej przystosowane osobniki mają największe szanse na reprodukcję, a więc przekazanie swojego DNA kolejnym pokoleniom. Dzieje się tak dlatego, że z punktu widzenia biologii najlepiej przystosowane osobniki to te najbardziej atrakcyjne dla potencjalnych partnerów oraz w przypadku zwierząt stadnych, te dominujące całą resztę, a więc mające pierwszeństwo jeśli chodzi o wybór partnerów, reprodukcję czy chociażby pożywianie się. Generalizując natura dąży do tego, aby do puli z której utworzone ma zostać kolejne pokolenie danej populacji trafiały jak najlepsze geny. Gdyby działo się inaczej żaden gatunek nie przetrwałby więcej niż kilkudziesięciu pokoleń.\\
-Jak zostało wspomniane największe szanse na potomstwo mają osobniki najlepsze patrząc z perspektywy szansy na przetrwanie. Potomstwo par takich osobników powstaje na skutek procesu nazywanego krzyżowaniem. Krzyżowanie polega na łączeniu genów jednego osobnika z drugim, tworząc w ten sposób potomka, charakteryzującego się cechami zarówno pierwszego jak i drugiego rodzica. Oczywiście im lepiej rodzice danego osobnika byli przystosowani, tym większa szansa, że również i on będzie stał wysoko w hierarchii.\\
+Algorytmy genetyczne są procedurami wykorzystywanymi do rozwiązywania problemów optymalizacyjnych, opartymi o genetykę oraz selekcję naturalną. Cały proces działania takiego algorytmu można porównywać do procesu ewolucji występującego w przyrodzie\cite{ga_book}. Obserwując taki proces można zauważyć, że najlepiej przystosowane osobniki mają największe szanse na reprodukcję, a więc przekazanie swojego DNA kolejnym pokoleniom. Dzieje się tak dlatego, że z punktu widzenia biologii najlepiej przystosowane osobniki to te najbardziej atrakcyjne dla potencjalnych partnerów oraz w przypadku zwierząt stadnych, te dominujące całą resztę, a więc mające pierwszeństwo jeśli chodzi o wybór partnerów, reprodukcję czy chociażby pożywianie się. Generalizując natura dąży do tego, aby do puli z której utworzone ma zostać kolejne pokolenie danej populacji trafiały jak najlepsze geny. Gdyby działo się inaczej żaden gatunek nie przetrwałby więcej niż kilkudziesięciu pokoleń.
+
+Jak zostało wspomniane największe szanse na potomstwo mają osobniki najlepsze patrząc z perspektywy szansy na przetrwanie. Potomstwo par takich osobników powstaje na skutek procesu nazywanego krzyżowaniem. Krzyżowanie polega na łączeniu genów jednego osobnika z drugim, tworząc w ten sposób potomka, charakteryzującego się cechami zarówno pierwszego jak i drugiego rodzica. Oczywiście im lepiej rodzice danego osobnika byli przystosowani, tym większa szansa, że również i on będzie stał wysoko w hierarchii.
+
 Kolejnym istotnym elementem w procesie ewolucji jest mutacja. Mutacja jest losowym procesem polegającym na zmianie fragmentu kodu DNA. Poprzez taką zmianę osobnik staje się jeszcze lepiej lub gorzej przystosowany. W pierwszym przypadku jego szanse na reprodukcję wzrastają, więc jest większe prawdopodobieństwo, że zmiana wprowadzona przez mutację zostanie przekazana dalej. W drugim przypadku linia osobników ze zmienionym DNA prawdopodobnie wygaśnie zdecydowanie szybciej niż w przypadku pierwszym.
 
 Podsumowując, proces ewolucji złożony jest z trzech elementów: selekcji, krzyżowania oraz mutacji\cite{ga_book}. Na tych samych operacjach opiera się działanie algorytmu genetycznego. W kontekście algorytmu są one nazywane operatorami genetycznymi. Na rysunku \eqref{fig:ga_sequence} przedstawiony został ogólny schemat działania takiego algorytmu.
@@ -454,11 +475,12 @@ Kolejnym etapem działania algorytmu genetycznego jest reprodukcja inaczej zwana
 	\item Eliminacja osobników gorszych, tak aby kopie dobrych mogły zostać dodane do populacji.\cite{book}\\
 \end{enumerate}
 Powyższe zadania mogą zostać osiągnięte przy użyciu kilku metod. Najpopularniejszymi z nich są: metoda turniejowa, metoda ruletki oraz metoda rankingu.
-Metoda turniejowa polega na rozgrywaniu turniejów pomiędzy kilkoma osobnikami wybranymi losowo z populacji \cite{tournament}. Zwycięzca każdego turnieju, jako rodzic, przechodzi do etapu krzyżowania, który zostanie opisany później\eqref{fig:tournament}. Rozmiar pojedynczego turnieju znacząco wpływa na przebieg procesu selekcji. Im jest większy, tym mniejsza szansa, że słabsze osobniki przejdą do kolejnego etapu. Wbrew pozorom takie zachowanie nie jest pożądane ze względu na potrzebę zachowania różnorodności populacji. Im rozmiar jest większy tym większa szansa, że do kolejnego etapu dostanie się zbyt dużo słabszych osobników, co również nie jest dobrym rozwiązaniem. Jeśli rozmiar turnieju $S = 1$ selekcja staje się równoważna losowemu wyborowi osobnika. Najczęściej stosuje się turnieje o rozmiarze 2. Metoda turniejowa jest jedną z najczęściej wybieranych metod selekcji. Jest prosta w implementacji oraz pozwala na łatwe manipulowanie rozmiarem turnieju, co z kolei wpływa na szybkość zbliżania się znalezionych rozwiązań do rozwiązań optymalnych. Ponadto jak zostało udowodnione selekcja turniejowa zawsze zapewnia lepszą lub taką samą szybkość zbliżania się do rozwiązań optymalnych jak inne metody selekcji oraz mniejszą lub taką samą złożoność obliczeniową \cite{book}. Z wymienionych powyżej powodów to właśnie metoda turniejowa została zaimplementowana w wybranych przez autora algorytmach.
+
+Metoda turniejowa polega na rozgrywaniu turniejów pomiędzy kilkoma osobnikami wybranymi losowo z populacji \cite{tournament}. Zwycięzca każdego turnieju, jako rodzic, przechodzi do etapu krzyżowania, który zostanie opisany później\eqref{fig:tournament}. Rozmiar pojedynczego turnieju znacząco wpływa na przebieg procesu selekcji. Im jest większy, tym mniejsza szansa, że słabsze osobniki przejdą do kolejnego etapu. Wbrew pozorom takie zachowanie nie jest pożądane ze względu na potrzebę zachowania różnorodności populacji. Im rozmiar jest większy tym większa szansa, że do kolejnego etapu dostanie się zbyt dużo słabszych osobników, co również nie jest dobrym rozwiązaniem. Jeśli rozmiar turnieju $S = 1$ selekcja staje się równoważna losowemu wyborowi osobnika. Najczęściej stosuje się turnieje o rozmiarze 2. Metoda turniejowa jest jedną z najczęściej wybieranych metod selekcji. Jest prosta w implementacji oraz pozwala na łatwe manipulowanie rozmiarem turnieju, co z kolei wpływa na szybkość zbliżania się znalezionych rozwiązań do rozwiązań optymalnych. Ponadto jak zostało udowodnione selekcja turniejowa zawsze zapewnia lepszą lub taką samą szybkość zbliżania się do rozwiązań optymalnych jak inne metody selekcji oraz mniejszą lub taką samą złożoność obliczeniową \cite{book}. Z wymienionych powyżej powodów to właśnie metoda turniejowa została zaimplementowana w wybranych algorytmach.
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{tournament}}
 	\centering
-	\caption{Przykład rozegranego turnieju o rozmiarze 2.\\1.Wybór losowych osobników; 2.Turniej pomiędzy wybranymi osobnikami.}
+	\caption{Przykład rozegranego turnieju o rozmiarze 2.\\1. Wybór losowych osobników; 2. Turniej pomiędzy wybranymi osobnikami.}
 	\label{fig:tournament}
 \end{figure}
 
@@ -495,7 +517,7 @@ Opisany powyżej proces krzyżowania może zostać przeprowadzony również przy
 
 Przedstawioną ideę podziału chromosomu można dowolnie rozszerzać. Ekstremum jest tzw. podział jednolity \cite{book}. W takim przypadku potomstwo powstaje poprzez wymianę pojedynczych bitów z określonym prawdopodobieństwem $p$. Najczęściej przyjmuje się, że $p = 0.5$, czyli istnieję 50\% szansy, że dany bit zostanie wymieniony na ten pochodzący z drugiego rodzica.
 
-W wybranych algorytmach autor stosuje metodę krzyżowania dwupunktowego, która jest typowym wyborem przy chromosomach reprezentowanych za pomocą ciągów binarnych \cite{sensors}.
+W wybranych algorytmach zastosowano metodę krzyżowania dwupunktowego, która jest typowym wyborem przy chromosomach reprezentowanych za pomocą ciągów binarnych \cite{sensors}.
 
 W celu zachowania części dobrych osobników z populacji, do procesu krzyżowania dodaje się dodatkową zmienną $p_{c}$, oznaczająca prawdopodobieństwo krzyżowania \cite{ga_book}. Oznacza ona jaka część obecnej populacji zostanie użyta do procesu krzyżowania. Gdy $p_{c} = 1$ nowa populacja w całości zostanie zapełniona potomkami osobników ze starej populacji. W innym przypadku $100(1 - p_{c})\%$ osobników ze starej populacji zostanie skopiowanych do nowej. Najczęściej prawdopodobieństwo krzyżowania ustawia się na poziomie 80-90\%.
 
