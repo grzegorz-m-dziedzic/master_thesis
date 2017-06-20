@@ -99,53 +99,14 @@
 \newtheorem{mydef}{Definicja}
 
 
-
 \begin{document}
-
-
-\newcommand{\resultChart}[7][140]{
-\def\dataS{{#2}}
-	\begin{figure}[H]
-	
-\centering
-
-\begin{center}
-\begin{tikzpicture}
- 
-\begin{axis}[
-ybar,
-bar width=20,
-legend style={at={(0.5,-0.25)},
-anchor=north,legend columns=-1},
-ylabel={Wartość miary},
-symbolic x coords={\dataS},
-xtick=data,
-height=  {#1},
-width=0.8\textwidth,
-ymin=0, ytick={0,0.5,1},
-ymax=1.5,
-nodes near coords,
-nodes near coords align={vertical},
-]
-\addplot coordinates { (\dataS,{#3}) };
-\addplot coordinates {(\dataS,{#4}) };
-\addplot coordinates { (\dataS,{#5}) };
-\legend{Recall,Precission,F1-Score}
-\end{axis}
-\end{tikzpicture}
-\end{center}
-\caption{{#6}}
-\myfigure{{#6}}
-\label{{#7}}
-\end{figure}
-}
 
 
 \pgfkeys{/pgf/number format/use comma}
 \pgfkeys{/pgf/number format/.cd, set thousands separator={}}%
 \nocite{*}
-\title{ Wielokryterialny problem rozmieszczenia zraszaczy wodnych na zadanej powierzchni }
-\titleEN{ Multicriteria water sprinklers deployment problem on a given area}
+\title{Wielokryterialny problem rozmieszczenia zraszaczy wodnych na zadanej powierzchni}
+\titleEN{Multicriteria water sprinklers deployment problem on a given area}
 \shortTitle{}
 \author{Grzegorz Dziedzic}
 \advisor{dr Mariusz Fraś}
@@ -169,7 +130,6 @@ The purpose of this thesis was solution of the multicriteria water sprinklers de
 \maketitle
 
 \textpages
-
 
 \graphicspath{ {img/} }
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}

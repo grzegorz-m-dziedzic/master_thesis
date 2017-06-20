@@ -223,7 +223,7 @@
 	 & &\large{\bfseries{\rule{0pt}{0.5cm}\ Wydział Informatyki\ i\ Zarządzania}} \\[3pt]
 	 & &\ \ \large{kierunek studiów: Informatyka}\\
 	 & &\ \ specjalność: Inżynieria oprogramowania\\
-	 & &\multicolumn{1}{c}{\rule{0pt}{2.5cm} \Large{Praca dyplomowa - magisterska}} \\
+	 & &\multicolumn{1}{c}{\rule{0pt}{2.0cm} \Large{Praca dyplomowa - magisterska}} \\
 	 & &\multicolumn{1}{p{13.5cm}}{\rule{0pt}{2cm}\centering\parbox{0.7\textwidth}{\centering\bfseries\sc\Large{\@title }\\\small{\@titleEN}}} \\
 	 & &\multicolumn{1}{c}{\rule{0pt}{1cm}\large\@author} \\
 	 & &\multicolumn{1}{p{13.5cm}}{\rule{0pt}{0cm}\small\begin{flushright}\noindent słowa kluczowe:\\ \@slowaKluczowe\end{flushright}} \\
@@ -324,16 +324,16 @@
    \fi
    \pagestyle{headings}
    
-   \leavevmode\thispagestyle{empty}\newpage
    \tableofcontents
    
-  
+     
    \if@twoside
    	\cleardoublepage
    \else
    	\clearpage
    \fi
    \pagestyle{headings}
+
 }
 
 \newenvironment{abstract}
