@@ -289,7 +289,6 @@
 	 \pagestyle{plain}   
    ~ \vspace{-3cm} \\
    ~ \vspace{\textheight} \\
-   {\begin{center}\small Niniejszy dokument zosta\l\ z\l o\.zony w systemie \LaTeX.\end{center}}
 \else
 	 \pagestyle{plain}   
 \fi

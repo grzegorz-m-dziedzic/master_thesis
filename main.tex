@@ -276,7 +276,7 @@ Załóżmy, że $S$ jest zbiorem wszystkich rozmieszczonych zraszaczy. Wtedy dan
 \end{equation}
 Generalnie poprzez wielkość obszaru nienawodnionego rozumie się jako różnicę pomiędzy liczbą wszystkich elementów macierzy $M$ należących do $P$, a liczbą nawodnionych elementów tej macierzy należących do $P$ \eqref{eq:simple_f1}.
 \begin{equation}\label{eq:simple_f1}
-	F_{0}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S))
+	F_{0}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n)(1 - irr(m,n,S))
 \end{equation}
 , gdzie $F_{0}$ jest dodatkową funkcją pomagającą zobrazować podejście do problemu. Im wartość funkcji $F_{0}$ jest mniejsza tym obszar nienawodniony jest mniejszy, a więc rozwiązanie jest lepsze. $F_{0} = $ jest rozwiązaniem idealnym z perspektywy kryterium nawodnienia.
 
@@ -313,11 +313,12 @@ Jak zostało wspomniane wcześniej, każdy rozmieszczony zraszacz charakteryzowa
 	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
 \end{equation}\\
 
-Podsumowując celem zadania jest rozwiązanie problemu optymalizacyjnego sformułowanego w następujący sposób:\\\\
+Podsumowując celem zadania jest rozwiązanie problemu optymalizacyjnego sformułowanego w następujący sposób:\\
+
 Dla danych $M, P, ms$ oraz z uwzględnieniem zdefiniowanych ograniczeń \eqref{eq:constraint_out_of_bounds}, \eqref{eq:constraint_overrirr} znajdź wektor $S^{*}$ minimalizujący wielkość obszaru nienawodnionego oraz minimalizujący koszt danego rozwiązania \eqref{eq:final_model}.
 \begin{equation}\label{eq:final_model}
 	\begin{split}
-		min \text{  }&  F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) \cdot (1 - irr(m,n,S)) + \Omega(S)\\
+		min \text{  }&  F_{1}(S) = \sum_{m=1}^{M}\sum_{n=1}^{N} p(m,n) (1 - irr(m,n,S)) + \Omega(S)\\
 		min \text{  }&	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
 	\end{split}
 \end{equation}
@@ -344,10 +345,10 @@ Załóżmy, że tym razem oba kryteria przedstawione na rysunku \eqref{fig:opt_e
 Jak możemy zauważyć do wyboru mamy 6 różnych hoteli. Każdy z nich charakteryzuje się ceną za jedną noc oraz odległością od morza wyrażoną w metrach. Do porównania wybierzmy dwa hotele: $D$ oraz $F$. Jak widać hotel $D$ jest zarówno tańszy jak i znajduje się bliżej morza w porównaniu do hotelu $F$. W tym przypadku decyzja o wyborze jest oczywista i jest nią hotel $D$. Sytuacja wygląda inaczej, gdy porównamy hotel $D$ z hotelem $C$. Hotel $D$ znajduję się bliżej plaży, natomiast jest również droższy od $C$. Które rozwiązanie w tej sytuacji będzie lepsze? To już zależy wyłącznie od preferencji konkretnej osoby. Nie da się bowiem stwierdzić, które z wybranych rozwiązań jest lepsze patrząc z perspektywy obu kryteriów. Z tego powodu problemy, w których występuje kilka kryteriów negatywnie na siebie wpływających, charakteryzują się posiadaniem wielu rozwiązań optymalnych \cite{book_ergot}.
 
 \subsubsection{Dominacja}
-Jednym z głównych pojęć, na których opiera się optymalizacja wielokryterialna jest pojęcie dominacji. Jednym z celów rozwiązywania problemów wielokryterialnych jest znalezienie rozwiązań niezdominowanych, co dokładniej wyjaśnione zostanie później. Koncept dominacji polega na porównywaniu ze sobą znalezionych rozwiązań przez pryzmat wszystkich określonych kryteriów oceny. Załóżmy, że $M$ określa liczbę kryteriów. Wtedy można powiedzieć, że rozwiązanie $A$ dominuje rozwiązanie $B$ jeśli:\\
+Jednym z głównych pojęć, na których opiera się optymalizacja wielokryterialna jest pojęcie dominacji. Jednym z celów rozwiązywania problemów wielokryterialnych jest znalezienie rozwiązań niezdominowanych, co dokładniej wyjaśnione zostanie później. Koncept dominacji polega na porównywaniu ze sobą znalezionych rozwiązań przez pryzmat wszystkich określonych kryteriów oceny. Załóżmy, że $M$ określa liczbę kryteriów. Wtedy można powiedzieć, że rozwiązanie $A$ dominuje rozwiązanie $B$ jeśli \cite{book}:\\
 \begin{enumerate}
 	\item Dla każdego kryterium $m \in M$ rozwiązanie $A$ nie jest gorsze od $B$.
-	\item Przynajmniej dla jednego kryterium $m \in M$ rozwiązanie $A$ jest lepsze od $B$ \cite{book}.\\
+	\item Przynajmniej dla jednego kryterium $m \in M$ rozwiązanie $A$ jest lepsze od $B$.\\
 \end{enumerate}
 Korzystając z opisanego wcześniej przykładu hoteli, możemy zauważyć, że rozwiązanie $F$ jest zdominowane przez rozwiązanie $D$. Jest tak dlatego, że rozwiązanie $D$ jest pod względem każdego kryterium lepsze od rozwiązania $F$, a więc spełnione są wymienione powyżej warunki. Nie można tego samego powiedzieć, gdy do porównania użyjemy hotelu $A$ oraz $B$. Rozwiązanie $A$ nie spełnia pierwszego warunku - hotel jest położony dalej od morza.
 
@@ -470,11 +471,11 @@ Zgodnie z podanymi wcześniej danymi oraz przy założeniu, ze $c = 0.01$ koszt 
 \[f(10, 14) = 6\]
 Zakładając, że celem procesu optymalizacji jest minimalizacja kosztu wyprodukowania cylindra, należy zauważyć, że osobnik z przypisaną mniejszą wartością jest lepszy w kontekście wybranego kryterium.
 \subsubsection{Reprodukcja}
-Kolejnym etapem działania algorytmu genetycznego jest reprodukcja inaczej zwana też selekcją. Jest to proces mający na celu zwiększenie liczby dobrych osobników w populacji oraz redukcję liczby tych gorszych, jednocześnie utrzymując niezmieniony rozmiar całej populacji. Jest to osiągane poprzez realizację następujących zadań:\\
+Kolejnym etapem działania algorytmu genetycznego jest reprodukcja inaczej zwana też selekcją. Jest to proces mający na celu zwiększenie liczby dobrych osobników w populacji oraz redukcję liczby tych gorszych, jednocześnie utrzymując niezmieniony rozmiar całej populacji. Jest to osiągane poprzez realizację następujących zadań \cite{book}:\\
 \begin{enumerate}
 	\item Zidentyfikowanie dobrych (ocenionych powyżej średniej) osobników.
 	\item Utworzenie kopii dobrych osobników.
-	\item Eliminację osobników gorszych, tak aby kopie dobrych mogły zostać dodane do populacji.\cite{book}\\
+	\item Eliminację osobników gorszych, tak aby kopie dobrych mogły zostać dodane do populacji.\\
 \end{enumerate}
 Powyższe zadania mogą zostać osiągnięte przy użyciu kilku metod. Najpopularniejszymi z nich są: metoda turniejowa, metoda ruletki oraz metoda rankingu.
 
@@ -752,12 +753,12 @@ Wybierając widok listy zakupów użytkownik zobaczy listę rozmieszczonych zras
 \subsection{Cel badań}
 Celem badań było sprawdzenie w jakim stopniu wybrane algorytmy genetyczne sprawdzą się w kontekście sformułowanego w pracy problemu oraz porównanie tych algorytmów ze sobą korzystając z zdefiniowanych w późniejszym podrozdziale przypadków testowych. Ponadto założono również jak cel ocenę przydatności wybranych algorytmów w opracowanym systemie wspomagania decyzji biorąc pod uwagę jakość generowanych rozwiązań oraz złożoność czasową.
 \subsection{Plan badań}
-Złożoność oceny algorytmów służących do optymalizacji wielokryterialnej jest znacznie większa niż tej dla algorytmów rozwiązujących problemy obejmujące jedno kryterium \cite{comparison_deb}. Wynika to z samej definicji rozwiązania problemu wielokryterialnego, która wyjaśniona została wcześniej. Oceniając rozwiązanie takiego problemu należy wziąć pod uwagę następujące składowe:\\
+Złożoność oceny algorytmów służących do optymalizacji wielokryterialnej jest znacznie większa niż tej dla algorytmów rozwiązujących problemy obejmujące jedno kryterium \cite{comparison_deb}. Wynika to z samej definicji rozwiązania problemu wielokryterialnego, która wyjaśniona została wcześniej. Oceniając rozwiązanie takiego problemu należy wziąć pod uwagę następujące składowe \cite{comparison_2}:\\
 \begin{itemize}
 	\item Dystans znalezionego niezdominowanego zbioru rozwiązań od prawdziwego zbioru Pareto.
 	\item Równomierny rozkład znalezionych rozwiązań.
 	\item Długość znalezionego frontu rozwiązań.
-	\item Czas wykonania algorytmu \cite{comparison_2}.\\
+	\item Czas wykonania algorytmu.\\
 \end{itemize}
 Na potrzeby analizy i oceny dwóch zaproponowanych algorytmów wybrane zostały cztery metryki \cite{comparison_deb}\cite{comparison_2}:\\
 \begin{enumerate}
