@@ -324,6 +324,7 @@
    \fi
    \pagestyle{headings}
    
+   \leavevmode\thispagestyle{empty}\newpage
    \tableofcontents
    
   
