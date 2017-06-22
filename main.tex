@@ -118,13 +118,13 @@
 % Wstawienie abstractu pracy
 	%\input {abstract}
 
-\abstractSH{Niniejsza praca miała na celu opracowanie systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych na zadanej powierzchni oraz wybór i porównanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu.}
+\abstractSH{Niniejsza praca miała na celu rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych na zadanej powierzchni poprzez opracowanie modelu matematycznego, wybór i porównanie algorytmów genetycznych oraz opracowanie systemu wspomagania decyzji.}
 
 \abstractPL{
-Celem niniejszej pracy było rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych na zadanej powierzchni poprzez opracowanie systemu wspomagania podejmowania decyzji, a w szczególności wybór oraz porównanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu. Jako cele procesu optymalizacji wybrano minimalizację obszaru nienawodnionego oraz minimalizacje kosztu zraszaczy, przy jednoczesnym uwzględnieniu minimalizacji nawodnienia obszaru znajdującego się poza wskazanym terenem oraz minimalizacji obszarów nawodnionych nadmiernie. Praca została podzielona na kilka części. Pierwszą z nich stanowi wprowadzenie w tematykę problemu, dokładniejszy opis rozwiązywanego problemu, przegląd literatury oraz definicja celu pracy. Kolejny rozdział jest opisem opracowanego modelu matematycznego, na którym swoje działanie opierają zaimplementowane algorytmy. W następnym rozdziale zdefiniowane zostało pojęcie optymalizacji oraz różnice pomiędzy optymalizacją jednokryterialną i wielokryterialną. W kolejnym rozdziale dokładnie opisany został schemat działania algorytmu genetycznego. Dodatkowo przedstawiono dwa algorytmy wybrane do rozwiązania omawianego problemu - NSGA-II oraz SPEA. Następną część pracy stanowi opis rezultatów. Najpierw przedstawiono opracowany system wspomagania decyzji, następnie porównano ze sobą wybrane algorytmy genetyczne oraz podsumowano różnice pomiędzy nimi. Na końcu pracy znalazło się podsumowanie, w którym umieszczono ocenę wykonanej pracy oraz dalsze możliwości rozwoju i badań.
+Celem niniejszej pracy było rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych na zadanej powierzchni poprzez opracowanie modelu matematycznego, wybór oraz porównanie algorytmów genetycznych w kontekście wybranego problemu oraz opracowanie systemu wspomagania podejmowanie decyzji. Jako cele procesu optymalizacji wybrano minimalizację obszaru nienawodnionego oraz minimalizacje kosztu zraszaczy, przy jednoczesnym uwzględnieniu minimalizacji nawodnienia obszaru znajdującego się poza wskazanym terenem oraz minimalizacji obszarów nawodnionych nadmiernie. Praca została podzielona na kilka części. Pierwszą z nich stanowi wprowadzenie w tematykę problemu, dokładniejszy opis rozwiązywanego problemu, przegląd literatury oraz definicja celu pracy. W następnym rozdziale zdefiniowane zostało pojęcie optymalizacji oraz różnice pomiędzy optymalizacją jednokryterialną i wielokryterialną. W kolejnym rozdziale dokładnie opisany został schemat działania algorytmu genetycznego. Dodatkowo przedstawiono dwa algorytmy wybrane do rozwiązania omawianego problemu - NSGA-II oraz SPEA. Następną część pracy stanowi opis rezultatów. Najpierw dokładnie przedstawiono opracowany model matematyczny. Następnie porównano ze sobą wybrane algorytmy genetyczne oraz podsumowano różnice pomiędzy nimi. W kolejnym podrozdziale zaprezentowano opracowany system wspomagania decyzji. Na końcu pracy znalazło się podsumowanie, w którym umieszczono ocenę wykonanej pracy oraz dalsze możliwości rozwoju i badań.
 }
 \abstractEN{
-The purpose of this thesis was solution of the multicriteria water sprinklers deployment problem on a given area. It was done by designing a decision support system and especially by selection and comparison of multicriteria genetic algorithms in the context of defined problem. As the purpose of optimization process the following objectives were defined: minimization of the not irrigated area and minimization of the chosen sprinklers' total cost, with the simultaneous minimization of the irrigation of the area placed out of bounds of selected region and minimzation of overirrigated area. The thesis was divied into several parts. First of them is and introduction to the chosen problem. It contains precise description of the problem, review of the literature and the definition of purpose. Next chapter describes developed mathematical model, that chosen algorithms are based on. Next chapter presents the definition of optimization and shows differences between single-objective optimization and multi-objective optimization. Next one is a precise description of genetic algorithms. Moreover it shows two algorithms chosen for solving defined problem - NSGA-II and SPEA. Next part of the thesis is a reflection of work that has been done. At first it shows designed decision support system. Then it presents the results of comparison made between chosen algorithms and summary of the their differences. At the end is a summary, where critical evaluation and further possibilites for development and analysis are placed.
+The purpose of this thesis was solution of the multicriteria water sprinklers deployment problem on a given area. It was done by development of a mathematical model, selection and comparison of multicriteria genetic algorithms in the context of defined problem and by designing a decision support system. As the purpose of optimization process the following objectives were defined: minimization of the not irrigated area and minimization of the chosen sprinklers' total cost, with the simultaneous minimization of the irrigation of the area placed out of bounds of selected region and minimzation of overirrigated area. The thesis was divied into several parts. First of them is and introduction to the chosen problem. It contains precise description of the problem, review of the literature and the definition of purpose. Next chapter presents the definition of optimization and shows differences between single-objective optimization and multi-objective optimization. Next one is a precise description of genetic algorithms. Moreover it shows two algorithms chosen for solving defined problem - NSGA-II and SPEA. Next part of the thesis is a reflection of work that has been done. At first it describes developed mathematical model. Then it presents the results of comparison made between chosen algorithms and summary of the their differences. Next part shows designed decision support system. At the end is a summary, where critical evaluation and further possibilites for development and analysis are placed.
 }
 
 \maketitle
@@ -198,7 +198,9 @@ W pracy \cite{pipes} autor skupia się na problemie minimalizacji wielkości sys
 Autor w swojej pracy sugeruje, że najlepszym rozwiązaniem okazał się algorytm Prima, służący do znajdowania minimalnego drzewa rozpinającego grafu. Do poprowadzenia rur pomiędzy rozmieszczonymi zraszaczami zdecydowano się na wykorzystanie proponowanego przez autora rozwiązania.
 
 \section{Cel pracy}
-Celem pracy jest opracowanie informatycznego systemu wspomagania podejmowania decyzji w rozmieszczeniu zraszaczy wodnych oraz połączeń pomiędzy nimi na zadanej powierzchni, a w szczególności zaproponowanie oraz przebadanie wielokryterialnych algorytmów genetycznych w kontekście następujących kryteriów:\\
+Celem pracy jest rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych oraz połączeń pomiędzy nimi na zadanej powierzchni poprzez opracowanie modelu matematycznego, wybór oraz przebadanie wielokryterialnych algorytmów genetycznych w kontekście wybranego problemu oraz opracowanie systemu wspomagania podejmowanie decyzji.
+
+W ramach rozwiązania zadania optymalizacyjnego zdefiniowano następujące kryteria:
 \begin{enumerate}
 	\item Minimalizacja obszaru nienawodnionego.
 	\item Minimalizacja kosztu wykorzystanych zraszaczy wodnych\\
@@ -206,84 +208,7 @@ Celem pracy jest opracowanie informatycznego systemu wspomagania podejmowania de
 , przy zdefiniowanych ograniczeniach wymuszających minimalizację nawodnienia obszaru znajdującego się poza wyznaczonym terenem oraz minimalizację wielkości obszarów nawodnionych nadmiernie.
 
 \section{Opis pracy}
-W kolejnych rozdziałach opisane będą poszczególne zagadnienia związane z realizacją celu pracy. Na samym początku sformułowany zostanie model matematyczny opisujący rozwiązywany problem. Rozdział ten zawierał będzie dokładny opis podejścia do danego zagadnienia wraz z opisem wzorów matematycznych wykorzystanych do zdefiniowania poszczególnych funkcji celu. Następnie wyjaśnione zostaną pojęcia optymalizacji, optymalizacji jednokryterialnej oraz optymalizacji wielokryterialnej, czyli zagadnienia na których bazuje cała praca. W kolejnym rozdziale przedstawione zostaną algorytmy genetyczne, zarówno te w wersji podstawowej jak i wielokryterialnej wraz z ich wybranymi wersjami, tak aby przybliżyć czytelnikowi w jaki sposób działają oraz dlaczego są używane. Kolejne rozdziały będą już odzwierciedleniem wykonanej pracy i dokładnym opisem przyjętego sposobu realizacji zadania. Najpierw dokładnie opisany zostanie opracowany system wspomagania decyzji. Wymienione zostaną technologie użyte do implementacji oraz przykładowy scenariusz interakcji użytkownika z systemem wraz z zrzutami ekranu prezentującymi poszczególne widoki aplikacji. W kolejnym rozdziale zaprezentowane zostaną badania mające na celu porównanie wybranych algorytmów genetycznych. Na samym początku przedstawione zostaną cel oraz plan badań. Następnie zaprezentowane zostaną rezultaty procesu strojenia algorytmów. Kolejnym punktem będzie już prezentacja rezultatów badań oraz ich analiza wraz z podsumowaniem. Na końcu pracy znajdzie się ocena przedstawionego systemu wspomagania decyzji, argumenty za oraz przeciw używaniu algorytmów genetycznych w takich systemach oraz propozycje dalszego rozwoju oraz poprowadzenia badań.
-
-\chapter{Model matematyczny}
-Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. Teren roboczy jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku \eqref{fig:matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy, które mogą zostać wykorzystane. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
-
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{mandf}}
-	\centering
-	\caption{Teren $P$ mający zostać podlany oraz macierz $M$.}
-	\label{fig:matrix_m}
-\end{figure}
-Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się wewnątrz $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz konkretny model $t_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$.
-
-Kwadrat o współrzędnych $(x,y)$ jest nawodniony jeśli znajduje się w zasięgu zraszacza. Jest to wyrażone funkcją \eqref{eq:irrigated}.
-\begin{equation}\label{eq:irrigated}
-	is\_irr(x, y, s_{i}) = \begin{cases}
-							1,& \text{jeśli } (x - x_{i})^{2} + (y - y_{i})^2 \leq r_{i}^{2}\\
-							0,& w.p.p
-						  \end{cases}
-\end{equation}
-, gdzie $x$ oraz $y$ oznaczają współrzędne środka kwadratu; $s_{i}$ jest konkretnym zraszaczem; $x_{i}, y_{i}$ oznaczają współrzędne zraszacza $s_{i}$; $r_{i}$ jest liczba wyrażającą zasięg zraszacza.
-
-Załóżmy, że $S$ jest zbiorem wszystkich rozmieszczonych zraszaczy. Wtedy dany kwadrat jest nawodniony jeśli znajduje się w zasięgu przynajmniej jednego zraszacza ze zbioru $S$ \eqref{eq:irrigated_total}.
-\begin{equation}\label{eq:irrigated_total}
-	irr(x, y, S) = \begin{cases}
-				   	1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 0 \\
-				   	0,& w.p.p			   	
-				   \end{cases}
-\end{equation}
-
-Generalnie poprzez wielkość obszaru nienawodnionego rozumie się jako różnicę pomiędzy liczbą wszystkich elementów macierzy $M$ należących do $P$, a liczbą nawodnionych elementów tej macierzy należących do $P$ \eqref{eq:simple_f1}.
-\begin{equation}\label{eq:simple_f1}
-	F_{0}(S) = \sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y)(1 - irr(x,y,S))
-\end{equation}
-, gdzie $F_{0}$ jest dodatkową funkcją pomagającą zobrazować podejście do problemu. Im wartość funkcji $F_{0}$ jest mniejsza tym obszar nienawodniony jest mniejszy, a więc rozwiązanie jest lepsze. $F_{0} = $ jest rozwiązaniem idealnym z perspektywy kryterium nawodnienia.
-
-
-Na podstawie funkcji obrazującej wielkość obszaru nienawodnionego \eqref{eq:simple_f1} sformułowano bardziej szczegółową funkcję biorącą pod uwagę stopień naruszenia ograniczeń. Zostały one zdefiniowane w celu minimalizacji nawodnienia obszaru znajdującego się poza wyznaczonym terenem \eqref{eq:constraint_out_of_bounds} oraz minimalizacji wielkości obszarów nawodnionych nadmiernie \eqref{eq:constraint_overrirr}. Wpływ ograniczeń został wprowadzony w formie funkcji kary sumującej stopień ich naruszenia \eqref{eq:constraint_sum}.
-
-\begin{equation}\label{eq:constraint_out_of_bounds}
-	\omega_{1}(S) = \dfrac{\sum_{x=1}^{m}\sum_{y=1}^{n} (1 - p(x,y)) \cdot irr(x,y,S) \cdot \beta}{\sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y)}
-\end{equation}
-, gdzie $\beta$ jest współczynnikiem mówiącym o mocy danego ograniczenia. Domyślnie $\beta=100$.\\
-\begin{equation}\label{eq:constraint_overrirr}
-	\omega_{2}(S) = \dfrac{\sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y) \cdot ovrirr(x,y,S) \cdot \beta}{\sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y)}
-\end{equation}
-, gdzie $ovrirr(x,y,S)$ jest funkcją mówiącą czy dany obszar został nadmiernie nawodniony \eqref{eq:is_overirrigated_func}.\\
-\begin{equation}\label{eq:is_overirrigated_func}
-	ovrirr(x,y,S) = \begin{cases}
-				1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 1 \\
-				0,& w.p.p
-			   \end{cases}
-\end{equation}
-
-\begin{equation}\label{eq:constraint_sum}
-	\Omega(S) = \sum_{j = 1}^{J} \omega_{j}(S)
-\end{equation}
-, gdzie $J$ jest zbiorem wszystkich zdefiniowanych ograniczeń.\\
-
-Po uwzględnieniu zdefiniowanych ograniczeń funkcja oceniająca wielkość obszaru nienawodnionego wygląda w sposób przedstawiony na równaniu \eqref{eq:f_one}.
-\begin{equation}\label{eq:f_one}
-F_{1}(S) = \sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y)(1 - irr(x,y,S)) + \Omega(S)
-\end{equation}
-
-Jak zostało wspomniane wcześniej, każdy rozmieszczony zraszacz charakteryzowany jest przez konkretny model. Załóżmy, że $C(t_{i})$ jest funkcją zwracającą cenę rynkową dla danego modelu $t_i$. Wtedy całkowity koszt konkretnego rozwiązania jest zdefiniowany poprzez równanie \eqref{eq:f_two}.
-\begin{equation}\label{eq:f_two}
-	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
-\end{equation}\\
-
-Podsumowując celem zadania jest rozwiązanie problemu optymalizacyjnego sformułowanego w następujący sposób:\\
-
-Dla danych $M, P, ms, \beta$ oraz z uwzględnieniem zdefiniowanych ograniczeń \eqref{eq:constraint_out_of_bounds}, \eqref{eq:constraint_overrirr} znajdź wektor $S^{*}$ minimalizujący wielkość obszaru nienawodnionego oraz minimalizujący koszt danego rozwiązania \eqref{eq:final_model}.
-\begin{equation}\label{eq:final_model}
-	\begin{split}
-		min \text{  }&  F_{1}(S) = \sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y) (1 - irr(x,y,S)) + \Omega(S)\\
-		min \text{  }&	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
-	\end{split}
-\end{equation}
+W kolejnych rozdziałach opisane będą poszczególne zagadnienia związane z realizacją celu pracy. Na samym początku wyjaśnione zostaną pojęcia optymalizacji, optymalizacji jednokryterialnej oraz optymalizacji wielokryterialnej, czyli zagadnienia na których bazuje cała praca. W kolejnym rozdziale przedstawione zostaną algorytmy genetyczne, zarówno te w wersji podstawowej jak i wielokryterialnej wraz z ich wybranymi wersjami, tak aby przybliżyć czytelnikowi w jaki sposób działają oraz dlaczego są używane. Kolejny rozdział będzie już odzwierciedleniem wykonanej pracy oraz dokładnym opisem przyjętego sposobu realizacji zadania. Najpierw dokładnie przedstawiony zostanie sformułowany model matematyczny opisujący rozwiązywany problem. Podrozdział ten zawierał będzie dokładny opis podejścia do danego zagadnienia wraz z opisem wzorów matematycznych wykorzystanych do zdefiniowania poszczególnych funkcji celu. W kolejnym podrozdziale zaprezentowane zostaną badania mające na celu porównanie wybranych algorytmów genetycznych. Na samym początku przedstawione zostaną cel oraz plan badań. Następnie zaprezentowane zostaną rezultaty procesu strojenia algorytmów. Kolejnym punktem będzie już prezentacja rezultatów badań oraz ich analiza wraz z podsumowaniem. Następnie przedstawiony zostanie opracowany system wspomagania decyzji. Wymienione zostaną technologie użyte do implementacji oraz przykładowy scenariusz interakcji użytkownika z systemem wraz z zrzutami ekranu prezentującymi poszczególne widoki aplikacji. Na końcu pracy znajdzie się ocena zaproponowanego rozwiązania, argumenty za oraz przeciw używaniu algorytmów genetycznych w systemach wspomagania decyzji oraz propozycje dalszego rozwoju i poprowadzenia badań.
 
 \chapter{Optymalizacja}
 Optymalizacja jest procesem polegającym na wyznaczeniu najlepszego rozwiązania lub rozwiązań z punktu widzenia danego kryterium lub kryteriów \cite{wiki_optimization}. Procesy takie w w obecnym świecie obecne są wszędzie. Zaczynając od mechaniki, poprzez ekonomie, finanse, elektrykę po geofizykę czy modelowanie molekularne. Przykładem może być konieczność minimalizacji kosztów produkcji w fabryce, maksymalizacja prawdopodobieństwa zysku z przeprowadzanych transakcji czy chociażby znalezienie najbardziej odpowiadającego danej osobie modelu samochodu \cite{wiki_pl_optimization}.
@@ -600,7 +525,85 @@ Analizując przedstawiony algorytm, łatwo zauważyć, że raz znalezione rozwi�
 
 Duże znaczenie dla działania algorytmu ma wielkość zewnętrznej populacji $\overline{N}$. Jeśli ta jest duża (porównywalna do $N$)  nacisk na selekcję rozwiązań z populacji zewnętrznej będzie większy, co może prowadzić do tego, że algorytm nie będzie potrafił wygenerować rozwiązań leżących na prawdziwym froncie Pareto. Gdy $\overline{N}$ będzie zbyt małe, wpływ elitaryzmu będzie niezauważalny. Ponadto może to prowadzić do sytuacji w której wiele rozwiązań z populacji nie będzie zdominowanych przez żadnego osobnika z populacji zewnętrznej. Będzie skutkować to tym, że wartość funkcji oceny dla tych osobników będzie tak sama. Proponowaną wielkością populacji zewnętrznej jest $1/4$ wielkości populacji $N$ \cite{book}.
 
-\section{Implementacja}
+\chapter{Rozwiązanie problemu}
+\section{Model matematyczny}
+Załóżmy, że $P$ jest wielokątem odwzorowującym kształt terenu, który ma zostać nawodniony. Poprzez opisanie danego wielokąta prostokątem otrzymujemy teren roboczy. Szerokość i wysokość tego terenu są dodatkowo powiększone o największy możliwy zasięg zraszaczy, tak aby umożliwić odpowiednie sprawdzenie stopnia naruszenia ograniczeń, o których mowa później. Teren roboczy jest dodatkowo podzielony na $m \times n$ kwadratów tworząc macierz $M$ przedstawioną na rysunku \eqref{fig:matrix_m}. Każdy element macierzy może przyjmować wartości od 0 do $ms$, gdzie $ms$ jest maksymalną liczbą zraszaczy, które mogą zostać wykorzystane. Wartość 0 oznacza, że dany kwadrat nie został podlany. Wartość większa od 0 mówi o tym przez ile zraszaczy dany obszar został nawodniony.
+
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{mandf}}
+	\centering
+	\caption{Teren $P$ mający zostać podlany oraz macierz $M$.}
+	\label{fig:matrix_m}
+\end{figure}
+Załóżmy, że $p(x,y)$ jest funkcją mówiącą o tym czy punkt o współrzędnych $(x, y)$ znajduje się wewnątrz $P$. Jeśli $p = 0$ punkt należy do $P$, w przeciwnym wypadku $p=1$. Zraszacz jest definiowany jako okrąg reprezentowany przez promień $r_{i}$, współrzędne środka $(x_i, y_i)$ oraz konkretny model $t_{i}$. Środek każdego zraszacza musi zawierać się w $P$, czyli $p(x_{i}, y_{i}) = 0$.
+
+Kwadrat o współrzędnych $(x,y)$ jest nawodniony jeśli znajduje się w zasięgu zraszacza. Jest to wyrażone funkcją \eqref{eq:irrigated}.
+\begin{equation}\label{eq:irrigated}
+	is\_irr(x, y, s_{i}) = \begin{cases}
+							1,& \text{jeśli } (x - x_{i})^{2} + (y - y_{i})^2 \leq r_{i}^{2}\\
+							0,& w.p.p
+						  \end{cases}
+\end{equation}
+, gdzie $x$ oraz $y$ oznaczają współrzędne środka kwadratu; $s_{i}$ jest konkretnym zraszaczem; $x_{i}, y_{i}$ oznaczają współrzędne zraszacza $s_{i}$; $r_{i}$ jest liczba wyrażającą zasięg zraszacza.
+
+Załóżmy, że $S$ jest zbiorem wszystkich rozmieszczonych zraszaczy. Wtedy dany kwadrat jest nawodniony jeśli znajduje się w zasięgu przynajmniej jednego zraszacza ze zbioru $S$ \eqref{eq:irrigated_total}.
+\begin{equation}\label{eq:irrigated_total}
+	irr(x, y, S) = \begin{cases}
+				   	1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 0 \\
+				   	0,& w.p.p			   	
+				   \end{cases}
+\end{equation}
+
+Generalnie poprzez wielkość obszaru nienawodnionego rozumie się jako różnicę pomiędzy liczbą wszystkich elementów macierzy $M$ należących do $P$, a liczbą nawodnionych elementów tej macierzy należących do $P$ \eqref{eq:simple_f1}.
+\begin{equation}\label{eq:simple_f1}
+	F_{0}(S) = \sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y)(1 - irr(x,y,S))
+\end{equation}
+, gdzie $F_{0}$ jest dodatkową funkcją pomagającą zobrazować podejście do problemu. Im wartość funkcji $F_{0}$ jest mniejsza tym obszar nienawodniony jest mniejszy, a więc rozwiązanie jest lepsze. $F_{0} = $ jest rozwiązaniem idealnym z perspektywy kryterium nawodnienia.
+
+
+Na podstawie funkcji obrazującej wielkość obszaru nienawodnionego \eqref{eq:simple_f1} sformułowano bardziej szczegółową funkcję biorącą pod uwagę stopień naruszenia ograniczeń. Zostały one zdefiniowane w celu minimalizacji nawodnienia obszaru znajdującego się poza wyznaczonym terenem \eqref{eq:constraint_out_of_bounds} oraz minimalizacji wielkości obszarów nawodnionych nadmiernie \eqref{eq:constraint_overrirr}. Wpływ ograniczeń został wprowadzony w formie funkcji kary sumującej stopień ich naruszenia \eqref{eq:constraint_sum}.
+
+\begin{equation}\label{eq:constraint_out_of_bounds}
+	\omega_{1}(S) = \dfrac{\sum_{x=1}^{m}\sum_{y=1}^{n} (1 - p(x,y)) \cdot irr(x,y,S) \cdot \beta}{\sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y)}
+\end{equation}
+, gdzie $\beta$ jest współczynnikiem mówiącym o mocy danego ograniczenia. Domyślnie $\beta=100$.\\
+\begin{equation}\label{eq:constraint_overrirr}
+	\omega_{2}(S) = \dfrac{\sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y) \cdot ovrirr(x,y,S) \cdot \beta}{\sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y)}
+\end{equation}
+, gdzie $ovrirr(x,y,S)$ jest funkcją mówiącą czy dany obszar został nadmiernie nawodniony \eqref{eq:is_overirrigated_func}.\\
+\begin{equation}\label{eq:is_overirrigated_func}
+	ovrirr(x,y,S) = \begin{cases}
+				1,& \text{jeśli } \sum_{i=1}^{S} is\_irr(x,y,s_{i}) > 1 \\
+				0,& w.p.p
+			   \end{cases}
+\end{equation}
+
+\begin{equation}\label{eq:constraint_sum}
+	\Omega(S) = \sum_{j = 1}^{J} \omega_{j}(S)
+\end{equation}
+, gdzie $J$ jest zbiorem wszystkich zdefiniowanych ograniczeń.\\
+
+Po uwzględnieniu zdefiniowanych ograniczeń funkcja oceniająca wielkość obszaru nienawodnionego wygląda w sposób przedstawiony na równaniu \eqref{eq:f_one}.
+\begin{equation}\label{eq:f_one}
+F_{1}(S) = \sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y)(1 - irr(x,y,S)) + \Omega(S)
+\end{equation}
+
+Jak zostało wspomniane wcześniej, każdy rozmieszczony zraszacz charakteryzowany jest przez konkretny model. Załóżmy, że $C(t_{i})$ jest funkcją zwracającą cenę rynkową dla danego modelu $t_i$. Wtedy całkowity koszt konkretnego rozwiązania jest zdefiniowany poprzez równanie \eqref{eq:f_two}.
+\begin{equation}\label{eq:f_two}
+	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
+\end{equation}\\
+
+Podsumowując celem zadania jest rozwiązanie problemu optymalizacyjnego sformułowanego w następujący sposób:\\
+
+Dla danych $M, P, ms, \beta$ oraz z uwzględnieniem zdefiniowanych ograniczeń \eqref{eq:constraint_out_of_bounds}, \eqref{eq:constraint_overrirr} znajdź wektor $S^{*}$ minimalizujący wielkość obszaru nienawodnionego oraz minimalizujący koszt danego rozwiązania \eqref{eq:final_model}.
+\begin{equation}\label{eq:final_model}
+	\begin{split}
+		min \text{  }&  F_{1}(S) = \sum_{x=1}^{m}\sum_{y=1}^{n} p(x,y) (1 - irr(x,y,S)) + \Omega(S)\\
+		min \text{  }&	F_{2}(S) = \sum_{i=1}^{S} C(t_{i})
+	\end{split}
+\end{equation}
+
+\subsection{Implementacja algorytmów genetycznych}
 W obu wybranych algorytmach (NSGA-II, SPEA) pojedynczy osobnik reprezentowany jest jako zbiór zraszaczy $S$. Maksymalna ilość zraszaczy ustalana jest za pomocą zmiennej $ms$. Pojedynczy zraszacz jest reprezentowany jako następujący ciąg bitów:
 \begin{figure}[!htb]
 	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{sprinkler_bin_repr}}
@@ -632,101 +635,6 @@ Podsumowując długość chromosomu każdego osobnika z populacji wynosi:
 	L = ms(L_{p} + L_{r} + 1)
 \end{equation}
 W tym miejscu warto zauważyć, że długość chromosomu jest zawsze stała. Nieaktywne zraszacze ($b=0$) nie są w żaden sposób usuwane z reprezentacji. Takie podejście niweluje problemy pojawiające się przy użyciu reprezentacji chromosomów o zmiennej długości. Problemy te są najczęściej powiązane z trudnościami w implementacji operatorów krzyżowania oraz selekcji.
-\chapter{Rozwiązanie problemu}
-\section{System wspomagania decyzji}
-System wspomagania decyzji został zaimplementowany w formie aplikacji webowej. Została ona wykonana przy użyciu następujących technologii:\\
-\begin{itemize}
-	\item Python (PyPy) \cite{pypy}.
-	\item Framework Django \cite{django}.
-	\item HTML 5.
-	\item JavaScript.
-	\item CSS.\\
-\end{itemize}
-
-Powyższe elementy zostały wybrane tak aby umożliwić utworzenie prostego oraz łatwo skalowalnego systemu.
-
-Jako główne narzędzie służące do zbudowania systemu wybrano język Python, a właściwie implementację języka Python, nazywającą się PyPy. PyPy został stworzony w celu optymalizacji czasu wykonywania skryptów przez co lepiej nadaje się do wykorzystania w programach, które mocno obciążają procesor, chociażby poprzez obliczenia matematyczne.
-
-Django zostało wybrane, ponieważ jako framework zapewnia wszystkie narzędzia potrzebne do zbudowania od podstaw całej aplikacji webowej. Dodatkowo warto tutaj zauważyć, że framework Django napisany jest w języku Python, co zniwelowało problemy z połączeniem aplikacji z zaimplementowanymi algorytmami.
-
-Wszystkie obliczenia wykonują się na serwerze. W ten sposób użytkownik dostaje od razu produkt gotowy do użycia. Nie musi martwić się o to czy opracowany system wymaga do działania konkretnych bibliotek lub pakietów, ponieważ odpowiedzialność za odpowiednią konfigurację bierze na siebie dostawca oprogramowania. Takie podejście zapewnia również, że użytkownicy nie mają dostępu do części kodu powiązanego z opracowanym modelem matematycznym, sposobem przetwarzania danych czy z zaimplementowanymi algorytmami genetycznymi. Ponadto aplikację napisaną w tej formie łatwo przekształcić do modelu Saas (\textit{Software as a Service}), co stwarza z kolei możliwość wprowadzenia opłat za korzystanie z aplikacji, kiedy ta stanie się odpowiednio zaawansowana i dojrzała.
-
-Użytkownik systemu poprzez interfejs graficzny wprowadza dane oraz wybiera opcje, które później przesyłane są na serwer. Na serwerze dane są przekształcane do formatu zrozumiałego przez zaimplementowane algorytmy genetyczne. Po zakończeniu obliczeń rezultaty zwracane są użytkownikowi w czytelnej oraz przejrzystej formie.
-
-W następnej części podrozdziału przedstawiony zostanie przykładowy scenariusz interakcji użytkownika z system, obrazujący jego działanie.
-
-\subsubsection{Interakcja z użytkownikiem}
-Po uruchomieniu aplikacji użytkownikowi ukazuje się ekran przedstawiony na rysunku \eqref{fig:gui_1}. Ekran dzieli się na cztery zasadnicze części. Zostały one oznaczone na rysunku odpowiadającymi im liczbami. Część pierwsza jest częścią główną aplikacji. To właśnie do tego obszaru ładowany jest plan ogrodu, na którym użytkownik definiuje teren mający zostać nawodniony oraz określa położenie źródła wody. To również na tym ekranie prezentowany są wszystkie rezultaty. Część druga jest częścią informacyjną. Tutaj wyświetlane są instrukcje podpowiadające użytkownikowi co w danym momencie powinien zrobić. Trzecia część jest kontenerem na przyciski, za pomocą których użytkownik zatwierdza swoje wybory, anuluje je lub przechodzi do kolejnych etapów. Część czwarta jest przeznaczona na dodatkowe opcje mające wpływ na działanie algorytmów znajdujących się po stronie serwera.
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.35]{gui_1}}
-	\centering
-	\caption{Ekran startowy aplikacji}
-	\label{fig:gui_1}
-\end{figure}
-
-Pierwszym krokiem w pracy z aplikacją jest wczytanie planu ogrodu. Przykładowy wczytany plan został przedstawiony na rysunku \eqref{fig:gui_2}. Jak można zauważyć zmienił się status panelu informacyjnego widocznego po prawej stronie.
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_2}}
-	\centering
-	\caption{Wczytanie planu ogrodu}
-	\label{fig:gui_2}
-\end{figure}
-
-Mając wczytany plan ogrodu należy zdefiniować skalę rysunku. Jest to wykonywane poprzez zaznaczenie na wczytanym planie dwóch punktów. Po wykonaniu tej czynności na ekranie pojawia się okno, w którym można zdefiniować dystans pomiędzy zaznaczonymi punktami \eqref{fig:gui_3}.
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.75]{gui_3}}
-	\centering
-	\caption{Definiowanie skali wczytanego planu ogrodu}
-	\label{fig:gui_3}
-\end{figure}
-
-Następnym krokiem jest zaznaczenie na załadowanym planie obszaru, który ma zostać nawodniony. Dzieje się to poprzez określenie, za pomocą lewego przycisku myszy, wierzchołków wielokąta mającego tworzyć wspomniany obszar \eqref{fig:gui_4}. Liczba wierzchołków jest nieograniczona. Po wybraniu obszaru należy rozwinąć panel "Ustawienia". Jak widać w obecnej wersji aplikacji użytkownik może jedynie zdecydować się na to czy chce ograniczyć nawadnianie obszaru poza zaznaczonymi granicami. Aby przejść dalej należy wcisnąć przycisk "Dalej". Spowoduje to przesłanie obecnych ustawień do serwera oraz uruchomienie obliczeń.
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{gui_4}}
-	\centering
-	\caption{Zaznaczenie obszaru mającego zostać nawodniony}
-	\label{fig:gui_4}
-\end{figure}
-
-Po zakończeniu działania algorytmu użytkownik zostanie automatycznie przeniesiony na stronę prezentującą listę wyników \eqref{fig:gui_5}. Użytkownik może tutaj wybrać rozwiązanie, które go interesuje oraz podejrzeć je wciskając przycisk ''Zobacz''.
-
-W tym momencie warto dodać, że w obecnej wersji systemu nie ma zaimplementowanej żadnej zaawansowanej metody wyboru rozwiązań (jak na przykład \textit{Light Beam Search}). Użytkownikowi prezentowanych jest pięć rozwiązań charakteryzujących się najmniejszą wartością funkcji określającej wielkość obszaru nienawodnionego ($F_{1}$), co powinno zostać w przyszłości zmodyfikowane i dopasowane do potrzeb konkretnego użytkownika. System nie pokazuje użytkownikowi wszystkich znalezionych rozwiązań, ponieważ zbyt duża ich liczba mogłaby być przytłaczająca oraz zmniejszałaby przejrzystość interfejsu.
-
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{gui_5}}
-	\centering
-	\caption{Lista rezultatów}
-	\label{fig:gui_5}
-\end{figure}
-
-Po wybraniu konkretnego rozwiązania użytkownik zostanie przeniesiony na stronę prezentującą rozmieszczone zraszacze \eqref{fig:gui_6}. Są one zaprezentowane w postaci przezroczystych niebieskich okręgów. Po najechaniu na każdy z nich pojawia się informacja o modelu konkretnego zraszacza, zasięgu oraz cenie. Na tym samym widoku użytkownik może określić, w którym miejscu na planie znajduje się źródło wody. Po wciśnięciu przycisku ''Zakończ'' na planie ogrodu dodatkowo pojawi się schemat poprowadzenia rur \eqref{fig:gui_7}
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_6}}
-	\centering
-	\caption{Rozmieszczenie zraszaczy}
-	\label{fig:gui_6}
-\end{figure}
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_7}}
-	\centering
-	\caption{Schemat poprowadzenia rur}
-	\label{fig:gui_7}
-\end{figure}
-
-W tym momencie użytkownik ma możliwość przejścia do widoku ''Lista zakupów'' \eqref{fig:gui_8}. W tym miejscu warto zauważyć, że lista, znajdująca się po prawej stronie ekranu i pełniąca do tej pory rolę informacyjną, zmieniła się w panel nawigacyjny. Za jej pomocą użytkownik może w łatwy sposób przemieszać się pomiędzy widokami, będącymi podsumowaniem wybranego rozwiązania. Użytkownik ma do wyboru trzy widoki:\\
-\begin{enumerate}
-	\item Widok rozmieszczonych zraszaczy.
-	\item Widok rozmieszczonych zraszaczy oraz schematu poprowadzenia rur.
-	\item Widok listy zakupów.\\
-\end{enumerate}
-
-Wybierając widok listy zakupów użytkownik zobaczy listę rozmieszczonych zraszaczy. Nazwa każdego zraszacza jest jednocześnie odnośnikiem do opisu konkretnego modelu znajdującego się na stronie producenta. Oprócz tego do każdej pozycji na liście przypisana jest cena. Pod listą znajduje się kwota będąca sumą całych zakupów.
-\begin{figure}[!htb]
-	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_8}}
-	\centering
-	\caption{Lista zakupów}
-	\label{fig:gui_8}
-\end{figure}
 \section{Porównanie algorytmów genetycznych}
 \subsection{Cel badań}
 Celem badań było sprawdzenie w jakim stopniu wybrane algorytmy genetyczne sprawdzą się w kontekście sformułowanego w pracy problemu oraz porównanie tych algorytmów ze sobą korzystając z zdefiniowanych w późniejszym podrozdziale przypadków testowych. Ponadto założono również jako cel ocenę przydatności wybranych algorytmów w opracowanym systemie wspomagania decyzji biorąc pod uwagę jakość generowanych rozwiązań oraz ich czas działania.
@@ -1020,16 +928,110 @@ Biorąc pod uwagę poprzednie wyniki oraz te obrazujące czas działania zdecydo
 Dodatkową symulację przeprowadzona na trzecim przypadku testowym. Jak się okazało mimo mniejszej złożoności czasowej algorytm SPEA przez godzinę pracy nie był w stanie wygenerować rozwiązań lepszych niż NSGA-II. Co więcej po 60 minutowej symulacji wszystkie rozwiązania znalezione przez NSGA-II znajdowały się na froncie Pareto, co dobrze obrazują metryki: $ER=0$ oraz $GD=0$.
 
 Podsumowując, lepszym wyborem przy rozwiązywaniu zdefiniowanego w pracy problemu jest algorytm NSGA-II co zostało udowodnione poprzez rezultaty badań oraz powyższe podsumowanie.
+\section{System wspomagania decyzji}
+System wspomagania decyzji został zaimplementowany w formie aplikacji webowej. Została ona wykonana przy użyciu następujących technologii:\\
+\begin{itemize}
+	\item Python (PyPy) \cite{pypy}.
+	\item Framework Django \cite{django}.
+	\item HTML 5.
+	\item JavaScript.
+	\item CSS.\\
+\end{itemize}
+
+Powyższe elementy zostały wybrane tak aby umożliwić utworzenie prostego oraz łatwo skalowalnego systemu.
+
+Jako główne narzędzie służące do zbudowania systemu wybrano język Python, a właściwie implementację języka Python, nazywającą się PyPy. PyPy został stworzony w celu optymalizacji czasu wykonywania skryptów przez co lepiej nadaje się do wykorzystania w programach, które mocno obciążają procesor, chociażby poprzez obliczenia matematyczne.
+
+Django zostało wybrane, ponieważ jako framework zapewnia wszystkie narzędzia potrzebne do zbudowania od podstaw całej aplikacji webowej. Dodatkowo warto tutaj zauważyć, że framework Django napisany jest w języku Python, co zniwelowało problemy z połączeniem aplikacji z zaimplementowanymi algorytmami.
+
+Wszystkie obliczenia wykonują się na serwerze. W ten sposób użytkownik dostaje od razu produkt gotowy do użycia. Nie musi martwić się o to czy opracowany system wymaga do działania konkretnych bibliotek lub pakietów, ponieważ odpowiedzialność za odpowiednią konfigurację bierze na siebie dostawca oprogramowania. Takie podejście zapewnia również, że użytkownicy nie mają dostępu do części kodu powiązanego z opracowanym modelem matematycznym, sposobem przetwarzania danych czy z zaimplementowanymi algorytmami genetycznymi. Ponadto aplikację napisaną w tej formie łatwo przekształcić do modelu Saas (\textit{Software as a Service}), co stwarza z kolei możliwość wprowadzenia opłat za korzystanie z aplikacji, kiedy ta stanie się odpowiednio zaawansowana i dojrzała.
+
+Użytkownik systemu poprzez interfejs graficzny wprowadza dane oraz wybiera opcje, które później przesyłane są na serwer. Na serwerze dane są przekształcane do formatu zrozumiałego przez zaimplementowane algorytmy genetyczne. Po zakończeniu obliczeń rezultaty zwracane są użytkownikowi w czytelnej oraz przejrzystej formie.
+
+W następnej części podrozdziału przedstawiony zostanie przykładowy scenariusz interakcji użytkownika z system, obrazujący jego działanie.
+
+\subsubsection{Interakcja z użytkownikiem}
+Po uruchomieniu aplikacji użytkownikowi ukazuje się ekran przedstawiony na rysunku \eqref{fig:gui_1}. Ekran dzieli się na cztery zasadnicze części. Zostały one oznaczone na rysunku odpowiadającymi im liczbami. Część pierwsza jest częścią główną aplikacji. To właśnie do tego obszaru ładowany jest plan ogrodu, na którym użytkownik definiuje teren mający zostać nawodniony oraz określa położenie źródła wody. To również na tym ekranie prezentowany są wszystkie rezultaty. Część druga jest częścią informacyjną. Tutaj wyświetlane są instrukcje podpowiadające użytkownikowi co w danym momencie powinien zrobić. Trzecia część jest kontenerem na przyciski, za pomocą których użytkownik zatwierdza swoje wybory, anuluje je lub przechodzi do kolejnych etapów. Część czwarta jest przeznaczona na dodatkowe opcje mające wpływ na działanie algorytmów znajdujących się po stronie serwera.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.35]{gui_1}}
+	\centering
+	\caption{Ekran startowy aplikacji}
+	\label{fig:gui_1}
+\end{figure}
+
+Pierwszym krokiem w pracy z aplikacją jest wczytanie planu ogrodu. Przykładowy wczytany plan został przedstawiony na rysunku \eqref{fig:gui_2}. Jak można zauważyć zmienił się status panelu informacyjnego widocznego po prawej stronie.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_2}}
+	\centering
+	\caption{Wczytanie planu ogrodu}
+	\label{fig:gui_2}
+\end{figure}
+
+Mając wczytany plan ogrodu należy zdefiniować skalę rysunku. Jest to wykonywane poprzez zaznaczenie na wczytanym planie dwóch punktów. Po wykonaniu tej czynności na ekranie pojawia się okno, w którym można zdefiniować dystans pomiędzy zaznaczonymi punktami \eqref{fig:gui_3}.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.75]{gui_3}}
+	\centering
+	\caption{Definiowanie skali wczytanego planu ogrodu}
+	\label{fig:gui_3}
+\end{figure}
+
+Następnym krokiem jest zaznaczenie na załadowanym planie obszaru, który ma zostać nawodniony. Dzieje się to poprzez określenie, za pomocą lewego przycisku myszy, wierzchołków wielokąta mającego tworzyć wspomniany obszar \eqref{fig:gui_4}. Liczba wierzchołków jest nieograniczona. Po wybraniu obszaru należy rozwinąć panel "Ustawienia". Jak widać w obecnej wersji aplikacji użytkownik może jedynie zdecydować się na to czy chce ograniczyć nawadnianie obszaru poza zaznaczonymi granicami. Aby przejść dalej należy wcisnąć przycisk "Dalej". Spowoduje to przesłanie obecnych ustawień do serwera oraz uruchomienie obliczeń.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{gui_4}}
+	\centering
+	\caption{Zaznaczenie obszaru mającego zostać nawodniony}
+	\label{fig:gui_4}
+\end{figure}
+
+Po zakończeniu działania algorytmu użytkownik zostanie automatycznie przeniesiony na stronę prezentującą listę wyników \eqref{fig:gui_5}. Użytkownik może tutaj wybrać rozwiązanie, które go interesuje oraz podejrzeć je wciskając przycisk ''Zobacz''.
+
+W tym momencie warto dodać, że w obecnej wersji systemu nie ma zaimplementowanej żadnej zaawansowanej metody wyboru rozwiązań (jak na przykład \textit{Light Beam Search}). Użytkownikowi prezentowanych jest pięć rozwiązań charakteryzujących się najmniejszą wartością funkcji określającej wielkość obszaru nienawodnionego ($F_{1}$), co powinno zostać w przyszłości zmodyfikowane i dopasowane do potrzeb konkretnego użytkownika. System nie pokazuje użytkownikowi wszystkich znalezionych rozwiązań, ponieważ zbyt duża ich liczba mogłaby być przytłaczająca oraz zmniejszałaby przejrzystość interfejsu.
+
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.5]{gui_5}}
+	\centering
+	\caption{Lista rezultatów}
+	\label{fig:gui_5}
+\end{figure}
+
+Po wybraniu konkretnego rozwiązania użytkownik zostanie przeniesiony na stronę prezentującą rozmieszczone zraszacze \eqref{fig:gui_6}. Są one zaprezentowane w postaci przezroczystych niebieskich okręgów. Po najechaniu na każdy z nich pojawia się informacja o modelu konkretnego zraszacza, zasięgu oraz cenie. Na tym samym widoku użytkownik może określić, w którym miejscu na planie znajduje się źródło wody. Po wciśnięciu przycisku ''Zakończ'' na planie ogrodu dodatkowo pojawi się schemat poprowadzenia rur \eqref{fig:gui_7}
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_6}}
+	\centering
+	\caption{Rozmieszczenie zraszaczy}
+	\label{fig:gui_6}
+\end{figure}
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_7}}
+	\centering
+	\caption{Schemat poprowadzenia rur}
+	\label{fig:gui_7}
+\end{figure}
+
+W tym momencie użytkownik ma możliwość przejścia do widoku ''Lista zakupów'' \eqref{fig:gui_8}. W tym miejscu warto zauważyć, że lista, znajdująca się po prawej stronie ekranu i pełniąca do tej pory rolę informacyjną, zmieniła się w panel nawigacyjny. Za jej pomocą użytkownik może w łatwy sposób przemieszać się pomiędzy widokami, będącymi podsumowaniem wybranego rozwiązania. Użytkownik ma do wyboru trzy widoki:\\
+\begin{enumerate}
+	\item Widok rozmieszczonych zraszaczy.
+	\item Widok rozmieszczonych zraszaczy oraz schematu poprowadzenia rur.
+	\item Widok listy zakupów.\\
+\end{enumerate}
+
+Wybierając widok listy zakupów użytkownik zobaczy listę rozmieszczonych zraszaczy. Nazwa każdego zraszacza jest jednocześnie odnośnikiem do opisu konkretnego modelu znajdującego się na stronie producenta. Oprócz tego do każdej pozycji na liście przypisana jest cena. Pod listą znajduje się kwota będąca sumą całych zakupów.
+\begin{figure}[!htb]
+	\makebox[\textwidth]{\includegraphics[ clip, scale=0.55]{gui_8}}
+	\centering
+	\caption{Lista zakupów}
+	\label{fig:gui_8}
+\end{figure}
 \chapter{Podsumowanie}
-Celem pracy było opracowanie systemu wspomagającego podejmowanie decyzji w rozmieszczeniu zraszaczy wodnych oraz połączeń między nimi na zadanej powierzchni oraz wybór i porównanie wielokryterialnych algorytmów genetycznych w kontekście zdefiniowanego problemu.
+Celem pracy było rozwiązanie wielokryterialnego problemu rozmieszczenia zraszaczy wodnych na zadanej powierzchni poprzez opracowanie modelu matematycznego, wybór oraz porównanie algorytmów genetycznych w kontekście wybranego problemu oraz opracowanie systemu wspomagania podejmowanie decyzji.
 
-Jako rezultat pracy powstał system wspomagania decyzji w formie aplikacji webowej znacznie ułatwiający proces projektowania systemu nawadniania ogrodu. Użytkownik poprzez zaimplementowaną aplikację może w prosty sposób zdefiniować obszar mający zostać nawodniony oraz otrzymać kilka wariantów rozwiązania w czytelnej i przejrzystej formie.
+Jako rezultat pracy powstał model matematyczny opisujący omawiany problem. Zdefiniowano w nim dwie funkcje celu definiujące wielkość terenu nienawodnionego oraz koszt wykorzystanych w rozwiązaniu zraszaczy. Dodatkowo zdefiniowano dwie funkcje kary wymuszające minimalizację nawodnienia obszaru znajdującego się poza wyznaczonym terenem oraz minimalizację obszarów nawodnionych nadmiernie.
 
-Ponadto wybrano oraz porównano ze sobą dwa wielokryterialne algorytmy genetyczne. Do badań wykorzystano trzy przypadki testowe oraz zdefiniowano cztery metryki pomagające w ocenie wygenerowanych przez algorytmy rozwiązań. Z przeprowadzonych badań wynika, że dla problemów reprezentowanych przez stosunkowo małe obszary oba algorytmy spisują się równie dobrze. Biorąc jednak pod uwagę ich złożoność czasową, lepszą opcją w przypadku takich problemów może okazać się algorytm SPEA, który charakteryzuje się szybszym działaniem. W trudniejszych przypadków testowych zdecydowanie lepiej wypada algorytm NSGA-II, którego rozwiązania cechują się lepszymi wartościami dla wszystkich zdefiniowanych metryk.
-
-Biorąc pod uwagę wyniki przeprowadzonych badań w opracowanym systemie wspomagania decyzji zdecydowano się na wykorzystanie algorytmu NSGA-II.
+Ponadto wybrano oraz porównano ze sobą dwa wielokryterialne algorytmy genetyczne. Do badań wykorzystano trzy przypadki testowe oraz zdefiniowano cztery metryki pomagające w ocenie wygenerowanych przez algorytmy rozwiązań. Z przeprowadzonych badań wynika, że dla problemów reprezentowanych przez stosunkowo małe obszary oba algorytmy spisują się równie dobrze. Biorąc jednak pod uwagę ich złożoność czasową, lepszą opcją w przypadku takich problemów może okazać się algorytm SPEA, który do ewaluacji danej liczby pokoleń wymaga mniej czasu niż jego konkurent. W trudniejszych przypadków testowych zdecydowanie lepiej wypada algorytm NSGA-II, którego rozwiązania cechują się lepszymi wartościami dla wszystkich zdefiniowanych metryk.
 
 Rozmieszczenie rur pomiędzy zraszaczami nie wchodziło w zakres pracy wybranych algorytmów genetycznych. Schemat połączeń był generowany dla każdego znalezionego rozwiązania za pomocą algorytmu Prima znajdującego minimalne drzewo rozpinające grafu.
+
+Dodatkowo jako rezultat pracy powstał system wspomagania decyzji w formie aplikacji webowej znacznie ułatwiający proces projektowania systemu nawadniania ogrodu. Użytkownik poprzez zaimplementowaną aplikację może w prosty sposób zdefiniować obszar mający zostać nawodniony oraz otrzymać kilka wariantów rozwiązania w czytelnej i przejrzystej formie.
 
 Podsumowując wszystkie założone cele pracy zostały zrealizowane.\\
 
